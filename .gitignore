@@ -3,3 +3,15 @@
 ################################################################################
 
 /.vs
+/budget-manager-server/.vs
+/budget-manager-server/src/BudgetManager.Api/obj
+/budget-manager-server/src/BudgetManager.Api/bin
+*.user
+/budget-manager-server/src/BudgetManager.Application/bin
+/budget-manager-server/src/BudgetManager.Application/obj
+/budget-manager-server/src/BudgetManager.Domain/bin
+/budget-manager-server/src/BudgetManager.Domain/obj
+/budget-manager-server/src/BudgetManager.Infrastructure/bin
+/budget-manager-server/src/BudgetManager.Infrastructure/obj
+/budget-manager-server/tests/BudgetManager.UnitTests/bin
+/budget-manager-server/tests/BudgetManager.UnitTests/obj

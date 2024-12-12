@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2676D252-A176-4A6F-B123-16B4CAD2EE9D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A85CB3F3-AF42-4B9B-A184-092AED1CE6FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1D1F2B59-9045-40E6-A84F-2B331E22133A}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yaml = docker-compose.yaml
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetManager.Domain", "src\BudgetManager.Domain\BudgetManager.Domain.csproj", "{6BE34870-4291-419F-BD5A-E043F61936A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetManager.Application", "src\BudgetManager.Application\BudgetManager.Application.csproj", "{96F821AE-26DC-4747-BC0C-EC73A91BAECA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetManager.Infrastructure", "src\BudgetManager.Infrastructure\BudgetManager.Infrastructure.csproj", "{4100CBD7-EADA-48C5-AD44-422DFFAD6581}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetManager.Api", "src\BudgetManager.Api\BudgetManager.Api.csproj", "{37EF66EA-3A78-4D76-80BD-5ECB1DD33C17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetManager.UnitTests", "tests\BudgetManager.UnitTests\BudgetManager.UnitTests.csproj", "{7864A5B1-30CA-48C0-B216-1F1DF631526B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6BE34870-4291-419F-BD5A-E043F61936A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BE34870-4291-419F-BD5A-E043F61936A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BE34870-4291-419F-BD5A-E043F61936A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BE34870-4291-419F-BD5A-E043F61936A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96F821AE-26DC-4747-BC0C-EC73A91BAECA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96F821AE-26DC-4747-BC0C-EC73A91BAECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96F821AE-26DC-4747-BC0C-EC73A91BAECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96F821AE-26DC-4747-BC0C-EC73A91BAECA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4100CBD7-EADA-48C5-AD44-422DFFAD6581}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4100CBD7-EADA-48C5-AD44-422DFFAD6581}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4100CBD7-EADA-48C5-AD44-422DFFAD6581}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4100CBD7-EADA-48C5-AD44-422DFFAD6581}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37EF66EA-3A78-4D76-80BD-5ECB1DD33C17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37EF66EA-3A78-4D76-80BD-5ECB1DD33C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37EF66EA-3A78-4D76-80BD-5ECB1DD33C17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37EF66EA-3A78-4D76-80BD-5ECB1DD33C17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7864A5B1-30CA-48C0-B216-1F1DF631526B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7864A5B1-30CA-48C0-B216-1F1DF631526B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7864A5B1-30CA-48C0-B216-1F1DF631526B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7864A5B1-30CA-48C0-B216-1F1DF631526B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6BE34870-4291-419F-BD5A-E043F61936A8} = {2676D252-A176-4A6F-B123-16B4CAD2EE9D}
+		{96F821AE-26DC-4747-BC0C-EC73A91BAECA} = {2676D252-A176-4A6F-B123-16B4CAD2EE9D}
+		{4100CBD7-EADA-48C5-AD44-422DFFAD6581} = {2676D252-A176-4A6F-B123-16B4CAD2EE9D}
+		{37EF66EA-3A78-4D76-80BD-5ECB1DD33C17} = {2676D252-A176-4A6F-B123-16B4CAD2EE9D}
+		{7864A5B1-30CA-48C0-B216-1F1DF631526B} = {A85CB3F3-AF42-4B9B-A184-092AED1CE6FD}
+	EndGlobalSection
+EndGlobal

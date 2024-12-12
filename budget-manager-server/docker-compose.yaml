@@ -1,0 +1,14 @@
+version: '3.5'
+volumes:
+  mssql_local:
+services:
+  mssql:
+    container_name: mssql
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1434:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password123!
+    volumes:
+      - mssql_local:/var/opt/mssql
