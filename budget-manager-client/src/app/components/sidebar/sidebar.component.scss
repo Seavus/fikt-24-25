@@ -1,7 +1,8 @@
+@import '../../../styles.scss';
 .sidebar {
     height: 100vh;
     width: 22vw;
-    background-color: #1F6650;
+    background-color: $primary-color;
     color: white;
     display: flex;
     flex-direction: column;
@@ -60,7 +61,7 @@
   }
 
   li:hover {
-    background-color: #174f3d;
+    background-color: #25755c;
     color: white;
   }
   
@@ -80,6 +81,6 @@
   }
   
   .logout-btn:hover {
-    background-color: #c03a3a;
+     background-color: #c83f3f;
   }
   
