@@ -4,7 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 
 
 import { AppComponent } from './app.component';
-import { TransactionComponent } from './transaction-component/transaction-component';
+import { TransactionComponent } from './shared/components/transaction-component/transaction-component';
 import { MatButtonModule } from '@angular/material/button';
 
 
