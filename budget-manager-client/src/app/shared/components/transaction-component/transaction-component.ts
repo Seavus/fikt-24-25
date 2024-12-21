@@ -1,5 +1,5 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import {MatTable, MatTableModule} from '@angular/material/table';
+import { Component, Input } from '@angular/core';
+import { MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 
 @Component({
