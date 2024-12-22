@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { SidebarComponent } from './core/sidebar/sidebar.component';
+import { CommonModule } from '@angular/common';
+import { ButtonComponent } from './shared/components/button/button.component';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [ SidebarComponent, CommonModule, ButtonComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
