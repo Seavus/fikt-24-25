@@ -3,10 +3,11 @@ import { SidebarComponent } from './core/sidebar/sidebar.component';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from './shared/components/button/button.component';
 import { TransactionComponent } from './shared/components/transaction-component/transaction-component';
+import { LoginComponent } from './features/login/login.component';
 
 @Component({
   selector: 'app-root',
-  imports: [ SidebarComponent, CommonModule, ButtonComponent, TransactionComponent],
+  imports: [ SidebarComponent, CommonModule, ButtonComponent, TransactionComponent, LoginComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
