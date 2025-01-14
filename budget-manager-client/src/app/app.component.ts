@@ -7,6 +7,7 @@ import { ButtonComponent } from './shared/components/button/button.component';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [ SidebarComponent, CommonModule, ButtonComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
