@@ -11,7 +11,6 @@ import { CommonModule } from '@angular/common';
 export class ButtonComponent {
 
 @Input() text: string= '';
-@Input() color: string = '';
 @Input() customButton: string = '';
 @Output() onClick: EventEmitter<void> = new EventEmitter();
 
