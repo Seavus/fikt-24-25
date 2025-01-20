@@ -8,7 +8,7 @@ import { TransactionsComponent } from './features/transactions/transactions.comp
 
 @Component({
   selector: 'app-root',
-  imports: [ SidebarComponent, CommonModule, ButtonComponent, TransactionsComponent],
+  imports: [ SidebarComponent, CommonModule, ButtonComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

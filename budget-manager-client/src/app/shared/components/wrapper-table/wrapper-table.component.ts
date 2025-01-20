@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
+import { Transaction } from './wrapper-table.interface';
 
 @Component({
   selector: 'app-wrapper-table',
@@ -11,5 +12,5 @@ import { MatTableModule } from '@angular/material/table';
 })
 export class WrapperTableComponent {
   @Input() displayedColumns: string[] = [];
-  @Input() dataSource: any[] = [];
+  @Input() dataSource: Transaction[] = [];
 }
