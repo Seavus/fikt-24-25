@@ -1,6 +1,7 @@
 @import '../../../styles/base/variables.scss';
 .sidebar {
     height: 100vh;
+    position: sticky;
     width: 22vw;
     background-color: $primary-color;
     color: white;
