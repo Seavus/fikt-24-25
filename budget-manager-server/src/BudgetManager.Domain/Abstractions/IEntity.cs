@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BudgetManager.Domain.Abstractions
-{
+namespace BudgetManager.Domain.Abstractions;
+
     public interface IEntity
     {
-        DateTime CreatedOn { get; }
-        string CreatedBy { get; }
-        DateTime? UpdatedOn { get; }
-        string? UpdatedBy { get; }
+        DateTime CreatedOn { get; set; }
+        string CreatedBy { get; set; }
+        DateTime? UpdatedOn { get; set; }
+        string? UpdatedBy { get; set; }
     }
     public interface IEntity<T> : IEntity
     {
-        T Id { get; }
+        T Id { get; set; }
     }
-}
+
