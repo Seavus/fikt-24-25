@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BudgetManager.Domain.Abstractions
-{
+namespace BudgetManager.Domain.Abstractions;
+
     internal class Aggregate<T> : Entity<T>, IAggregate<T>
     {
         private readonly List<IDomainEvent> _domainEvents = new();
@@ -23,4 +23,3 @@ namespace BudgetManager.Domain.Abstractions
             return events;
         }
     }
-}
