@@ -1,96 +1,96 @@
 @import '../../../styles/base/variables.scss';
 
 body, html {
-    height: 100%;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4; 
-  }
-  
-  .registration-container {
-    display: flex;
-    justify-content: center; 
-    align-items: center;     
-    flex-direction: column;  
-    height: 100vh;          
-    width: 100%;             
-    padding: 0 20px;       
-    box-sizing: border-box; 
-  }
-  
-  .registration-form {
-    width: 100%;
-    max-width: 400px;        
-    padding: 20px;
-    margin-bottom: 20px;           
-    background-color: white; 
-    border: 1px solid #ccc;  
-    border-radius: 50px;      
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4; 
+}
 
+.registration-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+  
   h2 {
     text-align: center;
-    color: $primary-color; 
-    text-transform: uppercase; 
-    font-weight: bold;     
-    font-size: 30px;       
-    margin-bottom: 20px;   
-    width: 100%;           
-    display: block;       
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;     
-  }
-
-  app-input {
-    display: flex;
-    flex-direction: column;   
-    width: 80%;   
-    align-self: center; 
-    padding-top: 10px;   
-  }
-  
-  app-input:first-of-type{
-    padding-top:20px;
-  }
-  
-  app-input input:focus {
-    border-color: $primary-color;
-  }
-  
-  app-button {
-    width: 30%;             
-    padding: 5px;        
-    background-color: $primary-color; 
-    display: flex;      
-    justify-content: center;
-    color:white;        
-    font-size: 16px;      
-    margin: auto;
-    border: none;            
-    border-radius: 30px;    
-    cursor: pointer; 
-    transition: background-color 0.3s ease;
-  }
-  app-button:hover {
-    background-color: darken($primary-color, 3%);
-  }
-
-  p {
-    font-size: 13px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  p a {
-    margin-left: 8px;
-    color: black;
-  }
-
-  p a:hover {
     color: $primary-color;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 30px;
+    margin-bottom: 20px;
+    width: 100%;
   }
-  
+
+  .registration-form {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    form {
+      display: flex;
+      flex-direction: column;
+
+      app-input {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        align-self: center;
+        padding-top: 10px;
+
+        &:first-of-type {
+          padding-top: 20px;
+        }
+
+        input:focus {
+          border-color: $primary-color;
+        }
+      }
+
+      app-button {
+        width: 30%;
+        padding: 5px;
+        background-color: $primary-color;
+        display: flex;
+        justify-content: center;
+        color: white;
+        font-size: 16px;
+        margin: auto;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: darken($primary-color, 3%);
+        }
+      }
+    }
+
+    p {
+      font-size: 13px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      a {
+        margin-left: 8px;
+        color: black;
+
+        &:hover {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+}
