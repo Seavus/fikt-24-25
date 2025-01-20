@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BudgetManager.Domain.Abstractions;
 
-    internal class Aggregate<T> : Entity<T>, IAggregate<T>
+    public abstract class Aggregate<T> : Entity<T>, IAggregate<T>
     {
         private readonly List<IDomainEvent> _domainEvents = new();
         public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
-        public void AddDomainEvent(IDomainEvent domainEvent)
+        public void AddDomainEvent(IDomainEvent domainEvent) => _domainEvents.Add(DomainEvent);
         {
             if (domainEvent == null)
                 throw new ArgumentNullException(nameof(domainEvent));
