@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BudgetManager.Domain.Abstractions;
-    public abstract class Entity<T> : IEntity<T>
+
+public abstract class Entity<T> : IEntity<T>
     {
         public T Id { get; set; } = default!;
         public DateTime CreatedOn { get; set; }  = DateTime.UtcNow;
