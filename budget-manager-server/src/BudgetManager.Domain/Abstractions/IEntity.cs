@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BudgetManager.Domain.Abstractions;
 
-    public interface IEntity
+public interface IEntity
     {
         DateTime CreatedOn { get; set; }
         string CreatedBy { get; set; }
@@ -14,7 +10,7 @@ namespace BudgetManager.Domain.Abstractions;
         string? UpdatedBy { get; set; }
     }
 
-    public interface IEntity<T> : IEntity
+public interface IEntity<T> : IEntity
     {
         T Id { get; set; }
     }
