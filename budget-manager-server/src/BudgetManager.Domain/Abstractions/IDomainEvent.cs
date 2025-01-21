@@ -9,7 +9,7 @@ namespace BudgetManager.Domain.Abstractions;
 
     public interface IDomainEvent : INotification
     {
-        public Guid EventId { get; set; } = Guid.NewGuid();
-        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
-        public string EventType { get; set; } = typeof(IDomainEvent).AssemblyQualifiedName;
+        public Guid EventId => Guid.NewGuid();
+        public DateTime CreatedOn => DateTime.UtcNow;
+        public string EventType => GetType().AssemblyQualifiedName;
     }
