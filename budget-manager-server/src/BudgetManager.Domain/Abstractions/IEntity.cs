@@ -13,8 +13,8 @@ namespace BudgetManager.Domain.Abstractions;
         DateTime? UpdatedOn { get; set; }
         string? UpdatedBy { get; set; }
     }
+
     public interface IEntity<T> : IEntity
     {
         T Id { get; set; }
     }
-
