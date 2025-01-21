@@ -12,4 +12,5 @@ namespace BudgetManager.Domain.Abstractions;
         void AddDomainEvent(IDomainEvent domainEvent);
         IDomainEvent[] ClearDomainEvents();
     }
+
     public interface IAggregate<T> : IAggregate, IEntity<T>;
