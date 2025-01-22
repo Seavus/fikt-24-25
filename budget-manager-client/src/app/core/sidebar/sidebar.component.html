@@ -11,12 +11,17 @@
   
     <!-- Navigation Links -->
     <ul class="sidebar-nav">
-      <li><a routerLink="/home" class="sidebar-link">Dashboard</a></li>
-      <li><a routerLink="/transactions" class="sidebar-link">Transactions</a></li>
-      <li><a routerLink="/reports" class="sidebar-link">Reports</a></li>
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a routerLink="/home" class="sidebar-link">Dashboard</a>
+      </li>
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a routerLink="/transactions" class="sidebar-link">Transactions</a>
+      </li>
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a routerLink="/reports" class="sidebar-link">Reports</a>
+      </li>
     </ul>
   
     <!-- Logout Button -->
     <button class="logout-btn">Logout</button>
   </div>
-  

@@ -60,12 +60,21 @@
 
         &:hover {
           background-color: darken($primary-color, 3%);
+        }
+        &.active {
+          background-color: darken($primary-color, 5%);
+        }
+
+        .sidebar-link {
           color: white;
+          text-decoration: none;
+          display: block;
         }
       }
     }
+  }
     .logout-btn {
-      background-color: #d54242;
+      background-color: $error-color;
       color: white;
       text-transform: uppercase;
       border: none;
@@ -79,11 +88,9 @@
       margin: 0 auto 8vh;
 
       &:hover {
-        background-color: darken(#c83f3f, 2%);
+        background-color: darken($error-color, 2%);
      }
     }
-  }
-  
-  
- 
-  
+
+
+
