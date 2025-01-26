@@ -1,0 +1,20 @@
+<div class="popup-container" *ngIf="isOpen">
+    <div class="popup-overlay" (click)="close()"></div>
+    <div class="popup-content">
+      <header>
+        <h2>{{ popupTitle }}</h2>
+        <button class="close-btn" (click)="close()">X</button>
+      </header>
+      
+      <div class="popup-body">
+        <div *ngIf="typeof popupData === 'string'">
+          <p>{{ popupData }}</p>
+        </div>
+        <div *ngIf="typeof popupData === 'object'">
+          <pre>{{ popupData | json }}</pre>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  
