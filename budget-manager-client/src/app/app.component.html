@@ -1,2 +1,10 @@
 <app-sidebar></app-sidebar>
 
+<button (click)="openPopup()">Open Popup</button>
+
+<app-dynamic-popup 
+  [isOpen]="isPopupOpen"
+  [popupTitle]="popupTitle"
+  [popupData]="popupData"
+  (closePopup)="closePopup()">
+</app-dynamic-popup>
