@@ -11,5 +11,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/login/login.component').then((c) => c.LoginComponent),
   },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./features/registration/registration.component').then((c) => c.RegistrationComponent),
+
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
