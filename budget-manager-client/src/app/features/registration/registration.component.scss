@@ -1,10 +1,11 @@
-@import '../../../styles/base/variables.scss';
+@import "../../../styles/base/variables.scss";
 
-body, html {
+body,
+html {
   height: 100%;
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4; 
+  background-color: #f4f4f4;
 }
 
 .registration-container {
@@ -16,7 +17,7 @@ body, html {
   width: 100%;
   padding: 0 20px;
   box-sizing: border-box;
-  
+
   h2 {
     text-align: center;
     color: $primary-color;
@@ -58,22 +59,8 @@ body, html {
       }
 
       app-button {
-        width: 30%;
-        padding: 5px;
-        background-color: $primary-color;
         display: flex;
         justify-content: center;
-        color: white;
-        font-size: 16px;
-        margin: auto;
-        border: none;
-        border-radius: 30px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-
-        &:hover {
-          background-color: darken($primary-color, 3%);
-        }
       }
     }
 

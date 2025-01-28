@@ -3,9 +3,8 @@
   <input
     matInput
     [type]="type"
-    [value]="value"
     [placeholder]="placeholder"
-    [required]="required"
+    [value]="value || ''"
     (input)="onInputChange($event)"
     (blur)="onTouched()"
   />

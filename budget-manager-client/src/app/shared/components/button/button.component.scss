@@ -1,4 +1,6 @@
-.customButton {
+@import "../../../../styles/base/variables.scss";
+
+.custom-button {
   border: none;
   font-size: 16px;
   font-weight: 100;
@@ -6,4 +8,29 @@
   border-radius: 50px;
   cursor: pointer;
   text-transform: uppercase;
+  transition: background-color 0.3s ease;
+  color: $white !important;
+}
+
+.dynamic-blue {
+  background-color: $blue !important;
+
+  &:hover {
+    background-color: darken($blue, 3%);
+  }
+}
+
+.dynamic-red {
+  background-color: $red !important;
+  &:hover {
+    background-color: darken($red, 3%);
+  }
+}
+
+.dynamic-green {
+  background-color: $green !important;
+
+  &:hover {
+    background-color: darken($green, 3%);
+  }
 }
