@@ -28,7 +28,7 @@
 }
 
 .dynamic-green {
-  background-color: $green !important;
+  background-color: $primary-color !important;
 
   &:hover {
     background-color: darken($green, 3%);
