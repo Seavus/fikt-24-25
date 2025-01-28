@@ -1,26 +1,23 @@
 <div class="login-form">
-
-
-  
-  <form (ngSubmit)="onLogin()">
-   
-    <app-input 
-      label="Email" 
-      placeholder="Enter your email" 
-      type="email" 
-      [(ngModel)]="email" 
-      [required]="true"> 
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <app-input
+      label="Email"
+      placeholder="Enter your email"
+      type="email"
+      formControlName="email"
+      [required]="true"
+    >
     </app-input>
 
-   
-    <app-input 
-      label="Password" 
-      placeholder="Enter your password" 
-      type="password" 
-      [(ngModel)]="password" 
-      [required]="true"> 
+    <app-input
+      label="Password"
+      placeholder="Enter your password"
+      type="password"
+      formControlName="password"
+      [required]="true"
+    >
     </app-input>
 
-  
+    <app-button text="Login" [customButtonClass]="'dynamic-blue'"> </app-button>
   </form>
 </div>
