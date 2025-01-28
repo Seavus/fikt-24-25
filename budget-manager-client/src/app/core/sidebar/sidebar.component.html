@@ -6,7 +6,7 @@
   
     <!-- Balance Display -->
     <div class="balance">
-      <p><span>$1,234.56</span>Balance</p> 
+      <p><span>$</span>Balance</p> 
     </div>
   
     <!-- Navigation Links -->
@@ -23,5 +23,5 @@
     </ul>
   
     <!-- Logout Button -->
-    <button class="logout-btn">Logout</button>
+    <app-button text="Logout" [customButtonClass]="'dynamic-red'" (onClick)="logout()"></app-button>
   </div>
