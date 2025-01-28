@@ -1,6 +1,8 @@
-<button mat-button 
-        [color]="color" 
-        [ngClass]="customButton" 
-        (click)="emitEvent()"> 
-  {{ text }} 
+<button
+  mat-button
+  class="custom-button"
+  [ngClass]="customButtonClass"
+  (click)="emitEvent()"
+>
+  {{ text }}
 </button>
