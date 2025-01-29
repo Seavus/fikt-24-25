@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BudgetManager.Domain.Abstractions;
+using BudgetManager.Domain.Models.ValueObjects;
 
 namespace BudgetManager.Domain.Models;
 
@@ -30,7 +31,7 @@ public class User : Aggregate<UserId>
         return new User(id, firstName, lastName, email, password);
     }
 
-    public static void Update(string firstName, string lastName)
+    public void Update(string firstName, string lastName)
     {
         if (string.IsNullOrWhiteSpace(firstName)) throw new ArgumentException("First name is required.");
         if (string.IsNullOrWhiteSpace(lastName)) throw new ArgumentException("Last name is required.");

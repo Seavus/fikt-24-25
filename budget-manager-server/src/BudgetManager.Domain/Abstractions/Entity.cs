@@ -1,5 +1,3 @@
-using System;
-
 namespace BudgetManager.Domain.Abstractions;
 
 public abstract class Entity<T> : IEntity<T>

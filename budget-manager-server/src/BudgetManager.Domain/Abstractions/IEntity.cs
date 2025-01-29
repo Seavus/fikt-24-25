@@ -1,5 +1,3 @@
-using System;
-
 namespace BudgetManager.Domain.Abstractions;
 
 public interface IEntity
