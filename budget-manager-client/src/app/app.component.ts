@@ -11,7 +11,7 @@ import { DynamicPopupComponent } from './shared/components/dynamic-popup/dynamic
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ SidebarComponent, CommonModule, ButtonComponent, DynamicPopupComponent],
+  imports: [ SidebarComponent, CommonModule, ButtonComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
