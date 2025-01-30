@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { Router, RouterModule } from '@angular/router';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [ButtonComponent, RouterModule],
+  imports: [ButtonComponent, RouterModule, MatSidenavModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
