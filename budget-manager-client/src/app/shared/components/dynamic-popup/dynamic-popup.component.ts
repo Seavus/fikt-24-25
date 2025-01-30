@@ -1,21 +1,41 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogRef,
+  MatDialog,
+  MatDialogContent
+
+} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dynamic-popup',
-  imports: [CommonModule],
-  standalone: true,
-  templateUrl: './dynamic-popup.component.html',
-  styleUrl: './dynamic-popup.component.scss'
+  styleUrl: 'dynamic-popup.component.scss',
+  templateUrl: 'dynamic-popup.component.html',
+  imports: [MatButtonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicPopupComponent {
-  @Input() isOpen: boolean = false;
-  @Input() popupTitle: string = '';
-  @Input() popupData: any = null; 
-  @Output() closePopup: EventEmitter<void> = new EventEmitter<void>();
+  readonly dialog = inject(MatDialog);
 
-  close() {
-    this.closePopup.emit();
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.dialog.open(DynamicPopupWrapper, {
+      width: '250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+  }
+}
 
+@Component({
+  selector: 'dynamic-popup-wrapper',
+  templateUrl: 'dynamic-popup-wrapper.html',
+  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogContent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class DynamicPopupWrapper {
+  readonly dialogRef = inject(MatDialogRef<DynamicPopupWrapper>);
 }
-}
+
+
