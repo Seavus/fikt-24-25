@@ -1,23 +1,28 @@
-<div class="login-form">
-  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-    <app-input
-      label="Email"
-      placeholder="Enter your email"
-      type="email"
-      formControlName="email"
-      [required]="true"
-    >
-    </app-input>
+<div class="login-container">
+  <h2>Login</h2>
+  <div class="login-form">
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <app-input 
+        label="Email"
+        placeholder="Enter your email"
+        type="email"
+        formControlName="email"
+        [required]="true">
+      </app-input>
 
-    <app-input
-      label="Password"
-      placeholder="Enter your password"
-      type="password"
-      formControlName="password"
-      [required]="true"
-    >
-    </app-input>
+      <app-input 
+        label="Password" 
+        placeholder="Enter your password" 
+        type="password" 
+        formControlName="password"
+        [required]="true">
+      </app-input>
 
-    <app-button text="Login" [customButtonClass]="'dynamic-blue'"> </app-button>
-  </form>
+      <app-button 
+        text="Login" 
+        [customButtonClass]="'dynamic-green'">
+      </app-button>
+      <p>Don't have an account?<a href="/register">Register</a></p>
+    </form>
+  </div>
 </div>
