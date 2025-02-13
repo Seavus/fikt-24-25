@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonComponent } from './shared/components/button/button.component';
 import { TransactionsComponent } from './features/transactions/transactions.component';
 import { DynamicPopupComponent } from './shared/components/dynamic-popup/dynamic-popup.component';
+import { PopupData } from './shared/components/dynamic-popup/popup-data.model';
 
 
 
@@ -20,14 +21,14 @@ export class AppComponent {
 
   isPopupOpen: boolean = false;
   popupTitle: string = "Dynamic Popup Title";
-  popupData: any = { message: "Hello! This is a dynamic popup." };
+  popupData: PopupData = new PopupData("Hello! This is a dynamic popup.");
 
-  openPopup() {
-    this.isPopupOpen = true;
-    this.popupData = { message: "New dynamic data loaded!" }; 
+  constructor() {
+    console.log(this.popupData.message);
   }
 
-  closePopup() {
-    this.isPopupOpen = false;
+  togglePopup() {
+    this.isPopupOpen = !this.isPopupOpen;
   }
 }
+
