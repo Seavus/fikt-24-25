@@ -1,15 +1,14 @@
-<mat-sidenav-container>
-  <mat-sidenav mode="side" opened role="navigation">
+<!-- Sidebar Menu -->
+<div class="sidebar-container">
+  <div class="sidebar">
     <!-- Logo -->
     <div class="logo">
       <img src="" alt="App Logo" class="logo-img" />
     </div>
-
     <!-- Balance Display -->
     <div class="balance">
       <p><span>$</span>Balance</p>
     </div>
-
     <!-- Navigation Links -->
     <ul class="sidebar-nav">
       <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
@@ -22,11 +21,7 @@
         <a routerLink="/reports" class="sidebar-link">Reports</a>
       </li>
     </ul>
-
     <!-- Logout Button -->
     <app-button text="Logout" [customButtonClass]="'dynamic-red'" (onClick)="logout()"></app-button>
-  </mat-sidenav>
-  <mat-sidenav-content role="main">
-    Main
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </div>
+</div>
