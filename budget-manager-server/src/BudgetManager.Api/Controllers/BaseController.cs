@@ -12,7 +12,7 @@ public abstract class BaseController : ControllerBase
 
     protected BaseController(IMapper mapper, ISender mediator)
     {
-        Mapper = mapper;
-        Mediator = mediator;
+        Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
 }
