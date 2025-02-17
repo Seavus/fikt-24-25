@@ -10,11 +10,13 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddBudgetManagerAuth(configuration);
-        return services
-                .AddApiServies();
+
+        services.AddApiServices();
+
+        return services;
     }
 
-    public static IServiceCollection AddApiServies(this IServiceCollection services)
+    public static IServiceCollection AddApiServices(this IServiceCollection services)
     {
         services.AddControllers();
 
@@ -35,9 +37,9 @@ public static class DependencyInjection
     public static IServiceCollection AddBudgetManagerAuth(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
-        services.AddOptions<JwtOptions>()
-            .ValidateDataAnnotations();
+
         services.AddTransient<ITokenService, TokenService>();
+
         return services;
     }
 }
