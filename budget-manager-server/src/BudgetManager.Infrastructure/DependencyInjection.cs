@@ -30,6 +30,8 @@ public static class DependencyInjection
     {
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
+
         app.UseAuthorization();
 
         app.MapControllers();
@@ -44,29 +46,28 @@ public static class DependencyInjection
         services.AddTransient<ITokenService, TokenService>();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-       .AddJwtBearer(options =>
-       {
-           var jwtOptions = configuration.GetSection("Jwt").Get<JwtOptions>();
-
-           if (jwtOptions == null)
+           .AddJwtBearer(options =>
            {
-               throw new InvalidOperationException("JWT options are not configured properly.");
-           }
+               var jwtOptions = configuration.GetSection("Jwt").Get<JwtOptions>();
 
-           options.RequireHttpsMetadata = false;  
-           options.SaveToken = true;
-           options.TokenValidationParameters = new TokenValidationParameters
-           {
-               ValidateIssuer = true,
-               ValidateAudience = false, 
-               ValidateLifetime = true,
-               ValidateIssuerSigningKey = true,
-               ValidIssuer = jwtOptions.Issuer,
-               IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key))
-           };
-       });
+               if (jwtOptions == null)
+               {
+                   throw new InvalidOperationException("JWT options are not configured properly.");
+               }
 
-        services.AddAuthorization();
+               options.RequireHttpsMetadata = false;  
+               options.SaveToken = true;
+               options.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateIssuer = true,
+                   ValidateAudience = true, 
+                   ValidateLifetime = true,
+                   ValidateIssuerSigningKey = true,
+                   ValidIssuer = jwtOptions.Issuer,
+                   ValidAudience = jwtOptions.Issuer,
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key))
+               };
+           });
 
         return services;
     }
