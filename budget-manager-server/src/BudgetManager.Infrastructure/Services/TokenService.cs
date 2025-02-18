@@ -1,9 +1,6 @@
 ﻿using BudgetManager.Application.Services;
 using Microsoft.Extensions.Options;
-<<<<<<< HEAD
 using System;
-=======
->>>>>>> a49b5b9238a6f9b80335cb4712a940f6be0c6ee1
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
