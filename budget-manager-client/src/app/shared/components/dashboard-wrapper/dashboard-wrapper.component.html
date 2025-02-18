@@ -1,0 +1,7 @@
+<h2>Dashboard</h2>
+<div class="dashboard">
+    <div *ngFor="let w of store.models; trackBy: trackById">
+      <app-widget [data]="w"></app-widget>
+    </div>
+  </div>
+  
