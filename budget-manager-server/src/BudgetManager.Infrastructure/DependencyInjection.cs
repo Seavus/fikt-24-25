@@ -1,14 +1,20 @@
-﻿namespace BudgetManager.Infrastructure;
+﻿using BudgetManager.Application.Services;
+using BudgetManager.Infrastructure.Services;
+
+namespace BudgetManager.Infrastructure;
 
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        return services
-                .AddApiServies();
+        services
+            .AddBudgetManagerAuth(configuration)
+            .AddApiServices();
+
+        return services;
     }
 
-    public static IServiceCollection AddApiServies(this IServiceCollection services)
+    public static IServiceCollection AddApiServices(this IServiceCollection services)
     {
         services.AddControllers();
 
@@ -24,5 +30,14 @@ public static class DependencyInjection
         app.MapControllers();
 
         return app;
+    }
+
+    public static IServiceCollection AddBudgetManagerAuth(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
+
+        services.AddTransient<ITokenService, TokenService>();
+
+        return services;
     }
 }
