@@ -1,8 +1,11 @@
 using BudgetManager.Application.Services;
 using BudgetManager.Infrastructure.Services;
+using BudgetManager.Infrastructure.Data;
+using BudgetManager.Application.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -14,7 +17,8 @@ public static class DependencyInjection
     {
         services
             .AddBudgetManagerAuth(configuration)
-            .AddApiServices();
+            .AddApiServices()
+            .AddDatabase(configuration);
 
         return services;
     }
@@ -70,5 +74,13 @@ public static class DependencyInjection
            });
 
         return services;
+    }
+
+    public static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
     }
 }
