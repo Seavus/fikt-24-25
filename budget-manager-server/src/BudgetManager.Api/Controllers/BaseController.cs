@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-
-namespace BudgetManager.Api.Controllers;
+﻿namespace BudgetManager.Api.Controllers;
 
 [ApiController]
 public abstract class BaseController : ControllerBase
