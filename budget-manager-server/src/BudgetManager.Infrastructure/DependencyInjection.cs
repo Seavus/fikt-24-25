@@ -45,16 +45,16 @@ public static class DependencyInjection
 
         services.AddTransient<ITokenService, TokenService>();
 
+        var jwtOptions = configuration.GetSection("Jwt").Get<JwtOptions>();
+
+        if (jwtOptions == null || string.IsNullOrEmpty(jwtOptions.Key) || string.IsNullOrEmpty(jwtOptions.Issuer))
+        {
+            throw new InvalidOperationException("JWT options are not configured properly.");
+        }
+
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>
            {
-               var jwtOptions = configuration.GetSection("Jwt").Get<JwtOptions>();
-
-               if (jwtOptions == null)
-               {
-                   throw new InvalidOperationException("JWT options are not configured properly.");
-               }
-
                options.RequireHttpsMetadata = false;  
                options.SaveToken = true;
                options.TokenValidationParameters = new TokenValidationParameters
