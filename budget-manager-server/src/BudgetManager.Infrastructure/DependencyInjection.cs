@@ -1,14 +1,17 @@
 using BudgetManager.Application.Services;
 using BudgetManager.Infrastructure.Services;
+using BudgetManager.Infrastructure.Data;
+using BudgetManager.Application.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Hosting;
+using System.Text;
 using System.Reflection;
 using System.IO;
-using Microsoft.Extensions.Hosting;
 
 namespace BudgetManager.Infrastructure;
 
@@ -17,6 +20,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services
+            .AddDatabase(configuration)
             .AddBudgetManagerAuth(configuration)
             .AddApiServices();
 
@@ -101,16 +105,16 @@ public static class DependencyInjection
 
         services.AddTransient<ITokenService, TokenService>();
 
-        var jwtOptions = configuration.GetSection("Jwt").Get<JwtOptions>();
-
-        if (jwtOptions == null || string.IsNullOrEmpty(jwtOptions.Key) || string.IsNullOrEmpty(jwtOptions.Issuer))
-        {
-            throw new InvalidOperationException("JWT options are not configured properly.");
-        }
-
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>
            {
+               var jwtOptions = configuration.GetSection("Jwt").Get<JwtOptions>();
+
+               if (jwtOptions == null)
+               {
+                   throw new InvalidOperationException("JWT options are not configured properly.");
+               }
+
                options.RequireHttpsMetadata = false;  
                options.SaveToken = true;
                options.TokenValidationParameters = new TokenValidationParameters
@@ -126,5 +130,13 @@ public static class DependencyInjection
            });
 
         return services;
+    }
+
+    private static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+        services.AddScoped<IApplicationDbContext>();
     }
 }
