@@ -1,22 +1,27 @@
-<div class="sidebar">
+<!-- Sidebar Menu -->
+<div class="sidebar-container">
+  <div class="sidebar">
     <!-- Logo -->
     <div class="logo">
       <img src="" alt="App Logo" class="logo-img" />
     </div>
-  
     <!-- Balance Display -->
     <div class="balance">
-      <p><span>$1,234.56</span>Balance</p> 
+      <p><span>$</span>Balance</p>
     </div>
-  
     <!-- Navigation Links -->
     <ul class="sidebar-nav">
-      <li><a routerLink="/dashboard" class="sidebar-link">Dashboard</a></li>
-      <li><a routerLink="/transactions" class="sidebar-link">Transactions</a></li>
-      <li><a routerLink="/reports" class="sidebar-link">Reports</a></li>
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a routerLink="/home" class="sidebar-link">Dashboard</a>
+      </li>
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a routerLink="/transactions" class="sidebar-link">Transactions</a>
+      </li>
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a routerLink="/reports" class="sidebar-link">Reports</a>
+      </li>
     </ul>
-  
     <!-- Logout Button -->
-    <button class="logout-btn">Logout</button>
+    <app-button text="Logout" [customButtonClass]="'dynamic-red'" (onClick)="logout()"></app-button>
   </div>
-  
+</div>
