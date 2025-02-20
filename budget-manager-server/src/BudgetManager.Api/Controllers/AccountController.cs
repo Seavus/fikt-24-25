@@ -2,19 +2,21 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using BudgetManager.Application.Users.RegisterUser;
+using Microsoft.AspNetCore.Http;
 
 namespace BudgetManager.Api.Controllers;
 
 [ApiController]
 [Route("api/account")]
+[Tags("User Management")]
 public class AccountController : BaseController
 {
     public AccountController(IMapper mapper, ISender mediator) : base(mapper, mediator) { }
 
     [HttpPost("register")]
-    [ProducesResponseType(typeof(RegisterUserResponse), 201)]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(500)]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RegisterUserResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult Register([FromBody] RegisterUserRequest request)
     {
         if (request == null)
@@ -27,12 +29,12 @@ public class AccountController : BaseController
         }
         try
         {
-            var response = new RegisterUserResponse(Guid.NewGuid());
-            return StatusCode(201, response);
+            var result = new RegisterUserResponse(Guid.NewGuid());
+            return Created($"api/users/{result.Id}", result);
         }
         catch (Exception ex)
         {
-            return StatusCode(500, $"An error occurred:  {ex.Message}");
+            return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred:  {ex.Message}");
         }
     }
 }
