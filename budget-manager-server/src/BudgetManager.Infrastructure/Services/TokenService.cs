@@ -1,4 +1,4 @@
-﻿using BudgetManager.Application.Services;
+using BudgetManager.Application.Services;
 using Microsoft.Extensions.Options;
 using System;
 using System.IdentityModel.Tokens.Jwt;

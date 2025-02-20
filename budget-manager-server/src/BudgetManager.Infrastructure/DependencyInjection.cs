@@ -1,4 +1,4 @@
-﻿using BudgetManager.Application.Services;
+using BudgetManager.Application.Services;
 using BudgetManager.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -87,6 +87,7 @@ public static class DependencyInjection
         app.UseHttpsRedirection();
 
         app.UseAuthentication();
+
         app.UseAuthorization();
 
         app.MapControllers();
@@ -100,30 +101,29 @@ public static class DependencyInjection
 
         services.AddTransient<ITokenService, TokenService>();
 
+        var jwtOptions = configuration.GetSection("Jwt").Get<JwtOptions>();
+
+        if (jwtOptions == null || string.IsNullOrEmpty(jwtOptions.Key) || string.IsNullOrEmpty(jwtOptions.Issuer))
+        {
+            throw new InvalidOperationException("JWT options are not configured properly.");
+        }
+
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-       .AddJwtBearer(options =>
-       {
-           var jwtOptions = configuration.GetSection("Jwt").Get<JwtOptions>();
-
-           if (jwtOptions == null)
+           .AddJwtBearer(options =>
            {
-               throw new InvalidOperationException("JWT options are not configured properly.");
-           }
-
-           options.RequireHttpsMetadata = false;  
-           options.SaveToken = true;
-           options.TokenValidationParameters = new TokenValidationParameters
-           {
-               ValidateIssuer = true,
-               ValidateAudience = false, 
-               ValidateLifetime = true,
-               ValidateIssuerSigningKey = true,
-               ValidIssuer = jwtOptions.Issuer,
-               IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key))
-           };
-       });
-
-        services.AddAuthorization();
+               options.RequireHttpsMetadata = false;  
+               options.SaveToken = true;
+               options.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateIssuer = true,
+                   ValidateAudience = true, 
+                   ValidateLifetime = true,
+                   ValidateIssuerSigningKey = true,
+                   ValidIssuer = jwtOptions.Issuer,
+                   ValidAudience = jwtOptions.Issuer,
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key))
+               };
+           });
 
         return services;
     }
