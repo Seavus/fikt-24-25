@@ -21,8 +21,9 @@ public static class DependencyInjection
     {
         services
             .AddBudgetManagerAuth(configuration)
-            .AddApiServices()
             .AddDatabase(configuration);
+
+        services.AddApiServices();
 
         return services;
     }
@@ -132,11 +133,11 @@ public static class DependencyInjection
         return services;
     }
 
-    public static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
+    private static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+        services.AddScoped<IApplicationDbContext>();
     }
 }
