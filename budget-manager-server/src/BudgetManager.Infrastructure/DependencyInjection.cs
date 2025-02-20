@@ -91,7 +91,7 @@ public static class DependencyInjection
         app.UseHttpsRedirection();
 
         app.UseAuthentication();
-      
+
         app.UseAuthorization();
 
         app.MapControllers();
