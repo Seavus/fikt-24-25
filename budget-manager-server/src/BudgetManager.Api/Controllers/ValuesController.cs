@@ -4,10 +4,14 @@
 
 namespace BudgetManager.Api.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        /// <summary>
+        /// Test comment
+        /// </summary>
         // GET: api/<ValuesController>
         [HttpGet]
         public IEnumerable<string> Get()

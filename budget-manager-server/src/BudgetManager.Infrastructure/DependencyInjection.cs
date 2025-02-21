@@ -61,8 +61,8 @@ public static class DependencyInjection
                 }
             });
 
-            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            var xmlFile = $"{Assembly.GetEntryAssembly()!.GetName().Name}.xml";
+            var xmlPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location) ?? string.Empty, xmlFile);
             if (File.Exists(xmlPath))
             {
                 options.IncludeXmlComments(xmlPath);
