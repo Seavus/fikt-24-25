@@ -133,7 +133,7 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddDatabase(IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
