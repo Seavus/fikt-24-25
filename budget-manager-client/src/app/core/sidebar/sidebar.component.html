@@ -1,6 +1,14 @@
 <!-- Sidebar Menu -->
 <div class="sidebar">
 
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <button mat-icon-button (click)="toggle()">
+        <mat-icon>{{ isMenuOpened ? 'close' : 'menu' }}</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
   <!-- Logo -->
   <div class="logo">
     <img src="" alt="App Logo" class="logo-img" />
@@ -11,22 +19,22 @@
   </div>
   <!-- Navigation Links -->
   <ul class="sidebar-nav">
-    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-      <a routerLink="/home" class="sidebar-link">
-        <p>Dashboard</p>
+    <li routerLinkActive="active" routerLink="/home" [routerLinkActiveOptions]="{ exact: true }">
+      <a class="sidebar-link">
         <mat-icon>home</mat-icon>
+        <p>Dashboard</p>
       </a>
     </li>
-    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-      <a routerLink="/transactions" class="sidebar-link">
-        <p>Transactions</p>
+    <li routerLinkActive="active" routerLink="/transactions" [routerLinkActiveOptions]="{ exact: true }">
+      <a class="sidebar-link">
         <mat-icon>receipt_long</mat-icon>
+        <p>Transactions</p>
       </a>
     </li>
-    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-      <a routerLink="/reports" class="sidebar-link">
-        <p>Reports</p>
+    <li routerLinkActive="active" routerLink="/reports" [routerLinkActiveOptions]="{ exact: true }">
+      <a class="sidebar-link">
         <mat-icon>insert_chart</mat-icon>
+        <p>Reports</p>
       </a>
     </li>
   </ul>

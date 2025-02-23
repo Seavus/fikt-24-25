@@ -1,6 +1,6 @@
 <mat-sidenav-container>
-    <mat-sidenav mode="side" opened role="navigation">
-        <app-sidebar></app-sidebar>
+    <mat-sidenav [ngClass]="{'sidenav-expanded': isMenuOpened, 'sidenav-collapsed': !isMenuOpened}" [mode]="isMenuOpened ? 'over' : 'side'"  opened>
+        <app-sidebar (toggleMenu)="toggleMenu()"></app-sidebar>
     </mat-sidenav>
 
     <mat-sidenav-content>

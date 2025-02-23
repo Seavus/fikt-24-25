@@ -12,4 +12,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 })
 export class AppComponent {
   title = 'budget-manager-client';
+
+  isMenuOpened = false;
+
+  toggleMenu() {
+    if (window.innerWidth < 1024) {
+      this.isMenuOpened = !this.isMenuOpened;
+    }
+  }
 }
