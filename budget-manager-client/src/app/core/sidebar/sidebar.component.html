@@ -1,27 +1,40 @@
 <!-- Sidebar Menu -->
-<div class="sidebar-container">
-  <div class="sidebar">
-    <!-- Logo -->
-    <div class="logo">
-      <img src="" alt="App Logo" class="logo-img" />
-    </div>
-    <!-- Balance Display -->
-    <div class="balance">
-      <p><span>$</span>Balance</p>
-    </div>
-    <!-- Navigation Links -->
-    <ul class="sidebar-nav">
-      <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a routerLink="/home" class="sidebar-link">Dashboard</a>
-      </li>
-      <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a routerLink="/transactions" class="sidebar-link">Transactions</a>
-      </li>
-      <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a routerLink="/reports" class="sidebar-link">Reports</a>
-      </li>
-    </ul>
-    <!-- Logout Button -->
-    <app-button text="Logout" [customButtonClass]="'dynamic-red'" (onClick)="logout()"></app-button>
+<div class="sidebar">
+
+  <!-- Logo -->
+  <div class="logo">
+    <img src="" alt="App Logo" class="logo-img" />
+  </div>
+  <!-- Balance Display -->
+  <div class="balance">
+    <p><span>$</span>Balance</p>
+  </div>
+  <!-- Navigation Links -->
+  <ul class="sidebar-nav">
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <a routerLink="/home" class="sidebar-link">
+        <p>Dashboard</p>
+        <mat-icon>home</mat-icon>
+      </a>
+    </li>
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <a routerLink="/transactions" class="sidebar-link">
+        <p>Transactions</p>
+        <mat-icon>receipt_long</mat-icon>
+      </a>
+    </li>
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <a routerLink="/reports" class="sidebar-link">
+        <p>Reports</p>
+        <mat-icon>insert_chart</mat-icon>
+      </a>
+    </li>
+  </ul>
+  <!-- Logout Button -->
+  <div class="logout-btn">
+    <app-button [customButtonClass]="'dynamic-red'" (onClick)="logout()">
+      <p>Logout</p>
+      <mat-icon>logout</mat-icon>
+    </app-button>
   </div>
 </div>
