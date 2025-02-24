@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace BudgetManager.Api.Controllers;
 
+/// <summary>
+/// Registers a new user.
+/// </summary>
 [ApiController]
 [Route("api/account")]
 [Tags("User Management")]
