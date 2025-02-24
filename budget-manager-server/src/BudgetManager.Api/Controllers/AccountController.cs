@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using BudgetManager.Application.Users.RegisterUser;
+﻿using BudgetManager.Application.Users.RegisterUser;
 using Microsoft.AspNetCore.Http;
 
 namespace BudgetManager.Api.Controllers;
