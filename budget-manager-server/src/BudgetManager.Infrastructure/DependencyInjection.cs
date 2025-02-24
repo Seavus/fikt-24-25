@@ -127,4 +127,10 @@ public static class DependencyInjection
 
         return services;
     }
+
+    public static IServiceCollection AddMapping(this IServiceCollection services)
+    {
+        services.AddAutoMapper(typeof(DependencyInjection));
+        return services;
+    }
 }
