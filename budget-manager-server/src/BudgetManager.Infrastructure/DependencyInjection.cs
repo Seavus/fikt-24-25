@@ -19,9 +19,10 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        AddDatabase(services, configuration);
+        
 
         services
+            .AddDatabase(configuration)
             .AddBudgetManagerAuth(configuration)
             .AddApiServices();
 
