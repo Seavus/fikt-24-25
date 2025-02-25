@@ -19,12 +19,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        
-
         services
             .AddDatabase(configuration)
             .AddBudgetManagerAuth(configuration)
-            .AddApiServices();
+            .AddApiServices()
+            .AddMapping();
 
         return services;
     }
@@ -133,6 +132,13 @@ public static class DependencyInjection
 
         return services;
     }
+
+    private static IServiceCollection AddMapping(this IServiceCollection services)
+    {
+        services.AddAutoMapper(typeof(DependencyInjection).Assembly);
+        return services;
+    }
+
 
     private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
