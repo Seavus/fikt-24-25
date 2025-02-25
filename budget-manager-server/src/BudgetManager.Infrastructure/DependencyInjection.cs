@@ -1,14 +1,17 @@
 using BudgetManager.Application.Services;
+using BudgetManager.Application.Data;
 using BudgetManager.Infrastructure.Services;
+using BudgetManager.Infrastructure.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Text;
 using System.Reflection;
 using System.IO;
-using Microsoft.Extensions.Hosting;
 
 namespace BudgetManager.Infrastructure;
 
@@ -16,7 +19,10 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        
+
         services
+            .AddDatabase(configuration)
             .AddBudgetManagerAuth(configuration)
             .AddApiServices();
 
@@ -124,6 +130,16 @@ public static class DependencyInjection
                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key))
                };
            });
+
+        return services;
+    }
+
+    private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
         return services;
     }
