@@ -2,8 +2,6 @@ using BudgetManager.Application.Services;
 using BudgetManager.Application.Data;
 using BudgetManager.Infrastructure.Services;
 using BudgetManager.Infrastructure.Data;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -11,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Reflection;
-using System.IO;
 
 namespace BudgetManager.Infrastructure;
 
@@ -19,12 +16,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        
-
         services
             .AddDatabase(configuration)
             .AddBudgetManagerAuth(configuration)
-            .AddApiServices();
+            .AddApiServices()
+            .AddMapping();
 
         return services;
     }
@@ -133,6 +129,13 @@ public static class DependencyInjection
 
         return services;
     }
+
+    private static IServiceCollection AddMapping(this IServiceCollection services)
+    {
+        services.AddAutoMapper(typeof(DependencyInjection).Assembly);
+        return services;
+    }
+
 
     private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {

@@ -14,7 +14,7 @@ public class AccountController : BaseController
     /// <summary>
     /// Registers a new user.
     /// </summary>
-    [HttpPost("register")]
+    [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RegisterUserResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
