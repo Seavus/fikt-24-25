@@ -1,8 +1,4 @@
-﻿using System.Reflection;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace BudgetManager.Application;
+﻿namespace BudgetManager.Application;
 
 public static class DependencyInjection
 {
