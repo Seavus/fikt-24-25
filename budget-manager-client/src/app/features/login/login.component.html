@@ -3,10 +3,10 @@
   <div class="login-form">
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
       <app-input 
-        label="Email"
-        placeholder="Enter your email"
-        type="email"
-        formControlName="email"
+        label="Username"
+        placeholder="Enter your username"
+        type="text"
+        formControlName="username"
         [required]="true">
       </app-input>
 
