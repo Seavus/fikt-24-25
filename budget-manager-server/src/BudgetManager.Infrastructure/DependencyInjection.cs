@@ -18,7 +18,8 @@ public static class DependencyInjection
     {
         services
             .AddBudgetManagerAuth(configuration)
-            .AddApiServices();
+            .AddApiServices()
+            .AddMapping();
 
         return services;
     }
@@ -128,9 +129,9 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddMapping(this IServiceCollection services)
+    private static IServiceCollection AddMapping(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(DependencyInjection));
+        services.AddAutoMapper(typeof(DependencyInjection).Assembly);
         return services;
     }
 }
