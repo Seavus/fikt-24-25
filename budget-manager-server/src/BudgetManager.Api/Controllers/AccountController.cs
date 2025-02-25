@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace BudgetManager.Api.Controllers;
 
-/// <summary>
-/// Registers a new user.
-/// </summary>
+
 [ApiController]
 [Route("api/account")]
 [Tags("User Management")]
@@ -13,6 +11,9 @@ public class AccountController : BaseController
 {
     public AccountController(IMapper mapper, ISender mediator) : base(mapper, mediator) { }
 
+    /// <summary>
+    /// Registers a new user.
+    /// </summary>
     [HttpPost("register")]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RegisterUserResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
