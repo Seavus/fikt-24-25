@@ -1,8 +1,9 @@
 ﻿using BudgetManager.Application.Users.RegisterUser;
+using BudgetManager.Application.Users.LoginUser;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace BudgetManager.Api.Controllers;
-
 
 [ApiController]
 [Route("api/account")]
@@ -36,6 +37,39 @@ public class AccountController : BaseController
         catch (Exception ex)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred:  {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Returns token for authenticated users.
+    /// </summary>
+    [HttpPost("token")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginUserResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public IActionResult Login([FromBody] LoginUserRequest request)
+    {
+        if (request == null)
+        {
+            throw new ArgumentNullException(nameof(request));
+        }
+        if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
+        {
+            return BadRequest("Invalid login request.");
+        }
+        try
+        {
+            if (request.Email == "admin" && request.Password == "admin")
+            {
+                var result = new LoginUserResponse("mocked-jwt-token");
+                return Ok(result);
+            }
+            return Unauthorized("Invalid credentials.");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred: {ex.Message}");
         }
     }
 }
