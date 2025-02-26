@@ -1,3 +1,3 @@
 ﻿namespace BudgetManager.Application.Users.LoginUser;
 
-public record LoginUserRequest(String Email, String Password);
+public record LoginUserRequest(string Email, string Password);

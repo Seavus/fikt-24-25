@@ -43,7 +43,7 @@ public class AccountController : BaseController
     /// <summary>
     /// Logs in a user.
     /// </summary>
-    [HttpPost]
+    [HttpPost("token")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginUserResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
