@@ -10,6 +10,7 @@ import { ButtonComponent } from '../../shared/components/button/button.component
 import { Component } from '@angular/core';
 import { InputComponent } from '../../shared/components/input/input.component';
 import { MatButtonModule } from '@angular/material/button';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,7 @@ export class LoginComponent {
   password: string = '';
   isRequired: boolean = true;
   loginForm: FormGroup;
-  constructor(private readonly fb: FormBuilder) {
+  constructor(private readonly fb: FormBuilder, private router: Router, private route: ActivatedRoute) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
@@ -38,6 +39,10 @@ export class LoginComponent {
   onLogin() {
     if (this.loginForm.value) {
       console.log('Login attempt:', this.loginForm.getRawValue());
+
+      localStorage.setItem('user', JSON.stringify({ username: 'testUser' }));
+      const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+      this.router.navigate([returnUrl]);
     }
   }
 }
