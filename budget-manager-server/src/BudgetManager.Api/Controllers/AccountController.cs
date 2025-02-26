@@ -13,7 +13,7 @@ public class AccountController : BaseController
     public AccountController(IMapper mapper, ISender mediator) : base(mapper, mediator) { }
 
     /// <summary>
-    /// Registers a new user.
+    /// Returns token for authenticated users.
     /// </summary>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RegisterUserResponse))]
