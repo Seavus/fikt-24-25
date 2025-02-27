@@ -13,7 +13,7 @@ export class DoughnutChartComponent implements AfterViewInit{
 
   @Input() chartId: string = 'doughnutChart';
   @Input() labels: string[] = [];
-  @Input() datasets: ChartDataset<'doughnut'>[] = []; // ✅ Strictly typed datasets
+  @Input() datasets: ChartDataset<'doughnut'>[] = [];
 
   private chart!: Chart;
 
