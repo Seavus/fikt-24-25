@@ -1,5 +1,5 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
-import { Chart, ChartConfiguration, registerables } from 'chart.js';
+import { Chart, ChartConfiguration, registerables, ChartDataset } from 'chart.js';
 
 Chart.register(...registerables);
 
@@ -11,9 +11,9 @@ Chart.register(...registerables);
 export class BarChartComponent implements AfterViewInit {
   @Input() chartId: string = 'barChart';
   @Input() labels: string[] = [];
-  @Input() datasets: any[] = [];
+  @Input() datasets: ChartDataset<'bar'>[] = [];
 
-  chart: any;
+  private chart!: Chart; 
 
   ngAfterViewInit(): void {
     this.createChart();
