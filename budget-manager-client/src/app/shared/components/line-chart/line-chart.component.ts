@@ -1,55 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { Chart, ChartData, ChartOptions, ChartConfiguration } from 'chart.js';
+import { Component, Input } from '@angular/core';
+import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
+import { ChartData } from './data-chart';
 
 @Component({
   selector: 'app-line-chart',
-  standalone: true,
   templateUrl: './line-chart.component.html',
-  styleUrls: ['./line-chart.component.scss']
+  styleUrls: ['./line-chart.component.scss'],  
+  standalone: true,
+  imports: [NgxChartsModule]
 })
-export class LineChartComponent implements OnInit {
-  chart!: Chart<'line', (number | null)[], string>;
+export class LineChartComponent {
+  @Input() data : ChartData[] = [];
+  @Input() view: [number, number] = [700, 400]; 
+  @Input() showXAxis = true;
+  @Input() showYAxis = true;
+  @Input() showLegend = false;
+  @Input() showXAxisLabel = true;
+  @Input() showYAxisLabel = true;
+  @Input() xAxisLabel = 'Time';
+  @Input() yAxisLabel = 'Value';
+  @Input() autoScale = true;
+  @Input() curve = 'linear';
 
-  constructor() {}
-
-  ngOnInit(): void {
-    this.createChart();
-  }
-
-  createChart(): void {
-    // Define chart data
-    const chartData: ChartData<'line'> = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [{
-        label: 'My First dataset',
-        data: [65, 59, 80, 81, 56, 55, 40], 
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1
-      }]
-    };
-
-    // Define chart options
-    const chartOptions: ChartOptions<'line'> = {
-      responsive: true,
-      scales: {
-        x: {
-          type: 'category', 
-        },
-        y: {
-          type: 'linear', 
-          beginAtZero: true 
-        }
-      }
-    };
-
-    
-    const chartConfig: ChartConfiguration<'line'> = {
-      type: 'line', 
-      data: chartData, 
-      options: chartOptions 
-    };
-
-   new Chart('canvas', chartConfig);
-  }
+  colorScheme: Color = {
+    domain: ['#007bff', '#ff4081', '#4caf50', '#ff9800'],
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal
+  };
 }
