@@ -5,39 +5,31 @@ namespace BudgetManager.Domain.Models;
 
 public class Category : Aggregate<CategoryId>
 {
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
-    public string Email { get; private set; }
-    public string Password { get; private set; }
+    public string Name { get; private set; }
+    public UserId UserId { get; private set; }
+    
 
-    private Category(CategoryId id, string firstName, string lastName, string email, string password)
+    private Category(CategoryId id, string name,UserId userId)
     {
         Id = id;
-        FirstName = firstName;
-        LastName = lastName;
-        Email = email;
-        Password = password;
+        Name = name;
+        UserId = userId;
         CreatedOn = DateTime.UtcNow;
         CreatedBy = "System";
     }
 
-    public static Category Create(CategoryId id, string firstName, string lastName, string email, string password)
+    public static Category Create(CategoryId id, string name, UserId userId)
     {
-        if (string.IsNullOrWhiteSpace(firstName)) throw new ArgumentException("First name is required.");
-        if (string.IsNullOrWhiteSpace(lastName)) throw new ArgumentException("Last name is required.");
-        if (string.IsNullOrWhiteSpace(email)) throw new ArgumentException("Email is required.");
-        if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Password is required.");
+        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name is required.");
 
-        return new Category(id, firstName, lastName, email, password);
+        return new Category(id, name, userId);
     }
 
-    public void Update(string firstName, string lastName)
+    public void Update(string name)
     {
-        if (string.IsNullOrWhiteSpace(firstName)) throw new ArgumentException("First name is required.");
-        if (string.IsNullOrWhiteSpace(lastName)) throw new ArgumentException("Last name is required.");
+        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name is required.");
 
-        FirstName = firstName;
-        LastName = lastName;
+        Name = name;
         UpdatedOn = DateTime.UtcNow;
         UpdatedBy = "System";
     }

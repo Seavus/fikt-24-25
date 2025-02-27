@@ -17,24 +17,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        var categoryIdConverter = new ValueConverter<CategoryId, Guid>(
-        id => id.Value,
-        value => new CategoryId(value)
-    );
-
-        var userIdConverter = new ValueConverter<UserId, Guid>(
-            id => id.Value,
-            value => new UserId(value)
-        );
-
-        modelBuilder.Entity<Category>()
-            .Property(c => c.Id)
-            .HasConversion(categoryIdConverter);
-
-        modelBuilder.Entity<User>()
-            .Property(u => u.Id)
-            .HasConversion(userIdConverter);
-
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }
