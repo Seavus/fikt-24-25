@@ -21,16 +21,9 @@ namespace BudgetManager.Infrastructure.Data.Configurations
                     dbId => CategoryId.Create(dbId) 
                 );
 
-            builder.Property(c => c.UserId)
-                .HasConversion(
-                    userId => userId.Value, 
-                    dbId => UserId.Create(dbId)  
-                );
-
             builder.HasOne<User>()
                 .WithMany()
-                .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(c => c.UserId);
         }
     }
 }
