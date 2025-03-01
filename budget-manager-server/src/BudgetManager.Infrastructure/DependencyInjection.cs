@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Reflection;
+using BudgetManager.Application.Exceptions.Handler;
 
 namespace BudgetManager.Infrastructure;
 
@@ -94,6 +95,8 @@ public static class DependencyInjection
 
         app.MapControllers();
 
+        app.UseExceptionHandler(options => { });
+
         return app;
     }
 
@@ -144,6 +147,12 @@ public static class DependencyInjection
 
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
+        return services;
+    }
+
+    public static IServiceCollection AddApi(this IServiceCollection services)
+    {
+        services.AddExceptionHandler<CustomExceptionHandler>();
         return services;
     }
 }
