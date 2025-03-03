@@ -25,31 +25,28 @@ public class CustomExceptionHandler : IExceptionHandler
             DomainException => StatusCodes.Status500InternalServerError,
             _ => StatusCodes.Status500InternalServerError
         };
-        var problemDetails = new
+
+        var problemDetails = new ProblemDetails
         {
             Title = exception.Message,
             Detail = exception.GetType().Name,
             Status = statusCode,
             Instance = context.Request.Path
         };
+
         if (exception is ValidationException validationException)
         {
-            var errors = validationException.Errors;
+            var errors = validationException.Errors
+                .GroupBy(e => e.PropertyName)
+                .ToDictionary(
+                    group => group.Key,
+                    group => group.Select(e => e.ErrorMessage).ToArray()
+                );
 
-           var validationProblemDetails = new
-            {
-                Title = problemDetails.Title,
-                Detail = problemDetails.Detail,
-                Status = problemDetails.Status,
-                Instance = problemDetails.Instance,
-                Errors = errors
-            };
+            problemDetails.Extensions["validationErrors"] = errors;
         }
-        context.Response.StatusCode = statusCode;
-        context.Response.ContentType = "application/json";
 
         await context.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
-
         return true;
-     }
+    }       
 }

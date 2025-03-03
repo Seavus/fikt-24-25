@@ -4,5 +4,3 @@ global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Diagnostics;
 global using FluentValidation;
 global using Microsoft.Extensions.Logging;
-global using BudgetManager.Application.Exceptions;
-global using System.Text.Json;

@@ -30,6 +30,8 @@ public static class DependencyInjection
     {
         services.AddControllers();
 
+        services.AddExceptionHandler<CustomExceptionHandler>();
+
         services.AddSwaggerGen(options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo
@@ -147,12 +149,6 @@ public static class DependencyInjection
 
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
-        return services;
-    }
-
-    public static IServiceCollection AddApi(this IServiceCollection services)
-    {
-        services.AddExceptionHandler<CustomExceptionHandler>();
         return services;
     }
 }
