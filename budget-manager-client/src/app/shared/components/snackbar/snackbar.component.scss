@@ -1,0 +1,28 @@
+@import "../../../../styles/base/variables.scss";
+::ng-deep .mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.snackbar-container {
+  border-radius: 0.375rem;
+  padding: 1rem;
+}
+
+.success {
+  color: $success-color;
+  background-color: $success-bg;
+  border-color: $success-border;
+}
+
+.error {
+  color: $error-color;
+  background-color: $error-bg;
+  border-color: $error-border;
+}
+
+.info {
+  color: $info-color;
+  background-color: $info-bg;
+  border-color: $info-border;
+}
