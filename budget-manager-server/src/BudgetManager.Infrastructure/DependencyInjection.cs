@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Reflection;
 using BudgetManager.Infrastructure.Data.Extensions;
+using BudgetManager.Application.Exceptions.Handler;
 
 namespace BudgetManager.Infrastructure;
 
@@ -29,6 +30,8 @@ public static class DependencyInjection
     public static IServiceCollection AddApiServices(this IServiceCollection services)
     {
         services.AddControllers();
+
+        services.AddExceptionHandler<CustomExceptionHandler>();
 
         services.AddSwaggerGen(options =>
         {
@@ -94,6 +97,8 @@ public static class DependencyInjection
         app.UseAuthorization();
 
         app.MapControllers();
+
+        app.UseExceptionHandler(options => { });
 
         return app;
     }

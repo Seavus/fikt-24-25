@@ -29,15 +29,9 @@ public class AccountController : BaseController
         {
             return BadRequest("Invalid data request.");
         }
-        try
-        {
-            var result = new RegisterUserResponse(Guid.NewGuid());
-            return Created($"api/users/{result.Id}", result);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred:  {ex.Message}");
-        }
+
+        var result = new RegisterUserResponse(Guid.NewGuid());
+        return Created($"api/users/{result.Id}", result);
     }
 
     /// <summary>
@@ -58,18 +52,12 @@ public class AccountController : BaseController
         {
             return BadRequest("Invalid login request.");
         }
-        try
+
+        if (request.Email == "admin" && request.Password == "admin")
         {
-            if (request.Email == "admin" && request.Password == "admin")
-            {
-                var result = new LoginUserResponse("mocked-jwt-token");
-                return Ok(result);
-            }
-            return Unauthorized("Invalid credentials.");
+            var result = new LoginUserResponse("mocked-jwt-token");
+            return Ok(result);
         }
-        catch (Exception ex)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred: {ex.Message}");
-        }
+        return Unauthorized("Invalid credentials.");
     }
 }
