@@ -36,14 +36,8 @@ public class CustomExceptionHandler : IExceptionHandler
 
         if (exception is ValidationException validationException)
         {
-            var errors = validationException.Errors
-                .GroupBy(e => e.PropertyName)
-                .ToDictionary(
-                    group => group.Key,
-                    group => group.Select(e => e.ErrorMessage).ToArray()
-                );
-
-            problemDetails.Extensions["validationErrors"] = errors;
+            var validationErrors = validationException.Errors.Select(x => new { x.PropertyName, x.ErrorMessage });
+            problemDetails.Extensions.Add("validationErrors", validationErrors);
         }
 
         await context.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
