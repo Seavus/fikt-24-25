@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Reflection;
+using BudgetManager.Infrastructure.Data.Extensions;
 using BudgetManager.Application.Exceptions.Handler;
 
 namespace BudgetManager.Infrastructure;
@@ -141,7 +142,6 @@ public static class DependencyInjection
         return services;
     }
 
-
     private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
@@ -150,5 +150,14 @@ public static class DependencyInjection
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
         return services;
+    }
+
+    public static async Task InitializeDatabaseAsync(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+        await context.Database.MigrateAsync();
+        await DatabaseExtensions.SeedAsync(context);
     }
 }
