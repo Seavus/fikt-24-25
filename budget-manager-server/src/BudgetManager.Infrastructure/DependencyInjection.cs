@@ -30,6 +30,8 @@ public static class DependencyInjection
     {
         services.AddControllers();
 
+        services.AddExceptionHandler<CustomExceptionHandler>();
+
         services.AddSwaggerGen(options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo
@@ -94,6 +96,8 @@ public static class DependencyInjection
         app.UseAuthorization();
 
         app.MapControllers();
+
+        app.UseExceptionHandler(options => { });
 
         return app;
     }
