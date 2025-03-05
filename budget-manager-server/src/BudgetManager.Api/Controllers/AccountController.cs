@@ -42,7 +42,7 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult Login([FromBody] LoginUserRequest request)
+    public async Task <IActionResult> Login([FromBody] LoginUserRequest request)
     {
         if (request == null)
         {
@@ -53,11 +53,17 @@ public class AccountController : BaseController
             return BadRequest("Invalid login request.");
         }
 
-        if (request.Email == "admin" && request.Password == "admin")
+        var query = new LoginUserQuery(request.Email, request.Password);
+
+        try
         {
-            var result = new LoginUserResponse("mocked-jwt-token");
-            return Ok(result);
+            var response = await Mediator.Send(query);
+            return Ok(response);
         }
-        return Unauthorized("Invalid credentials.");
+        catch (UnauthorizedAccessException)
+        {
+
+            return Unauthorized("Invalid credentials.");
+        }
     }
 }

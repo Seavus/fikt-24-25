@@ -11,6 +11,8 @@ using System.Text;
 using System.Reflection;
 using BudgetManager.Infrastructure.Data.Extensions;
 using BudgetManager.Application.Exceptions.Handler;
+using AutoMapper;
+using BudgetManager.Application.Users.LoginUser;
 
 namespace BudgetManager.Infrastructure;
 
@@ -139,6 +141,11 @@ public static class DependencyInjection
     private static IServiceCollection AddMapping(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(DependencyInjection).Assembly);
+
+        var mapperConfig = new MapperConfiguration(cfg =>
+        {
+            cfg.CreateMap<LoginUserRequest, LoginUserQuery>();
+        });
         return services;
     }
 
