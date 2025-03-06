@@ -25,27 +25,10 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async  Task<IActionResult> Register([FromBody] RegisterUserRequest request)
     {
-        if (request == null)
-        {
-            throw new ArgumentNullException(nameof(request));
-        }
-        if (string.IsNullOrWhiteSpace(request.FirstName) || string.IsNullOrWhiteSpace(request.LastName) || string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
-        {
-            return BadRequest("Invalid data request.");
-        }
-
-        try
-        {
             var command = _mapper.Map<RegisterUserCommand>(request);
             var result = await _mediator.Send(command);
 
             return Created($"api/users/{result.Id}", result);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred:  {ex.Message}");
-        }
-
     }
 
     /// <summary>
