@@ -1,4 +1,11 @@
 <mat-form-field appearance="fill">
   <mat-label>{{ label }}</mat-label>
-  <input matInput [type]="type" [(ngModel)]="value" [placeholder]="placeholder" [required]="required" />
+  <input
+    matInput
+    [type]="type"
+    [placeholder]="placeholder"
+    [value]="value || ''"
+    (input)="onInputChange($event)"
+    (blur)="onTouched()"
+  />
 </mat-form-field>

@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace BudgetManager.Domain.Abstractions;
 
 public abstract class Aggregate<T> : Entity<T>, IAggregate<T>
