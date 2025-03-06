@@ -23,3 +23,11 @@ ex: cd C:\Projects\Courses\BudgetManager\budget-manager-server
 ex: docker-compose up
 
 ## 4. To stop container use ctrl+c from your keyboard
+
+# Run Api using Visual Studio Code
+
+1. Open project using Visual Studio Code
+2. Open new terminal using Terminal-> New terminal
+3. Navigate to budget-manager-server\src\BudgetManager.Api with cd budget-manager-server\src\BudgetManager.Api
+4. Type dotnet run in terminal
+5. Swagger url for budget manager api: https://localhost:7188/swagger/index.html  
