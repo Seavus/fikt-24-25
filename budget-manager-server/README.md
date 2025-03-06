@@ -36,3 +36,4 @@ ex: docker-compose up
 
 1. Set BudgetManager.Api as start up project
 2. Run the project using F5 or Debug -> Start Debugging
+3. Swagger url should be open 
