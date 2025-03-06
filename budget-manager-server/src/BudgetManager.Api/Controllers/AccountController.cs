@@ -33,6 +33,7 @@ public class AccountController : BaseController
         {
             return BadRequest("Invalid data request.");
         }
+
         try
         {
             var command = _mapper.Map<RegisterUserCommand>(request);
@@ -44,6 +45,7 @@ public class AccountController : BaseController
         {
             return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred:  {ex.Message}");
         }
+
     }
 
     /// <summary>
@@ -64,18 +66,12 @@ public class AccountController : BaseController
         {
             return BadRequest("Invalid login request.");
         }
-        try
+
+        if (request.Email == "admin" && request.Password == "admin")
         {
-            if (request.Email == "admin" && request.Password == "admin")
-            {
-                var result = new LoginUserResponse("mocked-jwt-token");
-                return Ok(result);
-            }
-            return Unauthorized("Invalid credentials.");
+            var result = new LoginUserResponse("mocked-jwt-token");
+            return Ok(result);
         }
-        catch (Exception ex)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred: {ex.Message}");
-        }
+        return Unauthorized("Invalid credentials.");
     }
 }
