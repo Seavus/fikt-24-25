@@ -10,6 +10,8 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Reflection;
 using BudgetManager.Infrastructure.Data.Extensions;
+using AutoMapper;
+using BudgetManager.Application.Users.RegisterUser;
 
 namespace BudgetManager.Infrastructure;
 
@@ -133,7 +135,12 @@ public static class DependencyInjection
 
     private static IServiceCollection AddMapping(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(DependencyInjection).Assembly);
+        services.AddAutoMapper(cfg =>
+        {
+            cfg.CreateMap<RegisterUserRequest, RegisterUserCommand>(); 
+        }, typeof(DependencyInjection).Assembly);
+
+
         return services;
     }
 

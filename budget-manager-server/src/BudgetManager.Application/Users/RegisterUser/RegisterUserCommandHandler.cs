@@ -11,20 +11,20 @@ namespace BudgetManager.Application.Users.RegisterUser
 
         public RegisterUserCommandHandler(IApplicationDbContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task<RegisterUserResponse> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             var user = User.Create(
-                new UserId(Guid.NewGuid()),  
+                UserId.Create(Guid.NewGuid()),  
                 request.Firstname,
                 request.Lastname,
                 request.Email,
                 request.Password
             );
 
-            _context.Users.Add(user);
+            await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync(cancellationToken);
 
             return new RegisterUserResponse(user.Id.Value); 

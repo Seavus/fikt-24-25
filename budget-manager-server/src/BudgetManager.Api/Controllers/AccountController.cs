@@ -1,7 +1,5 @@
 ﻿using BudgetManager.Application.Users.RegisterUser;
 using BudgetManager.Application.Users.LoginUser;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace BudgetManager.Api.Controllers;
 
@@ -10,7 +8,13 @@ namespace BudgetManager.Api.Controllers;
 [Tags("User Management")]
 public class AccountController : BaseController
 {
-    public AccountController(IMapper mapper, ISender mediator) : base(mapper, mediator) { }
+    private readonly IMapper _mapper;
+    private readonly ISender _mediator;
+    public AccountController(IMapper mapper, ISender mediator) : base(mapper, mediator)
+    {
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+    }
 
     /// <summary>
     /// Registers a new user.
@@ -19,7 +23,7 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RegisterUserResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult Register([FromBody] RegisterUserRequest request)
+    public async  Task<IActionResult> Register([FromBody] RegisterUserRequest request)
     {
         if (request == null)
         {
@@ -31,7 +35,9 @@ public class AccountController : BaseController
         }
         try
         {
-            var result = new RegisterUserResponse(Guid.NewGuid());
+            var command = _mapper.Map<RegisterUserCommand>(request);
+            var result = await _mediator.Send(command);
+
             return Created($"api/users/{result.Id}", result);
         }
         catch (Exception ex)
