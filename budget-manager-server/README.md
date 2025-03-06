@@ -31,3 +31,8 @@ ex: docker-compose up
 3. Navigate to budget-manager-server\src\BudgetManager.Api with cd budget-manager-server\src\BudgetManager.Api
 4. Type dotnet run in terminal
 5. Swagger url for budget manager api: https://localhost:7188/swagger/index.html  
+
+# Run Api using Visual Studio
+
+1. Set BudgetManager.Api as start up project
+2. Run the project using F5 or Debug -> Start Debugging
