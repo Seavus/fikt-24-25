@@ -25,10 +25,10 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async  Task<IActionResult> Register([FromBody] RegisterUserRequest request)
     {
-            var command = _mapper.Map<RegisterUserCommand>(request);
-            var result = await _mediator.Send(command);
+        var command = _mapper.Map<RegisterUserCommand>(request);
+        var result = await _mediator.Send(command);
 
-            return Created($"api/users/{result.Id}", result);
+        return Created($"api/users/{result.Id}", result);
     }
 
     /// <summary>
