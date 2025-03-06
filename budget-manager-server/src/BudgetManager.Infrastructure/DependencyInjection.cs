@@ -1,14 +1,18 @@
 using BudgetManager.Application.Services;
+using BudgetManager.Application.Data;
 using BudgetManager.Infrastructure.Services;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using BudgetManager.Infrastructure.Data;
+using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Text;
 using System.Reflection;
-using System.IO;
-using Microsoft.Extensions.Hosting;
+using BudgetManager.Infrastructure.Data.Extensions;
+using AutoMapper;
+using BudgetManager.Application.Users.RegisterUser;
+using BudgetManager.Application.Exceptions.Handler;
 
 namespace BudgetManager.Infrastructure;
 
@@ -17,8 +21,10 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services
+            .AddDatabase(configuration)
             .AddBudgetManagerAuth(configuration)
-            .AddApiServices();
+            .AddApiServices()
+            .AddMapping();
 
         return services;
     }
@@ -26,6 +32,8 @@ public static class DependencyInjection
     public static IServiceCollection AddApiServices(this IServiceCollection services)
     {
         services.AddControllers();
+
+        services.AddExceptionHandler<CustomExceptionHandler>();
 
         services.AddSwaggerGen(options =>
         {
@@ -61,8 +69,8 @@ public static class DependencyInjection
                 }
             });
 
-            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            var xmlFile = $"{Assembly.GetEntryAssembly()!.GetName().Name}.xml";
+            var xmlPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location) ?? string.Empty, xmlFile);
             if (File.Exists(xmlPath))
             {
                 options.IncludeXmlComments(xmlPath);
@@ -91,6 +99,8 @@ public static class DependencyInjection
         app.UseAuthorization();
 
         app.MapControllers();
+
+        app.UseExceptionHandler(options => { });
 
         return app;
     }
@@ -126,5 +136,35 @@ public static class DependencyInjection
            });
 
         return services;
+    }
+
+    private static IServiceCollection AddMapping(this IServiceCollection services)
+    {
+        services.AddAutoMapper(cfg =>
+        {
+            cfg.CreateMap<RegisterUserRequest, RegisterUserCommand>(); 
+        }, typeof(DependencyInjection).Assembly);
+
+
+        return services;
+    }
+
+    private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+
+        return services;
+    }
+
+    public static async Task InitializeDatabaseAsync(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+        await context.Database.MigrateAsync();
+        await DatabaseExtensions.SeedAsync(context);
     }
 }
