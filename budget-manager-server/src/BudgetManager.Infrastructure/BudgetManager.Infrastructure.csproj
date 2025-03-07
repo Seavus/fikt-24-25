@@ -11,9 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Middlewares\" />
     <Folder Include="Settings\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
