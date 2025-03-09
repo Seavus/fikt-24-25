@@ -140,12 +140,11 @@ public static class DependencyInjection
 
     private static IServiceCollection AddMapping(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(DependencyInjection).Assembly);
-
-        var mapperConfig = new MapperConfiguration(cfg =>
+        services.AddAutoMapper(cfg =>
         {
             cfg.CreateMap<LoginUserRequest, LoginUserQuery>();
-        });
+        }, typeof(DependencyInjection));
+        
         return services;
     }
 

@@ -20,7 +20,7 @@ public class LogInUserHandler : IRequestHandler<LoginUserQuery, LoginUserRespons
         var user = await _dbcontext.Users
         .FirstOrDefaultAsync(u => u.Email == request.Email, cancellationToken);
 
-        if (user == null || !VerifyPassword(user, request.Password))
+        if (user == null || !user.Password.Equals(request.Password))
         {
             throw new UnauthorizedAccessException("Invalid e-mail or password.");
         }

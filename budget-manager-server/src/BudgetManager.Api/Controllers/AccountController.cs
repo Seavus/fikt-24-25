@@ -44,26 +44,9 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task <IActionResult> Login([FromBody] LoginUserRequest request)
     {
-        if (request == null)
-        {
-            throw new ArgumentNullException(nameof(request));
-        }
-        if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
-        {
-            return BadRequest("Invalid login request.");
-        }
+        var query = Mapper.Map<LoginUserQuery>(request);
 
-        var query = new LoginUserQuery(request.Email, request.Password);
-
-        try
-        {
-            var response = await Mediator.Send(query);
-            return Ok(response);
-        }
-        catch (UnauthorizedAccessException)
-        {
-
-            return Unauthorized("Invalid credentials.");
-        }
+        var response = await Mediator.Send(query);
+        return Ok(response);
     }
 }
