@@ -13,6 +13,8 @@ using BudgetManager.Infrastructure.Data.Extensions;
 using AutoMapper;
 using BudgetManager.Application.Users.RegisterUser;
 using BudgetManager.Application.Exceptions.Handler;
+using BudgetManager.Infrastructure.Extensions;
+using BudgetManager.Infrastructure.Middlewares;
 
 namespace BudgetManager.Infrastructure;
 
@@ -77,6 +79,8 @@ public static class DependencyInjection
             }
         });
 
+        services.AddCurrentUser();
+
         return services;
     }
 
@@ -97,6 +101,8 @@ public static class DependencyInjection
         app.UseAuthentication();
 
         app.UseAuthorization();
+
+        app.UseCurrentUser();
 
         app.MapControllers();
 
@@ -121,12 +127,12 @@ public static class DependencyInjection
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>
            {
-               options.RequireHttpsMetadata = false;  
+               options.RequireHttpsMetadata = false;
                options.SaveToken = true;
                options.TokenValidationParameters = new TokenValidationParameters
                {
                    ValidateIssuer = true,
-                   ValidateAudience = true, 
+                   ValidateAudience = true,
                    ValidateLifetime = true,
                    ValidateIssuerSigningKey = true,
                    ValidIssuer = jwtOptions.Issuer,
@@ -142,7 +148,7 @@ public static class DependencyInjection
     {
         services.AddAutoMapper(cfg =>
         {
-            cfg.CreateMap<RegisterUserRequest, RegisterUserCommand>(); 
+            cfg.CreateMap<RegisterUserRequest, RegisterUserCommand>();
         }, typeof(DependencyInjection).Assembly);
 
 
@@ -166,5 +172,17 @@ public static class DependencyInjection
 
         await context.Database.MigrateAsync();
         await DatabaseExtensions.SeedAsync(context);
+    }
+
+    private static IApplicationBuilder UseCurrentUser(this IApplicationBuilder app)
+    {
+        return app.UseMiddleware<CurrentUserMiddleware>();
+    }
+
+    private static IServiceCollection AddCurrentUser(this IServiceCollection services)
+    {
+        services.AddScoped<ICurrentUser, CurrentUser>();
+        services.AddScoped<CurrentUserMiddleware>();
+        return services;
     }
 }
