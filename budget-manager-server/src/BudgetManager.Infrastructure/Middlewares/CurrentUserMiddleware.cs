@@ -1,21 +1,19 @@
 ﻿using Microsoft.AspNetCore.Http;
 using BudgetManager.Application.Services;
 
-namespace BudgetManager.Infrastructure.Middlewares
+namespace BudgetManager.Infrastructure.Middlewares;
+public class CurrentUserMiddleware : IMiddleware
 {
-    public class CurrentUserMiddleware : IMiddleware
+    private readonly ICurrentUser _currentUser;
+
+    public CurrentUserMiddleware(ICurrentUser currentUser)
     {
-        private readonly ICurrentUser _currentUser;
+        _currentUser = currentUser;
+    }
 
-        public CurrentUserMiddleware(ICurrentUser currentUser)
-        {
-            _currentUser = currentUser;
-        }
-
-        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
-        {
-            _currentUser.SetUser(context.User);
-            await next(context);
-        }
+    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+    {
+        _currentUser.SetUser(context.User);
+        await next(context);
     }
 }
