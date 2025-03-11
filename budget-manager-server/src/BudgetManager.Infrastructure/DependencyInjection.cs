@@ -174,12 +174,12 @@ public static class DependencyInjection
         await DatabaseExtensions.SeedAsync(context);
     }
 
-    public static IApplicationBuilder UseCurrentUser(this IApplicationBuilder app)
+    private static IApplicationBuilder UseCurrentUser(this IApplicationBuilder app)
     {
         return app.UseMiddleware<CurrentUserMiddleware>();
     }
 
-    public static IServiceCollection AddCurrentUser(this IServiceCollection services)
+    private static IServiceCollection AddCurrentUser(this IServiceCollection services)
     {
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<CurrentUserMiddleware>();
