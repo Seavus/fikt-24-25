@@ -1,7 +1,5 @@
 ﻿using BudgetManager.Application.Users.RegisterUser;
 using BudgetManager.Application.Users.LoginUser;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace BudgetManager.Api.Controllers;
 

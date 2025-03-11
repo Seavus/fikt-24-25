@@ -1,6 +1,5 @@
 ﻿using BudgetManager.Application.Data;
 using BudgetManager.Application.Services;
-using BudgetManager.Domain.Models;
 
 namespace BudgetManager.Application.Users.LoginUser;
 
@@ -28,10 +27,4 @@ public class LogInUserHandler : IRequestHandler<LoginUserQuery, LoginUserRespons
 
         return new LoginUserResponse(token);
     }
-
-    private bool VerifyPassword(User user, string password)
-    {
-        return user.Password == password;
-    }
 }
-
