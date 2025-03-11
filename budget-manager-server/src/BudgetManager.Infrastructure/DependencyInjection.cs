@@ -10,6 +10,8 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Reflection;
 using BudgetManager.Infrastructure.Data.Extensions;
+using AutoMapper;
+using BudgetManager.Application.Users.RegisterUser;
 using BudgetManager.Application.Exceptions.Handler;
 using AutoMapper;
 using BudgetManager.Application.Users.LoginUser;
@@ -138,13 +140,14 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddMapping(this IServiceCollection services)
+     private static IServiceCollection AddMapping(this IServiceCollection services)
     {
         services.AddAutoMapper(cfg =>
         {
-            cfg.CreateMap<LoginUserRequest, LoginUserQuery>();
-        }, typeof(DependencyInjection));
-        
+          cfg.CreateMap<LoginUserRequest, LoginUserQuery>();
+          cfg.CreateMap<RegisterUserRequest, RegisterUserCommand>();
+        }, typeof(DependencyInjection).Assembly);
+
         return services;
     }
 
