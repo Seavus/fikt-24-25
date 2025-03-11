@@ -13,6 +13,7 @@ using BudgetManager.Infrastructure.Data.Extensions;
 using AutoMapper;
 using BudgetManager.Application.Users.RegisterUser;
 using BudgetManager.Application.Exceptions.Handler;
+using BudgetManager.Infrastructure.Extensions;
 
 namespace BudgetManager.Infrastructure;
 
@@ -77,6 +78,8 @@ public static class DependencyInjection
             }
         });
 
+        services.AddCurrentUser();
+
         return services;
     }
 
@@ -97,6 +100,8 @@ public static class DependencyInjection
         app.UseAuthentication();
 
         app.UseAuthorization();
+
+        app.UseCurrentUser();
 
         app.MapControllers();
 
