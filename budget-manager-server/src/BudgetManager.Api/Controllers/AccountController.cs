@@ -39,22 +39,11 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult Login([FromBody] LoginUserRequest request)
+    public async Task <IActionResult> Login([FromBody] LoginUserRequest request)
     {
-        if (request == null)
-        {
-            throw new ArgumentNullException(nameof(request));
-        }
-        if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
-        {
-            return BadRequest("Invalid login request.");
-        }
+        var query = Mapper.Map<LoginUserQuery>(request);
 
-        if (request.Email == "admin" && request.Password == "admin")
-        {
-            var result = new LoginUserResponse("mocked-jwt-token");
-            return Ok(result);
-        }
-        return Unauthorized("Invalid credentials.");
+        var response = await Mediator.Send(query);
+        return Ok(response);
     }
 }
