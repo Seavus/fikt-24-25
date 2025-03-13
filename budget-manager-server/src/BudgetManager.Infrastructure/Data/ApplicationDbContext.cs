@@ -1,8 +1,6 @@
 ﻿using BudgetManager.Domain.Models;
 using BudgetManager.Application.Data;
 using Microsoft.EntityFrameworkCore;
-using BudgetManager.Domain.Models.ValueObjects;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BudgetManager.Infrastructure.Data;
 

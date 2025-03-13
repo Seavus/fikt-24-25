@@ -1,7 +1,5 @@
 ﻿using BudgetManager.Application.Users.RegisterUser;
 using BudgetManager.Application.Users.LoginUser;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace BudgetManager.Api.Controllers;
 
@@ -10,7 +8,13 @@ namespace BudgetManager.Api.Controllers;
 [Tags("User Management")]
 public class AccountController : BaseController
 {
-    public AccountController(IMapper mapper, ISender mediator) : base(mapper, mediator) { }
+    private readonly IMapper _mapper;
+    private readonly ISender _mediator;
+    public AccountController(IMapper mapper, ISender mediator) : base(mapper, mediator)
+    {
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+    }
 
     /// <summary>
     /// Registers a new user.
@@ -19,18 +23,11 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RegisterUserResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult Register([FromBody] RegisterUserRequest request)
+    public async  Task<IActionResult> Register([FromBody] RegisterUserRequest request)
     {
-        if (request == null)
-        {
-            throw new ArgumentNullException(nameof(request));
-        }
-        if (string.IsNullOrWhiteSpace(request.FirstName) || string.IsNullOrWhiteSpace(request.LastName) || string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
-        {
-            return BadRequest("Invalid data request.");
-        }
+        var command = _mapper.Map<RegisterUserCommand>(request);
+        var result = await _mediator.Send(command);
 
-        var result = new RegisterUserResponse(Guid.NewGuid());
         return Created($"api/users/{result.Id}", result);
     }
 
@@ -42,22 +39,11 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult Login([FromBody] LoginUserRequest request)
+    public async Task <IActionResult> Login([FromBody] LoginUserRequest request)
     {
-        if (request == null)
-        {
-            throw new ArgumentNullException(nameof(request));
-        }
-        if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
-        {
-            return BadRequest("Invalid login request.");
-        }
+        var query = Mapper.Map<LoginUserQuery>(request);
 
-        if (request.Email == "admin" && request.Password == "admin")
-        {
-            var result = new LoginUserResponse("mocked-jwt-token");
-            return Ok(result);
-        }
-        return Unauthorized("Invalid credentials.");
+        var response = await Mediator.Send(query);
+        return Ok(response);
     }
 }
