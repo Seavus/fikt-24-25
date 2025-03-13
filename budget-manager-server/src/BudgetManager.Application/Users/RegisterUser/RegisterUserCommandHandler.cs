@@ -1,5 +1,4 @@
 ﻿using BudgetManager.Domain.Models;
-using MediatR;
 using BudgetManager.Application.Data;
 using BudgetManager.Domain.Models.ValueObjects;
 
@@ -17,8 +16,8 @@ internal sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserC
     {
         var user = User.Create(
             UserId.Create(Guid.NewGuid()),
-            request.Firstname,
-            request.Lastname,
+            request.FirstName,
+            request.LastName,
             request.Email,
             request.Password
         );
