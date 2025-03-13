@@ -4,12 +4,11 @@ public class RegisterCommandValidator : AbstractValidator<RegisterUserCommand>
     public RegisterCommandValidator()
     {
         RuleFor(x => x.FirstName)
-         .NotEmpty().WithMessage("First name is required.")
-         .MinimumLength(2).WithMessage("First name must be at least 2 characters long.");
+         .NotEmpty().WithMessage("First name is required.");
+        
 
         RuleFor(x => x.LastName)
-            .NotEmpty().WithMessage("Last name is required.")
-            .MinimumLength(2).WithMessage("Last name must be at least 2 characters long.");
+            .NotEmpty().WithMessage("Last name is required.");
 
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Email is required.")

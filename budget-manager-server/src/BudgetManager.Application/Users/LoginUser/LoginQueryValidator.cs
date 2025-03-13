@@ -8,6 +8,7 @@ public class LoginQueryValidator : AbstractValidator<LoginUserQuery>
             .EmailAddress().WithMessage("Invalid email format.");
 
         RuleFor(x => x.Password)
-            .NotEmpty().WithMessage("Password is required.");
+            .NotEmpty().WithMessage("Password is required.")
+            .MinimumLength(4).WithMessage("Password must be at least 4 characters long.");
     }
 }
