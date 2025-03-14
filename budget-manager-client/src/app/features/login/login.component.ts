@@ -1,7 +1,6 @@
 import {
   FormBuilder,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -10,6 +9,7 @@ import { ButtonComponent } from '../../shared/components/button/button.component
 import { Component } from '@angular/core';
 import { InputComponent } from '../../shared/components/input/input.component';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule,
     ReactiveFormsModule,
     ButtonComponent,
+    RouterModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
