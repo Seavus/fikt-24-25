@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SidebarComponent } from './core/sidebar/sidebar.component';
-import { ButtonComponent } from './shared/components/button/button.component';
 import { PopupData } from './shared/components/dynamic-popup/popup-data.model';
-
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-root',
-  imports: [SidebarComponent, CommonModule, ButtonComponent],
+  imports: [SidebarComponent, CommonModule, MatSidenavModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -17,6 +16,7 @@ export class AppComponent {
   isPopupOpen: boolean = false;
   popupTitle: string = "Dynamic Popup Title";
   popupData: PopupData = new PopupData("Hello! This is a dynamic popup.");
+  isMenuOpened = false;
 
   constructor() {
     console.log(this.popupData.message);
@@ -25,5 +25,10 @@ export class AppComponent {
   togglePopup() {
     this.isPopupOpen = !this.isPopupOpen;
   }
-}
 
+  toggleMenu() {
+    if (window.innerWidth < 1024) {
+      this.isMenuOpened = !this.isMenuOpened;
+    }
+  }
+}

@@ -1,20 +1,46 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-  
-  mat-sidenav-container {
-    min-height: 100vh; 
-  }
-  
+@import "../styles/base/variables.scss";
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: hidden;
+}
+
+mat-sidenav-container {
+  min-height: 100vh;
+
   mat-sidenav {
-    height: 100vh; 
+    position: fixed;
+    width: 20vw;
   }
-  
+
   mat-sidenav-content {
     height: 100vh;
-    overflow: auto;
+    overflow-y: auto;
+    position: absolute;
+    max-width:79vw;
+    width:100%;
+    right:0;
   }
-  
+}
+
+@media screen and (max-width: 1024px) {
+  mat-sidenav {
+    width: 15vw !important;
+    transition: width 0.3s linear;
+  }
+
+  .sidenav-expanded {
+    width: 40vw !important;
+  }
+
+  .sidenav-collapsed {
+    width: 15vw !important;
+  }
+
+  mat-sidenav-content {
+    max-width:84vw !important;
+  }
+}
+

@@ -1,1 +1,4 @@
-<app-sidebar></app-sidebar>
+<mat-sidenav-container>
+    <mat-sidenav [ngClass]="{'sidenav-expanded': isMenuOpened, 'sidenav-collapsed': !isMenuOpened}" [mode]="isMenuOpened ? 'over' : 'side'"  opened>
+        <app-sidebar (toggleMenu)="toggleMenu()"></app-sidebar>
+    </mat-sidenav>
