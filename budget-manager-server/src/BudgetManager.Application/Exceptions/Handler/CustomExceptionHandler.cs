@@ -22,14 +22,14 @@ public class CustomExceptionHandler : IExceptionHandler
             ValidationException => StatusCodes.Status400BadRequest,
             NotFoundException => StatusCodes.Status404NotFound,
             UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
-            DomainException => StatusCodes.Status500InternalServerError,
+            DomainException => StatusCodes.Status400BadRequest,
             _ => StatusCodes.Status500InternalServerError
         };
 
         var problemDetails = new ProblemDetails
         {
-            Title = exception.Message,
-            Detail = exception.GetType().Name,
+            Title = exception.GetType().Name,
+            Detail = exception.Message,
             Status = statusCode,
             Instance = context.Request.Path
         };
