@@ -3,11 +3,20 @@
   <div class="registration-form">
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <app-input
-        label="Full Name"
-        placeholder="Enter your full name"
+        label="First Name"
+        placeholder="Enter your first name"
         type="text"
         [required]="true"
-        formControlName="fullName"
+        formControlName="firstName"
+      >
+      </app-input>
+
+      <app-input
+        label="Last Name"
+        placeholder="Enter your last name"
+        type="text"
+        [required]="true"
+        formControlName="lastName"
       >
       </app-input>
 
