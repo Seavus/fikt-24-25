@@ -1,5 +1,6 @@
 ﻿using BudgetManager.Application.Users.RegisterUser;
 using BudgetManager.Application.Users.LoginUser;
+using BudgetManager.Application.Users.DeleteUser;
 
 namespace BudgetManager.Api.Controllers;
 
@@ -45,5 +46,22 @@ public class AccountController : BaseController
 
         var response = await Mediator.Send(query);
         return Ok(response);
+    }
+
+    /// <summary>
+    /// Deletes a user.
+    /// </summary>
+    [HttpDelete("id:guid")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> DeleteUser(Guid id)
+    {
+        var command = new DeleteUserCommand(id);
+
+        await _mediator.Send(command);
+
+        return Ok();
     }
 }
