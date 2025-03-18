@@ -59,6 +59,7 @@ public class AccountController : BaseController
     public async Task<IActionResult> DeleteUser(Guid id)
     {
         var command = new DeleteUserCommand(id);
+        var result = await _mediator.Send(command);
 
         await _mediator.Send(command);
 
