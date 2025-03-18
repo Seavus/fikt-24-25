@@ -1,6 +1,8 @@
 ﻿using BudgetManager.Application.Users.RegisterUser;
 using BudgetManager.Application.Users.LoginUser;
 using BudgetManager.Application.Users.DeleteUser;
+using BudgetManager.Application.Users.UpdateUser;
+using BudgetManager.Domain.Models.ValueObjects;
 
 namespace BudgetManager.Api.Controllers;
 
@@ -24,7 +26,7 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RegisterUserResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async  Task<IActionResult> Register([FromBody] RegisterUserRequest request)
+    public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
     {
         var command = _mapper.Map<RegisterUserCommand>(request);
         var result = await _mediator.Send(command);
@@ -40,11 +42,11 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task <IActionResult> Login([FromBody] LoginUserRequest request)
+    public async Task<IActionResult> Login([FromBody] LoginUserRequest request)
     {
-        var query = Mapper.Map<LoginUserQuery>(request);
+        var query = _mapper.Map<LoginUserQuery>(request);
 
-        var response = await Mediator.Send(query);
+        var response = await mediator.Send(query);
         return Ok(response);
     }
 
@@ -58,9 +60,23 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
-        var command = Mapper.Map<DeleteUserCommand>(id);
+        var command = _mapper.Map<DeleteUserCommand>(id);
         var result = await _mediator.Send(command);
 
         return Ok("Account successfully deleted.");
+    }
+    /// Updates an existing user's first name and last name.
+    /// </summary>
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateUserResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest request)
+    {
+        var command = _mapper.Map<UpdateUserCommand>(request);
+        var response = await _mediator.Send(command);
+
+        return Ok(response);
     }
 }
