@@ -52,16 +52,16 @@ public class AccountController : BaseController
     /// <summary>
     /// Updates an existing user's first name and last name.
     /// </summary>
-    [HttpPut("{id}")]
+    [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateUserResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> UpdateUser(
-     [FromRoute] UserId id, 
-     [FromBody] UpdateUserRequest request) 
+    public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest request)
     {
-        var command = new UpdateUserCommand(id, request.FirstName, request.LastName);
+        var userId = UserId.Create(request.UserId);
+
+        var command = new UpdateUserCommand(userId, request.FirstName, request.LastName);
         var response = await _mediator.Send(command);
 
         return Ok(response);

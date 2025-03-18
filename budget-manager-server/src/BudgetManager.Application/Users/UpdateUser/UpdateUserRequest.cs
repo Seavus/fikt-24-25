@@ -1,2 +1,2 @@
 ﻿namespace BudgetManager.Application.Users.UpdateUser;
-public record UpdateUserRequest(string FirstName, string LastName);
+public record UpdateUserRequest(Guid UserId, string FirstName, string LastName);

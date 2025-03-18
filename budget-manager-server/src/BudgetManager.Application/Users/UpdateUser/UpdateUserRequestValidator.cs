@@ -3,6 +3,9 @@ public class UpdateUserRequestValidator : AbstractValidator<UpdateUserRequest>
 {
     public UpdateUserRequestValidator()
     {
+        RuleFor(x => x.UserId)
+        .NotEmpty();
+
         RuleFor(x => x.FirstName)
         .NotEmpty()
         .WithMessage("First name is required.")
