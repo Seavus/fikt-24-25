@@ -1,7 +1,13 @@
-<h2>Dashboard</h2>
-<div class="dashboard">
-    <div *ngFor="let w of store.models; trackBy: trackById">
-      <app-widget [data]="w"></app-widget>
-    </div>
+<div class="dashboard-container">
+  <div class="chart-container">
+    <app-bar-chart [data]="barChartData"></app-bar-chart>
   </div>
-  
+
+  <div class="chart-container">
+    <app-line-chart [data]="lineChartData"></app-line-chart>
+  </div>
+
+  <div class="chart-container">
+    <app-doughnut-chart [data]="doughnutChartData"></app-doughnut-chart>
+  </div>
+</div>
