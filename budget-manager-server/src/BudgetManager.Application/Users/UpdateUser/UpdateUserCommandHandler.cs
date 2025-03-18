@@ -1,5 +1,6 @@
 ﻿using BudgetManager.Application.Data;
 using BudgetManager.Application.Exceptions;
+using BudgetManager.Domain.Models.ValueObjects;
 
 namespace BudgetManager.Application.Users.UpdateUser;
 
@@ -14,7 +15,9 @@ internal sealed class UpdateUserCommandHandler : IRequestHandler<UpdateUserComma
 
     public async Task<UpdateUserResponse> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
+        var userId = UserId.Create(request.UserId);
+
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
 
         if (user == null)
         {

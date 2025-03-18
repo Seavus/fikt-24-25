@@ -59,9 +59,7 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest request)
     {
-        var userId = UserId.Create(request.UserId);
-
-        var command = new UpdateUserCommand(userId, request.FirstName, request.LastName);
+        var command = _mapper.Map<UpdateUserCommand>(request);
         var response = await _mediator.Send(command);
 
         return Ok(response);
