@@ -63,7 +63,7 @@ public class AccountController : BaseController
         var command = _mapper.Map<DeleteUserCommand>(id);
         var result = await _mediator.Send(command);
 
-        return Ok("Account successfully deleted.");
+        return Ok(result);
     }
     /// Updates an existing user's first name and last name.
     /// </summary>
