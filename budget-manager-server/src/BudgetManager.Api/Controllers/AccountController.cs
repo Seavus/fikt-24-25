@@ -58,11 +58,9 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
-        var command = new DeleteUserCommand(id);
+        var command = Mapper.Map<DeleteUserCommand>(id);
         var result = await _mediator.Send(command);
 
-        await _mediator.Send(command);
-
-        return Ok();
+        return Ok("Account successfully deleted.");
     }
 }

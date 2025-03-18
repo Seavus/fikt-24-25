@@ -14,6 +14,8 @@ using BudgetManager.Application.Users.RegisterUser;
 using BudgetManager.Application.Exceptions.Handler;
 using BudgetManager.Infrastructure.Middlewares;
 using BudgetManager.Application.Users.LoginUser;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using BudgetManager.Application.Users.DeleteUser;
 
 namespace BudgetManager.Infrastructure;
 
@@ -149,6 +151,7 @@ public static class DependencyInjection
         {
           cfg.CreateMap<LoginUserRequest, LoginUserQuery>();
           cfg.CreateMap<RegisterUserRequest, RegisterUserCommand>();
+          cfg.CreateMap<Guid, DeleteUserCommand>();
         }, typeof(DependencyInjection).Assembly);
 
         return services;
