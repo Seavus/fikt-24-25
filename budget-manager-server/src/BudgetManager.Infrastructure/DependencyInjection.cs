@@ -14,6 +14,7 @@ using BudgetManager.Application.Users.RegisterUser;
 using BudgetManager.Application.Exceptions.Handler;
 using BudgetManager.Infrastructure.Middlewares;
 using BudgetManager.Application.Users.LoginUser;
+using BudgetManager.Application.Users.UpdateUser;
 
 namespace BudgetManager.Infrastructure;
 
@@ -143,12 +144,13 @@ public static class DependencyInjection
         return services;
     }
 
-     private static IServiceCollection AddMapping(this IServiceCollection services)
+    private static IServiceCollection AddMapping(this IServiceCollection services)
     {
         services.AddAutoMapper(cfg =>
         {
-          cfg.CreateMap<LoginUserRequest, LoginUserQuery>();
-          cfg.CreateMap<RegisterUserRequest, RegisterUserCommand>();
+            cfg.CreateMap<LoginUserRequest, LoginUserQuery>();
+            cfg.CreateMap<RegisterUserRequest, RegisterUserCommand>();
+            cfg.CreateMap<UpdateUserRequest, UpdateUserCommand>();
         }, typeof(DependencyInjection).Assembly);
 
         return services;
