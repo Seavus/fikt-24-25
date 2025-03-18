@@ -1,5 +1,7 @@
 ﻿using BudgetManager.Application.Users.RegisterUser;
 using BudgetManager.Application.Users.LoginUser;
+using BudgetManager.Application.Users.UpdateUser;
+using BudgetManager.Domain.Models.ValueObjects;
 
 namespace BudgetManager.Api.Controllers;
 
@@ -23,7 +25,7 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RegisterUserResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async  Task<IActionResult> Register([FromBody] RegisterUserRequest request)
+    public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
     {
         var command = _mapper.Map<RegisterUserCommand>(request);
         var result = await _mediator.Send(command);
@@ -39,11 +41,29 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task <IActionResult> Login([FromBody] LoginUserRequest request)
+    public async Task<IActionResult> Login([FromBody] LoginUserRequest request)
     {
         var query = Mapper.Map<LoginUserQuery>(request);
 
         var response = await Mediator.Send(query);
+        return Ok(response);
+    }
+
+    /// <summary>
+    /// Updates an existing user's first name and last name.
+    /// </summary>
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateUserResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> UpdateUser(
+     [FromRoute] UserId id, 
+     [FromBody] UpdateUserRequest request) 
+    {
+        var command = new UpdateUserCommand(id, request.FirstName, request.LastName);
+        var response = await _mediator.Send(command);
+
         return Ok(response);
     }
 }

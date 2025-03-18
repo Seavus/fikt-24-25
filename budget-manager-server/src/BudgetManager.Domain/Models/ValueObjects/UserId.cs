@@ -6,6 +6,8 @@ public class UserId
 {
     public Guid Value { get; }
 
+    private UserId() { }
+
     public UserId(Guid value)
     {
         Value = value;
