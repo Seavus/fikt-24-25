@@ -10,7 +10,7 @@ internal sealed class UpdateUserCommandHandler : IRequestHandler<UpdateUserComma
 
     public UpdateUserCommandHandler(IApplicationDbContext context)
     {
-        _context = context;
+        _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
     public async Task<UpdateUserResponse> Handle(UpdateUserCommand request, CancellationToken cancellationToken)

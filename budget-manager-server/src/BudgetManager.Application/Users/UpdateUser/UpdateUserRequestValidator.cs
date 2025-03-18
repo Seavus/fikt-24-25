@@ -4,13 +4,13 @@ public class UpdateUserRequestValidator : AbstractValidator<UpdateUserRequest>
     public UpdateUserRequestValidator()
     {
         RuleFor(x => x.UserId)
-        .NotEmpty();
+            .NotEmpty();
 
         RuleFor(x => x.FirstName)
-        .NotEmpty()
-        .WithMessage("First name is required.")
-        .MaximumLength(50)
-        .WithMessage("First name must be at maximum 50 characters long.");
+            .NotEmpty()
+            .WithMessage("First name is required.")
+            .MaximumLength(50)
+            .WithMessage("First name must be at maximum 50 characters long.");
 
         RuleFor(x => x.LastName)
             .NotEmpty()
