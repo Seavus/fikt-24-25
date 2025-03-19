@@ -11,12 +11,8 @@ namespace BudgetManager.Api.Controllers;
 [Tags("User Management")]
 public class AccountController : BaseController
 {
-    private readonly IMapper _mapper;
-    private readonly ISender _mediator;
     public AccountController(IMapper mapper, ISender mediator) : base(mapper, mediator)
     {
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
 
     /// <summary>
@@ -28,8 +24,9 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
     {
-        var command = _mapper.Map<RegisterUserCommand>(request);
-        var result = await _mediator.Send(command);
+        var command = Mapper.Map<RegisterUserCommand>(request);
+        
+        var result = await Mediator.Send(command);
 
         return Created($"api/users/{result.Id}", result);
     }
@@ -44,9 +41,10 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Login([FromBody] LoginUserRequest request)
     {
-        var query = _mapper.Map<LoginUserQuery>(request);
+        var query = Mapper.Map<LoginUserQuery>(request);
 
-        var response = await mediator.Send(query);
+        var response = await Mediator.Send(query);
+        
         return Ok(response);
     }
 
@@ -60,8 +58,9 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
-        var command = _mapper.Map<DeleteUserCommand>(id);
-        var result = await _mediator.Send(command);
+        var command = new DeleteUserCommand(id);
+        
+        var result = await Mediator.Send(command);
 
         return Ok(result);
     }
@@ -74,8 +73,9 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest request)
     {
-        var command = _mapper.Map<UpdateUserCommand>(request);
-        var response = await _mediator.Send(command);
+        var command = Mapper.Map<UpdateUserCommand>(request);
+        
+        var response = await Mediator.Send(command);
 
         return Ok(response);
     }

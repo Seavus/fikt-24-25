@@ -152,7 +152,6 @@ public static class DependencyInjection
         {
           cfg.CreateMap<LoginUserRequest, LoginUserQuery>();
           cfg.CreateMap<RegisterUserRequest, RegisterUserCommand>();
-          cfg.CreateMap<Guid, DeleteUserCommand>();
           cfg.CreateMap<UpdateUserRequest, UpdateUserCommand>();
         }, typeof(DependencyInjection).Assembly);
 
