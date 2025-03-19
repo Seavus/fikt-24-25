@@ -3,3 +3,7 @@ global using BudgetManager.Infrastructure;
 global using AutoMapper;
 global using MediatR;
 global using Microsoft.AspNetCore.Mvc;
+global using BudgetManager.Application.Users.RegisterUser;
+global using BudgetManager.Application.Users.LoginUser;
+global using BudgetManager.Application.Users.DeleteUser;
+global using BudgetManager.Application.Users.UpdateUser;
