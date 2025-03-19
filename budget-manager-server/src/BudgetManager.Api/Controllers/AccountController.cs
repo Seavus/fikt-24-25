@@ -1,10 +1,4 @@
-﻿using BudgetManager.Application.Users.RegisterUser;
-using BudgetManager.Application.Users.LoginUser;
-using BudgetManager.Application.Users.DeleteUser;
-using BudgetManager.Application.Users.UpdateUser;
-using BudgetManager.Domain.Models.ValueObjects;
-
-namespace BudgetManager.Api.Controllers;
+﻿namespace BudgetManager.Api.Controllers;
 
 [ApiController]
 [Route("api/account")]
@@ -64,6 +58,8 @@ public class AccountController : BaseController
 
         return Ok(result);
     }
+
+    /// <summary>
     /// Updates an existing user's first name and last name.
     /// </summary>
     [HttpPut]
