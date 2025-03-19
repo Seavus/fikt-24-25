@@ -13,7 +13,7 @@ public class Transaction : Aggregate<TransactionId>
 
     private Transaction(TransactionId id, CategoryId categoryId, string transactionType, DateTime transactionDate, decimal amount, string description)
     {
-        id = id;
+        Id = id;
         CategoryId = categoryId;
         TransactionType = transactionType;
         TransactionDate = transactionDate;
