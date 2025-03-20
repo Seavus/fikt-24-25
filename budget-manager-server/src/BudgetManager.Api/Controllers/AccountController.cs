@@ -7,6 +7,7 @@ namespace BudgetManager.Api.Controllers;
 [ApiController]
 [Route("api/account")]
 [Tags("User Management")]
+[Authorize]
 public class AccountController : BaseController
 {
     public AccountController(IMapper mapper, ISender mediator) : base(mapper, mediator)
@@ -20,6 +21,7 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RegisterUserResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AllowAnonymous]
     public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
     {
         var command = Mapper.Map<RegisterUserCommand>(request);
@@ -37,6 +39,7 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] LoginUserRequest request)
     {
         var query = Mapper.Map<LoginUserQuery>(request);
@@ -87,8 +90,7 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResponse<GetUsersResponse>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [Authorize]
-    [AllowAnonymous]
+    
     public async Task<IActionResult> GetUsers([FromQuery] GetUsersRequest request)
     {
         var query = Mapper.Map<GetUsersQuery>(request);
