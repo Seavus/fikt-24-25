@@ -158,7 +158,7 @@ namespace BudgetManager.Infrastructure.Data.Migrations
                     b.HasOne("BudgetManager.Domain.Models.Category", null)
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

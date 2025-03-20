@@ -31,8 +31,9 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
             .HasConversion(
             categoryId => categoryId.Value,
             dbId => CategoryId.Create(dbId));
+
         builder.HasOne<Category>()
             .WithMany()
-            .HasForeignKey(t => t.CategoryId)
+            .HasForeignKey(t => t.CategoryId);
     }
 }
