@@ -1,5 +1,6 @@
 ﻿using BudgetManager.Application.Common.Responses;
 using BudgetManager.Application.Users.GetUsers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BudgetManager.Api.Controllers;
 
@@ -85,8 +86,9 @@ public class AccountController : BaseController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResponse<GetUsersResponse>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize]
+    [AllowAnonymous]
     public async Task<IActionResult> GetUsers([FromQuery] GetUsersRequest request)
     {
         var query = Mapper.Map<GetUsersQuery>(request);
