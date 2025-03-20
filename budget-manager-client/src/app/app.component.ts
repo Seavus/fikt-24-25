@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { SidebarComponent } from './core/sidebar/sidebar.component';
 import { PopupData } from './shared/components/dynamic-popup/popup-data.model';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { LineChartComponent } from './shared/components/line-chart/line-chart.component';
 
 @Component({
   selector: 'app-root',
