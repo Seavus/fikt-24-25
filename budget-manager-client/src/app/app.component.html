@@ -2,4 +2,7 @@
     <mat-sidenav [ngClass]="{'sidenav-expanded': isMenuOpened, 'sidenav-collapsed': !isMenuOpened}" [mode]="isMenuOpened ? 'over' : 'side'"  opened>
         <app-sidebar (toggleMenu)="toggleMenu()"></app-sidebar>
     </mat-sidenav>
-
+    <mat-sidenav-content>	
+        <router-outlet></router-outlet>	
+    </mat-sidenav-content>	
+</mat-sidenav-container>
