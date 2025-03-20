@@ -1,12 +1,12 @@
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { Component } from '@angular/core';
 import { InputComponent } from '../../shared/components/input/input.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
-  imports: [ButtonComponent, InputComponent, ReactiveFormsModule],
+  imports: [ButtonComponent, InputComponent, ReactiveFormsModule,RouterModule],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss',
 })
