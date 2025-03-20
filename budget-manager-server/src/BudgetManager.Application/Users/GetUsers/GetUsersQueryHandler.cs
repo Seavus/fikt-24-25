@@ -19,7 +19,7 @@ internal sealed class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, Pagi
         int totalCount = await query.CountAsync(cancellationToken);
 
         var users = await query
-            .OrderBy(u => u.LastName)
+            .OrderBy(u => u.CreatedOn)
             .Skip((request.PageIndex - 1) * request.PageSize)
             .Take(request.PageSize)
             .Select(u => new GetUsersResponse(u.Id.Value, u.FirstName, u.LastName, u.Email))
