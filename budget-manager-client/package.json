@@ -9,7 +9,7 @@
     "test": "ng test"
   },
   "private": true,
- "dependencies": {
+  "dependencies": {
     "@angular/animations": "^19.1.6",
     "@angular/cdk": "^19.0.4",
     "@angular/common": "^19.1.6",
