@@ -1,9 +1,10 @@
 ﻿using BudgetManager.Application.Data;
 using BudgetManager.Application.Exceptions;
+using BudgetManager.Domain.Models.ValueObjects;
 
 namespace BudgetManager.Application.Users.GetUserById;
 
-public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, GetUserByIdResponse>
+internal sealed class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, GetUserByIdResponse>
 {
     private IApplicationDbContext _context;
 
@@ -14,9 +15,11 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, GetUserByIdR
 
     public async Task<GetUserByIdResponse> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
+        var userId = UserId.Create(request.Id);
+
         var user = await _context.Users
             .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Id.Value == request.Id, cancellationToken);
+            .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
 
         if (user == null)
         {
