@@ -1,0 +1,36 @@
+name: .NET
+
+on:
+  push:
+    branches:
+      - main
+      - feature/ci_workflow
+  pull_request:
+    branches:
+      - main
+
+env:
+  DOTNET_VERSION: '7.0.x'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Restore dependencies
+      run: dotnet restore budget-manager-server/BudgetManager.sln
+
+    - name: Build
+      run: dotnet build budget-manager-server/BudgetManager.sln --configuration Release --no-restore
+
+    - name: Test
+      run: dotnet test budget-manager-server/BudgetManager.sln --no-restore --verb
