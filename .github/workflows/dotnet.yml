@@ -1,13 +1,6 @@
 name: .NET
 
-on:
-  push:
-    branches:
-      - main
-      - feature/ci_workflow
-  pull_request:
-    branches:
-      - main
+on: push
 
 env:
   DOTNET_VERSION: '8.0.x'
