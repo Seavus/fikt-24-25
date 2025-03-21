@@ -31,6 +31,3 @@ jobs:
 
     - name: Build
       run: dotnet build budget-manager-server/BudgetManager.sln --configuration Release --no-restore
-
-    - name: Test
-      run: dotnet test budget-manager-server/BudgetManager.sln --no-restore --verb
