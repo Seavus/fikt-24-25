@@ -1,5 +1,6 @@
 ﻿using BudgetManager.Domain.Models.ValueObjects;
 using BudgetManager.Domain.Models;
+using BudgetManager.Domain.Enums;
 
 namespace BudgetManager.Infrastructure.Data.Extensions;
 
@@ -19,7 +20,7 @@ internal static class InitialData
 
     public static List<Transaction> Transactions => new()
     {
-        Transaction.Create ( TransactionId.Create(new Guid("fe32c4c0-a23c-4780-a847-89898e4cc60f")), Categories[0].Id, "Expense", DateTime.UtcNow, 500m,"Groceries"),
-        Transaction.Create ( TransactionId.Create (new Guid("696a437b-6037-4d5a-a8ec-4a2e3053c2b9")), Categories[1].Id, "Expense", DateTime.UtcNow, 100m,"Transport")
+        Transaction.Create ( TransactionId.Create(new Guid("fe32c4c0-a23c-4780-a847-89898e4cc60f")), Categories[0].Id, TransactionType.Income, DateTime.UtcNow, 500m,"Groceries"),
+        Transaction.Create ( TransactionId.Create (new Guid("696a437b-6037-4d5a-a8ec-4a2e3053c2b9")), Categories[1].Id, TransactionType.Expense, DateTime.UtcNow, 100m,"Transport")
     };
 }
