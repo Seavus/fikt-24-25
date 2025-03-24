@@ -6,11 +6,13 @@ namespace BudgetManager.Application.Users.GetUserById;
 
 internal sealed class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, GetUserByIdResponse>
 {
+    private IMapper _mapper;
     private IApplicationDbContext _context;
 
-    public GetUserByIdHandler(IApplicationDbContext context)
+    public GetUserByIdHandler(IApplicationDbContext context, IMapper mapper)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
     public async Task<GetUserByIdResponse> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
@@ -26,6 +28,6 @@ internal sealed class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, Get
             throw new NotFoundException("User not found.");
         }
 
-        return new GetUserByIdResponse(user.Id.Value, user.FirstName, user.LastName, user.Email, user.CreatedOn, user.CreatedBy, user.UpdatedOn, user.UpdatedBy);
+        return _mapper.Map<GetUserByIdResponse>(user);
     }
 }

@@ -6,3 +6,4 @@ global using FluentValidation;
 global using Microsoft.Extensions.Logging;
 global using MediatR;
 global using Microsoft.EntityFrameworkCore;
+global using AutoMapper;
