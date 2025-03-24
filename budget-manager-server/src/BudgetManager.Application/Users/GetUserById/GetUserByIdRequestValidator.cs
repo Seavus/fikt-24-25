@@ -1,6 +1,6 @@
 ﻿namespace BudgetManager.Application.Users.GetUserById;
 
-public class GetUserByIdRequestValidator :AbstractValidator<GetUserByIdRequest>
+public class GetUserByIdRequestValidator :AbstractValidator<GetUserByIdQuery>
 {
     public GetUserByIdRequestValidator()
     {
