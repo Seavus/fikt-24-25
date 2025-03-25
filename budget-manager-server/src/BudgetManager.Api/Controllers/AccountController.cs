@@ -90,7 +90,6 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResponse<GetUsersResponse>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    
     public async Task<IActionResult> GetUsers([FromQuery] GetUsersRequest request)
     {
         var query = Mapper.Map<GetUsersQuery>(request);
