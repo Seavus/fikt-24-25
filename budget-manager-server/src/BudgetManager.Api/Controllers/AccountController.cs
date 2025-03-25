@@ -1,5 +1,4 @@
 ﻿using BudgetManager.Application.Common.Responses;
-using BudgetManager.Application.Users.CreateTransaction;
 using BudgetManager.Application.Users.GetUsers;
 using Microsoft.AspNetCore.Authorization;
 
@@ -98,20 +97,5 @@ public class AccountController : BaseController
         var response = await Mediator.Send(query);
 
         return Ok(response);
-    }
-
-    /// <summary>
-    /// Creates a new transaction.
-    /// </summary>
-    [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateTransactionResponse))]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> CreateTransaction([FromBody] CreateTransactionRequest request, CancellationToken cancellationToken)
-    {
-        var command = Mapper.Map<CreateTransactionCommand>(request);
-
-        var response = await Mediator.Send(command);
-        return CreatedAtAction(nameof(CreateTransaction), new { id = response.TransactionId }, response);
     }
 }

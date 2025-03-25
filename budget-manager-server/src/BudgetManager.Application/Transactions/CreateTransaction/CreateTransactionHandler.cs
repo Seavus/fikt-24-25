@@ -2,7 +2,7 @@
 using BudgetManager.Domain.Models.ValueObjects;
 using BudgetManager.Domain.Models;
 
-namespace BudgetManager.Application.Users.CreateTransaction;
+namespace BudgetManager.Application.Transactions.CreateTransaction;
 
 internal sealed class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand, CreateTransactionResponse>
 {

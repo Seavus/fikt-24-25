@@ -16,7 +16,7 @@ using BudgetManager.Infrastructure.Middlewares;
 using BudgetManager.Application.Users.LoginUser;
 using BudgetManager.Application.Users.UpdateUser;
 using BudgetManager.Application.Users.GetUsers;
-using BudgetManager.Application.Users.CreateTransaction;
+using BudgetManager.Application.Transactions.CreateTransaction;
 
 namespace BudgetManager.Infrastructure;
 

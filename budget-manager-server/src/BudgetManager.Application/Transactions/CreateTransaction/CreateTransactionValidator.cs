@@ -1,4 +1,4 @@
-﻿namespace BudgetManager.Application.Users.CreateTransaction;
+﻿namespace BudgetManager.Application.Transactions.CreateTransaction;
 
 public class CreateTransactionValidator : AbstractValidator<CreateTransactionCommand>
 {
