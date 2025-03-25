@@ -5,7 +5,7 @@ namespace BudgetManager.Api.Controllers;
 
 [ApiController]
 [Route("api/transactions")]
-[Tags("Transactions")]
+[Tags("Transactions Management")]
 [Authorize]
 public class TransactionsController : BaseController
 {
