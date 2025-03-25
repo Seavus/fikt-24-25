@@ -18,7 +18,7 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
 
         builder.Property(t => t.TransactionType)
             .IsRequired()
-            .HasMaxLength(50);
+            .HasConversion<string>();
 
         builder.Property(t => t.Amount)
             .IsRequired()
