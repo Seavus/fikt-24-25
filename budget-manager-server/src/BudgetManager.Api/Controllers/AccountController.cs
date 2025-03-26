@@ -1,4 +1,5 @@
 ﻿using BudgetManager.Application.Common.Responses;
+using BudgetManager.Application.Users.GetUserById;
 using BudgetManager.Application.Users.GetUsers;
 using Microsoft.AspNetCore.Authorization;
 
@@ -90,9 +91,27 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResponse<GetUsersResponse>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
     public async Task<IActionResult> GetUsers([FromQuery] GetUsersRequest request)
     {
         var query = Mapper.Map<GetUsersQuery>(request);
+
+        var response = await Mediator.Send(query);
+
+        return Ok(response);
+    }
+
+    /// <summary>
+    /// Retrieves a user by ID.
+    /// </summary>
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetUserByIdResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetUserById([FromRoute] Guid id)
+    {
+        var query = new GetUserByIdQuery(id);
 
         var response = await Mediator.Send(query);
 

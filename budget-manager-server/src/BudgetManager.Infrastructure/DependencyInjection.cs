@@ -17,6 +17,8 @@ using BudgetManager.Application.Users.LoginUser;
 using BudgetManager.Application.Users.UpdateUser;
 using BudgetManager.Application.Users.GetUsers;
 using BudgetManager.Application.Transactions.CreateTransaction;
+using BudgetManager.Application.Users.GetUserById;
+using BudgetManager.Domain.Models;
 
 namespace BudgetManager.Infrastructure;
 
@@ -155,6 +157,8 @@ public static class DependencyInjection
             cfg.CreateMap<UpdateUserRequest, UpdateUserCommand>();
             cfg.CreateMap<GetUsersRequest, GetUsersQuery>();
             cfg.CreateMap<CreateTransactionRequest, CreateTransactionCommand>();
+            cfg.CreateMap<User, GetUserByIdResponse>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.Value));
         }, typeof(DependencyInjection).Assembly);
 
         return services;
