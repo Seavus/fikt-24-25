@@ -20,6 +20,7 @@ using BudgetManager.Application.Transactions.CreateTransaction;
 using BudgetManager.Application.Users.GetUserById;
 using BudgetManager.Domain.Models;
 using BudgetManager.Infrastructure.Data.Interceptors;
+using MediatR;
 
 namespace BudgetManager.Infrastructure;
 
@@ -171,11 +172,10 @@ public static class DependencyInjection
 
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
-            var interceptor = serviceProvider.GetRequiredService<DispatchDomainEventsInterceptor>();
-
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
-            .AddInterceptors(interceptor);
+            .AddInterceptors(new DispatchDomainEventsInterceptor(serviceProvider.GetRequiredService<IMediator>()));
         });
+
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
         return services;
