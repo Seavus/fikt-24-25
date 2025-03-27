@@ -1,57 +1,55 @@
-﻿using BudgetManager.Domain.Abstractions;
+using BudgetManager.Domain.Abstractions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace BudgetManager.Infrastructure.Data.Interceptors
+namespace BudgetManager.Infrastructure.Data.Interceptors;
+public class DispatchDomainEventsInterceptor : SaveChangesInterceptor
 {
-    public class DispatchDomainEventsInterceptor : SaveChangesInterceptor
+    private readonly IMediator _mediator;
+
+    public DispatchDomainEventsInterceptor(IMediator mediator)
     {
-        private readonly IMediator _mediator;
+        _mediator = mediator;
+    }
 
-        public DispatchDomainEventsInterceptor(IMediator mediator)
+    public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(
+        DbContextEventData eventData,
+        InterceptionResult<int> result,
+        CancellationToken cancellationToken)
+    {
+        if (eventData.Context != null)
         {
-            _mediator = mediator;
+            await DispatchDomainEvents(eventData.Context);
         }
 
-        public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(
-            DbContextEventData eventData,
-            InterceptionResult<int> result,
-            CancellationToken cancellationToken)
+        return await base.SavingChangesAsync(eventData, result, cancellationToken);
+    }
+    public override int SavedChanges(SaveChangesCompletedEventData eventData, int result)
+    {
+        if (eventData.Context != null)
         {
-            if (eventData.Context != null)
-            {
-                await DispatchDomainEvents(eventData.Context);
-            }
-
-            return await base.SavingChangesAsync(eventData, result, cancellationToken);
-        }
-        public override int SavedChanges(SaveChangesCompletedEventData eventData, int result)
-        {
-            if (eventData.Context != null)
-            {
-                DispatchDomainEvents(eventData.Context).GetAwaiter().GetResult();
-            }
-
-            return base.SavedChanges(eventData, result);
+            DispatchDomainEvents(eventData.Context).GetAwaiter().GetResult();
         }
 
-        private async Task DispatchDomainEvents(DbContext context)
+        return base.SavedChanges(eventData, result);
+    }
+
+    private async Task DispatchDomainEvents(DbContext context)
+    {
+        var entitiesWithEvents = context.ChangeTracker.Entries<IAggregate>()
+            .Where(entry => entry.Entity.DomainEvents.Any())
+            .Select(entry => entry.Entity)
+            .ToList();
+
+        foreach (var entity in entitiesWithEvents)
         {
-            var entitiesWithEvents = context.ChangeTracker.Entries<IAggregate>()
-                .Where(entry => entry.Entity.DomainEvents.Any())
-                .Select(entry => entry.Entity)
-                .ToList();
+            var domainEvents = entity.DomainEvents.ToList();
+            entity.ClearDomainEvents();
 
-            foreach (var entity in entitiesWithEvents)
+            foreach (var domainEvent in domainEvents)
             {
-                var domainEvents = entity.DomainEvents.ToList();
-                entity.ClearDomainEvents();
-
-                foreach (var domainEvent in domainEvents)
-                {
-                    await _mediator.Publish(domainEvent);
-                }
+                await _mediator.Publish(domainEvent);
             }
         }
     }
