@@ -19,6 +19,7 @@ using BudgetManager.Application.Users.GetUsers;
 using BudgetManager.Application.Transactions.CreateTransaction;
 using BudgetManager.Application.Users.GetUserById;
 using BudgetManager.Domain.Models;
+using BudgetManager.Infrastructure.Data.Interceptors;
 
 namespace BudgetManager.Infrastructure;
 
@@ -166,9 +167,15 @@ public static class DependencyInjection
 
     private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+        services.AddScoped<DispatchDomainEventsInterceptor>();
 
+        services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+        {
+            var interceptor = serviceProvider.GetRequiredService<DispatchDomainEventsInterceptor>();
+
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+            .AddInterceptors(interceptor);
+        });
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
         return services;
