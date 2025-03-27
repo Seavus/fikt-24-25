@@ -18,7 +18,7 @@ internal class CreateCategoryHandler :IRequestHandler<CreateCategoryCommand, Cre
 
     public async Task<CreateCategoryResponse> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
-        var userId = _currentUser.UserId ?? throw new UnauthorizedAccessException("User is not authenticated.");
+        var userId = UserId.Create(_currentUser.UserId!.Value);
 
         var category = Category.Create(
             CategoryId.Create(Guid.NewGuid()),

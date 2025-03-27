@@ -33,9 +33,4 @@ public class Category : Aggregate<CategoryId>
         UpdatedOn = DateTime.UtcNow;
         UpdatedBy = "System";
     }
-
-    public static Category Create(CategoryId categoryId, string name, Guid userId)
-    {
-        throw new NotImplementedException();
-    }
 }
