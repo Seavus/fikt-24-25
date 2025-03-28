@@ -12,3 +12,9 @@ services:
       - SA_PASSWORD=Password123!
     volumes:
       - mssql_local:/var/opt/mssql
+  papercut:
+    image: changemakerstudiosus/papercut-smtp:latest
+    container_name: papercut
+    ports:
+      - 8080:80
+      - 25:25
