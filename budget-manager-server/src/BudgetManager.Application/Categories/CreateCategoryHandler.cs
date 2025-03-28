@@ -13,7 +13,7 @@ internal class CreateCategoryHandler :IRequestHandler<CreateCategoryCommand, Cre
     public CreateCategoryHandler(IApplicationDbContext context, ICurrentUser currentUser)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
-        _currentUser = currentUser ?? throw new ArgumentNullException(nameof(_currentUser));
+        _currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
     }
 
     public async Task<CreateCategoryResponse> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
