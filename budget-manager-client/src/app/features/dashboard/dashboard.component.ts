@@ -5,8 +5,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule,],
-  templateUrl: './dashboard-wrapper.component.html',
-  styleUrls: ['./dashboard-wrapper.component.scss'],
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
   @Input() barChartData = [];
