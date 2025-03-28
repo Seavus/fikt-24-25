@@ -175,7 +175,8 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
-            .AddInterceptors(new DispatchDomainEventsInterceptor(serviceProvider.GetRequiredService<IMediator>()));
+            .AddInterceptors(new DispatchDomainEventsInterceptor(serviceProvider.GetRequiredService<IMediator>()))
+            .AddInterceptors(new AuditableEntityInterceptor(serviceProvider.GetRequiredService<ICurrentUser>()));
         });
 
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
