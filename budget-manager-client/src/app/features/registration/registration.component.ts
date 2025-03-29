@@ -39,12 +39,7 @@ export class RegistrationComponent {
       return;
     }
 
-    const request: RegisterUserRequest = {
-      firstName: this.registerForm.value.firstName ?? '',
-      lastName: this.registerForm.value.lastName ?? '',
-      email: this.registerForm.value.email ?? '',
-      password: this.registerForm.value.password ?? '',
-    };
+    const request = this.registerForm.getRawValue() as RegisterUserRequest;
 
     this.registerService.register(request).subscribe({
       next: (response: RegisterUserResponse) => {
