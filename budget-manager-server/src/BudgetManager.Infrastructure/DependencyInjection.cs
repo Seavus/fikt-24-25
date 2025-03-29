@@ -175,8 +175,9 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
-            .AddInterceptors(new DispatchDomainEventsInterceptor(serviceProvider.GetRequiredService<IMediator>()))
-            .AddInterceptors(new AuditableEntityInterceptor(serviceProvider.GetRequiredService<ICurrentUser>()));
+            .AddInterceptors(
+                new DispatchDomainEventsInterceptor(serviceProvider.GetRequiredService<IMediator>()),
+                new AuditableEntityInterceptor(serviceProvider.GetRequiredService<ICurrentUser>()));
         });
 
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
@@ -189,7 +190,7 @@ public static class DependencyInjection
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-        await context.Database.MigrateAsync();
+
         await DatabaseExtensions.SeedAsync(context);
     }
 

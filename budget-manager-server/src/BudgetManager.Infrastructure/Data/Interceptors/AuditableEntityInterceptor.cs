@@ -19,19 +19,13 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
         InterceptionResult<int> result,
         CancellationToken cancellationToken = default)
     {
-        if (eventData.Context != null)
-        {
-            UpdateEntities(eventData.Context);
-        }
+        UpdateEntities(eventData.Context);
         return await base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 
     public override int SavedChanges(SaveChangesCompletedEventData eventData, int result)
     {
-        if (eventData.Context != null)
-        {
-            UpdateEntities(eventData.Context);
-        }
+        UpdateEntities(eventData.Context);
         return base.SavedChanges(eventData, result);
     }
 
@@ -47,13 +41,13 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
         {
             if (entry.State == EntityState.Added)
             {
-                entry.Property(nameof(IEntity.CreatedOn)).CurrentValue = DateTime.UtcNow;
-                entry.Property(nameof(IEntity.CreatedBy)).CurrentValue = _currentUser.Name;
+                entry.Entity.CreatedOn = DateTime.UtcNow;
+                entry.Entity.CreatedBy = _currentUser.Name;
             }
             if (entry.State == EntityState.Modified)
             {
-                entry.Property(nameof(IEntity.CreatedOn)).CurrentValue = DateTime.UtcNow;
-                entry.Property(nameof(IEntity.CreatedBy)).CurrentValue = _currentUser.Name;
+                entry.Entity.UpdatedOn = DateTime.UtcNow;
+                entry.Entity.UpdatedBy = _currentUser.Name;
             }
         }
 
