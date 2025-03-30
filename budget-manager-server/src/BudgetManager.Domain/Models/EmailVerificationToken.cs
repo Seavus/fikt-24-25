@@ -3,21 +3,22 @@ using BudgetManager.Domain.Models.ValueObjects;
 
 namespace BudgetManager.Domain.Models;
 
-public class EmailVerificationToken : Entity<UserId>
+public class EmailVerificationToken : Entity<EmailVerificationTokenId>
 {
     public UserId UserId { get; private set; }
     public Guid Token {  get; private set; }
     public DateTime ExpiredOn { get; private set; }
 
-    public EmailVerificationToken(UserId userId, Guid token, DateTime expiredOn)
+    private EmailVerificationToken(EmailVerificationTokenId id, UserId userId, Guid token, DateTime expiredOn)
     {
+        Id = id; 
         UserId = userId;
         Token = token;
         ExpiredOn = expiredOn;
     }
 
-    public static EmailVerificationToken Create(UserId userId)
+    public static EmailVerificationToken Create(EmailVerificationTokenId id, UserId userId, Guid token, DateTime expiredOn)
     {
-        return new EmailVerificationToken(userId, Guid.NewGuid(), DateTime.UtcNow.AddHours(24));
+        return new EmailVerificationToken(id, userId, token, expiredOn);
     }
 }

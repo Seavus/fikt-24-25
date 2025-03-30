@@ -12,6 +12,10 @@ public class User : Aggregate<UserId>
     public string Email { get; private set; }
     public string Password { get; private set; }
 
+    public bool EmailVerified { get; private set; }
+    private readonly List<EmailVerificationToken> _emailVerificationTokens = new();
+
+    public IReadOnlyList<EmailVerificationToken> EmailVerificationTokens => _emailVerificationTokens.ToList().AsReadOnly();
     private User(UserId id, string firstName, string lastName, string email, string password)
     {
         Id = id;
@@ -19,10 +23,6 @@ public class User : Aggregate<UserId>
         LastName = lastName;
         Email = email;
         Password = password;
-        CreatedOn = DateTime.UtcNow;
-        CreatedBy = "System";
-        EmailVerified = false;
-        _emailVerificationTokens = new List<EmailVerificationToken>();
     }
 
     public static User Create(UserId id, string firstName, string lastName, string email, string password)
@@ -49,12 +49,10 @@ public class User : Aggregate<UserId>
         UpdatedBy = "System";
     }
 
-    public bool EmailVerified { get; private set; }
-    private readonly List<EmailVerificationToken> _emailVerificationTokens = new();
-
     public EmailVerificationToken AddEmailVerificationToken()
     {
-        var token = EmailVerificationToken.Create(Id);
+        var tokenId = EmailVerificationTokenId.Create(Guid.NewGuid());
+        var token = EmailVerificationToken.Create(tokenId, Id, (Guid.NewGuid()), DateTime.UtcNow.AddHours(1));
         _emailVerificationTokens.Add(token);
         return token;
     }
