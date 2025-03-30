@@ -1,4 +1,6 @@
 ﻿using BudgetManager.Domain.Abstractions;
+using BudgetManager.Domain.Events;
+using BudgetManager.Domain.Exceptions;
 using BudgetManager.Domain.Models.ValueObjects;
 
 namespace BudgetManager.Domain.Models;
@@ -19,6 +21,8 @@ public class User : Aggregate<UserId>
         Password = password;
         CreatedOn = DateTime.UtcNow;
         CreatedBy = "System";
+        EmailVerified = false;
+        _emailVerificationTokens = new List<EmailVerificationToken>();
     }
 
     public static User Create(UserId id, string firstName, string lastName, string email, string password)
@@ -28,7 +32,10 @@ public class User : Aggregate<UserId>
         if (string.IsNullOrWhiteSpace(email)) throw new ArgumentException("Email is required.");
         if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Password is required.");
 
-        return new User(id, firstName, lastName, email, password);
+        var user = new User(id, firstName, lastName, email, password);
+        var token = user.AddEmailVerificationToken();
+        user.AddDomainEvent(new UserCreatedEvent(user.Id, user.Email, token.Token));
+        return user;
     }
 
     public void Update(string firstName, string lastName)
@@ -40,5 +47,30 @@ public class User : Aggregate<UserId>
         LastName = lastName;
         UpdatedOn = DateTime.UtcNow;
         UpdatedBy = "System";
+    }
+
+    public bool EmailVerified { get; private set; }
+    private readonly List<EmailVerificationToken> _emailVerificationTokens = new();
+
+    public EmailVerificationToken AddEmailVerificationToken()
+    {
+        var token = EmailVerificationToken.Create(Id);
+        _emailVerificationTokens.Add(token);
+        return token;
+    }
+
+    public bool VerifyEmail(Guid emailToken)
+    {
+        var token = _emailVerificationTokens.FirstOrDefault(t => t.Token == emailToken);
+
+        if (token == null || token.ExpiredOn < DateTime.UtcNow)
+        {
+            throw new DomainException("Expired email verification token.");
+        }
+
+        EmailVerified = true;
+        _emailVerificationTokens.Remove(token);
+
+        return true;
     }
 }
