@@ -16,23 +16,24 @@ public class User : Aggregate<UserId>
     private readonly List<EmailVerificationToken> _emailVerificationTokens = new();
 
     public IReadOnlyList<EmailVerificationToken> EmailVerificationTokens => _emailVerificationTokens.ToList().AsReadOnly();
-    private User(UserId id, string firstName, string lastName, string email, string password)
+    private User(UserId id, string firstName, string lastName, string email, string password, bool emailVerified)
     {
         Id = id;
         FirstName = firstName;
         LastName = lastName;
         Email = email;
         Password = password;
+        EmailVerified = emailVerified;
     }
 
-    public static User Create(UserId id, string firstName, string lastName, string email, string password)
+    public static User Create(UserId id, string firstName, string lastName, string email, string password, bool emailVerified)
     {
         if (string.IsNullOrWhiteSpace(firstName)) throw new ArgumentException("First name is required.");
         if (string.IsNullOrWhiteSpace(lastName)) throw new ArgumentException("Last name is required.");
         if (string.IsNullOrWhiteSpace(email)) throw new ArgumentException("Email is required.");
         if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Password is required.");
 
-        var user = new User(id, firstName, lastName, email, password);
+        var user = new User(id, firstName, lastName, email, password, emailVerified);
         var token = user.AddEmailVerificationToken();
         user.AddDomainEvent(new UserCreatedEvent(user.Id, user.Email, token.Token));
         return user;
