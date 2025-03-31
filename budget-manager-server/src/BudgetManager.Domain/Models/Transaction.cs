@@ -20,8 +20,6 @@ public class Transaction : Aggregate<TransactionId>
         TransactionDate = transactionDate;
         Amount = amount;
         Description = description;
-        CreatedOn = DateTime.UtcNow;
-        CreatedBy = "System";
     }
 
     public static Transaction Create (TransactionId id, CategoryId categoryId, TransactionType transactionType, DateTime transactionDate, decimal amount, string description)
@@ -39,7 +37,5 @@ public class Transaction : Aggregate<TransactionId>
         TransactionDate = transactionDate;
         Amount = amount;
         Description = description;
-        UpdatedOn = DateTime.UtcNow;
-        UpdatedBy = "System";
     }
 }

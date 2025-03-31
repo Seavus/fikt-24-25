@@ -34,5 +34,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.Password)
                 .IsRequired()
                 .HasMaxLength(100);
+
+        builder.HasMany(u => u.EmailVerificationTokens)
+            .WithOne()
+            .HasForeignKey(e => e.UserId);
     }
 }

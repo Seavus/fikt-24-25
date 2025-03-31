@@ -46,8 +46,6 @@ public class User : Aggregate<UserId>
 
         FirstName = firstName;
         LastName = lastName;
-        UpdatedOn = DateTime.UtcNow;
-        UpdatedBy = "System";
     }
 
     public EmailVerificationToken AddEmailVerificationToken()
