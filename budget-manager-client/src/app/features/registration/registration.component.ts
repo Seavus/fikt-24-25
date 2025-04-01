@@ -2,7 +2,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { Component } from '@angular/core';
 import { InputComponent } from '../../shared/components/input/input.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { RegisterService } from '../../core/services/register.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
@@ -24,7 +24,8 @@ export class RegistrationComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly registerService: RegisterService,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly router: Router
   ) {
     this.registerForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -50,6 +51,7 @@ export class RegistrationComponent {
           },
           duration: 3000,
         });
+        this.router.navigate(['/home']);
         console.log('User registered successfully', response);
       },
       error: (error: HttpErrorResponse) => {
