@@ -11,6 +11,8 @@ import { InputComponent } from '../../shared/components/input/input.component';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -19,20 +21,19 @@ import { AuthService } from '../../services/auth.service';
     MatButtonModule,
     ReactiveFormsModule,
     ButtonComponent,
-    RouterModule
+    RouterModule,
+    MatSnackBarModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   standalone: true,
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
-  isRequired: boolean = true;
   loginForm: FormGroup;
   private authService = inject(AuthService);
   private router = inject(Router);
-  
+  private notificationService = inject(NotificationService); 
+
   constructor(private readonly fb: FormBuilder) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -43,15 +44,17 @@ export class LoginComponent {
   onLogin() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.getRawValue();
-      this.authService.login(email, password).subscribe({
+
+      this.authService.login({ email, password }).subscribe({ 
         next: () => {
-          console.log('Login successful');
-          this.router.navigate(['/dashboard']); 
+          this.notificationService.showSuccess('Login successful!'); 
+          this.router.navigate(['/dashboard']);
         },
         error: (err) => {
-          console.error('Login failed:', err);
+          this.notificationService.showError('Login failed: ' + err.message);
         },
       });
     }
   }
 }
+
