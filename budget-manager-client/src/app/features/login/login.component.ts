@@ -11,8 +11,7 @@ import { InputComponent } from '../../shared/components/input/input.component';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { DynamicPopupComponent } from '../../shared/components/dynamic-popup/dynamic-popup.component';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { SnackbarService } from '../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +21,6 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
     ReactiveFormsModule,
     ButtonComponent,
     RouterModule,
-    MatDialogModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -32,7 +30,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   private authService = inject(AuthService);
   private router = inject(Router);
-  private dialogService = inject(MatDialog);
+  private snackbarService = inject(SnackbarService);
 
   constructor(private readonly fb: FormBuilder) {
     this.loginForm = this.fb.group({
@@ -47,15 +45,11 @@ export class LoginComponent {
   
       this.authService.login({ email, password }).subscribe({
         next: () => {
-          this.dialogService.open(DynamicPopupComponent, {
-            data: { message: 'Login successful!', type: 'success' }
-          });
+          this.snackbarService.showSnackbar('Login successful!', 'success'); 
           this.router.navigate(['/dashboard']);
         },
         error: (err) => {
-          this.dialogService.open(DynamicPopupComponent, {
-            data: { message: `Login failed: ${err.message}`, type: 'error' }
-          });
+          this.snackbarService.showSnackbar(`Login failed: ${err.message}`, 'error');  
         },
       });
     }
