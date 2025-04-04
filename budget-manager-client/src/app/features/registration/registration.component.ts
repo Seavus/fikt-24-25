@@ -1,6 +1,6 @@
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonComponent } from '../../shared/components/button/button.component';
-import { Component } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { InputComponent } from '../../shared/components/input/input.component';
 import { Router, RouterModule } from '@angular/router';
 import { RegisterService } from '../../core/services/register.service';
@@ -11,6 +11,7 @@ import {
 } from '../../core/interfaces/register-user.model';
 import { SnackbarComponent } from '../../shared/components/snackbar/snackbar.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-registration',
@@ -25,7 +26,8 @@ export class RegistrationComponent {
     private readonly fb: FormBuilder,
     private readonly registerService: RegisterService,
     private readonly snackBar: MatSnackBar,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly destroyRef: DestroyRef
   ) {
     this.registerForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -42,28 +44,31 @@ export class RegistrationComponent {
 
     const request = this.registerForm.getRawValue() as RegisterUserRequest;
 
-    this.registerService.register(request).subscribe({
-      next: (response: RegisterUserResponse) => {
-        this.snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: 'Registration successful!',
-            type: 'success',
-          },
-          duration: 3000,
-        });
-        console.log('User registered successfully', response);
-        this.router.navigate(['/home']);
-      },
-      error: (error: HttpErrorResponse) => {
-        this.snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: 'Registration failed. Please try again.',
-            type: 'error',
-          },
-          duration: 3000,
-        });
-        console.error('Registration error', error);
-      },
-    });
+    this.registerService
+      .register(request)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response: RegisterUserResponse) => {
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            data: {
+              message: 'Registration successful!',
+              type: 'success',
+            },
+            duration: 3000,
+          });
+          console.log('User registered successfully', response);
+          this.router.navigate(['/home']);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            data: {
+              message: 'Registration failed. Please try again.',
+              type: 'error',
+            },
+            duration: 3000,
+          });
+          console.error('Registration error', error);
+        },
+      });
   }
 }
