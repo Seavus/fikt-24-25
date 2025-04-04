@@ -21,27 +21,34 @@ interface LoginResponse {
 })
 export class AuthService {
   private apiUrl = 'http://localhost:5230/api/account/token';
-
   private http = inject(HttpClient);
+  private tokenKey = 'token';
+  
 
-  login(credentials: LoginRequest): Observable<LoginResponse> { 
+  login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.apiUrl, credentials).pipe(
       tap((response) => {
         if (response.token) {
-          localStorage.setItem('token', response.token);
+          localStorage.setItem(this.tokenKey, response.token);
         }
       }),
       catchError((error) => {
-        return throwError(() => new Error(error.error?.message || 'Login failed'));
+        return throwError(() => Error(error.error?.message || 'Login failed'));
       })
     );
   }
 
   logout(): void {
-    localStorage.removeItem('token');
+    localStorage.removeItem(this.tokenKey);
   }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
+    return !!this.getToken();
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
   }
 }
+
+
