@@ -42,18 +42,19 @@ export class LoginComponent {
   onLogin() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.getRawValue();
-  
+
       this.authService.login({ email, password }).subscribe({
         next: () => {
-          this.snackbarService.showSnackbar('Login successful!', 'success'); 
-          this.router.navigate(['/dashboard']);
+          this.snackbarService.showSnackbar('Login successful!', 'success');
+          this.router.navigate(['/home']);
         },
         error: (err) => {
-          this.snackbarService.showSnackbar(`Login failed: ${err.message}`, 'error');  
+          this.snackbarService.showSnackbar(
+            `Login failed: ${err.message}`,
+            'error'
+          );
         },
       });
     }
   }
 }
-
-

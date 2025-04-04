@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { SidebarComponent } from './core/sidebar/sidebar.component';
 import { PopupData } from './shared/components/dynamic-popup/popup-data.model';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
+import { currentUserSignal } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -18,17 +19,11 @@ export class AppComponent {
   popupTitle: string = 'Dynamic Popup Title';
   popupData: PopupData = new PopupData('Hello! This is a dynamic popup.');
   isMenuOpened = false;
-  showSidenav = true;
-
-  constructor(
-    private readonly router: Router,
-    private readonly route: ActivatedRoute
-  ) {
-    this.router.events.subscribe(() => {
-      this.showSidenav =
-        this.route.firstChild?.snapshot.data['showSidenav'] !== false;
-    });
+  get isLoggedIn(): boolean {
+    return currentUserSignal() !== null;
   }
+
+  constructor() {}
 
   togglePopup() {
     this.isPopupOpen = !this.isPopupOpen;

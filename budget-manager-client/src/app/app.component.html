@@ -1,7 +1,7 @@
-<mat-sidenav-container *ngIf="showSidenav">
+<mat-sidenav-container *ngIf="isLoggedIn">
     <mat-sidenav [ngClass]="{'sidenav-expanded': isMenuOpened, 'sidenav-collapsed' : !isMenuOpened}"
         [mode]="isMenuOpened ? 'over' : 'side'" opened>
-        <app-sidebar (toggleMenu)="toggleMenu()" *ngIf="showSidenav"></app-sidebar>
+        <app-sidebar (toggleMenu)="toggleMenu()"></app-sidebar>
     </mat-sidenav>
 
     <mat-sidenav-content>
@@ -9,4 +9,4 @@
     </mat-sidenav-content>
 </mat-sidenav-container>
 
-<router-outlet *ngIf="!showSidenav"></router-outlet>
+<router-outlet *ngIf="!isLoggedIn"></router-outlet>
