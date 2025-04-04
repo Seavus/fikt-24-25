@@ -19,9 +19,9 @@ mat-sidenav-container {
     height: 100vh;
     overflow-y: auto;
     position: absolute;
-    max-width:79vw;
-    width:100%;
-    right:0;
+    max-width: 79vw;
+    width: 100%;
+    right: 0;
   }
 }
 
@@ -40,7 +40,6 @@ mat-sidenav-container {
   }
 
   mat-sidenav-content {
-    max-width:84vw !important;
+    max-width: 84vw !important;
   }
 }
-

@@ -9,7 +9,9 @@ export const routes: Routes = [
   {
     path: 'transactions',
     loadComponent: () =>
-      import('./features/transactions/transactions.component').then((c) => c.TransactionsComponent),
+      import('./features/transactions/transactions.component').then(
+        (c) => c.TransactionsComponent
+      ),
   },
   {
     path: 'login',
@@ -19,7 +21,9 @@ export const routes: Routes = [
   {
     path: 'register',
     loadComponent: () =>
-      import('./features/registration/registration.component').then((c) => c.RegistrationComponent),
+      import('./features/registration/registration.component').then(
+        (c) => c.RegistrationComponent
+      ),
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];

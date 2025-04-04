@@ -1,8 +1,12 @@
-<mat-sidenav-container>
-    <mat-sidenav [ngClass]="{'sidenav-expanded': isMenuOpened, 'sidenav-collapsed': !isMenuOpened}" [mode]="isMenuOpened ? 'over' : 'side'"  opened>
+<mat-sidenav-container *ngIf="isLoggedIn">
+    <mat-sidenav [ngClass]="{'sidenav-expanded': isMenuOpened, 'sidenav-collapsed' : !isMenuOpened}"
+        [mode]="isMenuOpened ? 'over' : 'side'" opened>
         <app-sidebar (toggleMenu)="toggleMenu()"></app-sidebar>
     </mat-sidenav>
-    <mat-sidenav-content>	
-        <router-outlet></router-outlet>	
-    </mat-sidenav-content>	
+
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
 </mat-sidenav-container>
+
+<router-outlet *ngIf="!isLoggedIn"></router-outlet>
