@@ -11,10 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
-    <Folder Include="Middlewares\" />
+    <Folder Include="Data\Migrations\" />
     <Folder Include="Settings\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

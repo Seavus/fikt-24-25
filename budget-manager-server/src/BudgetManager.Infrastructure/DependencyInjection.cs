@@ -9,6 +9,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Reflection;
+using BudgetManager.Infrastructure.Data.Extensions;
+using BudgetManager.Application.Users.RegisterUser;
+using BudgetManager.Application.Exceptions.Handler;
+using BudgetManager.Infrastructure.Middlewares;
+using BudgetManager.Application.Users.LoginUser;
+using BudgetManager.Application.Users.UpdateUser;
+using BudgetManager.Application.Users.GetUsers;
+using BudgetManager.Application.Transactions.CreateTransaction;
+using BudgetManager.Application.Users.GetUserById;
+using BudgetManager.Domain.Models;
+using BudgetManager.Infrastructure.Data.Interceptors;
+using MediatR;
+using BudgetManager.Application.Categories;
 
 namespace BudgetManager.Infrastructure;
 
@@ -28,6 +41,8 @@ public static class DependencyInjection
     public static IServiceCollection AddApiServices(this IServiceCollection services)
     {
         services.AddControllers();
+
+        services.AddExceptionHandler<CustomExceptionHandler>();
 
         services.AddSwaggerGen(options =>
         {
@@ -71,6 +86,8 @@ public static class DependencyInjection
             }
         });
 
+        services.AddCurrentUser();
+
         return services;
     }
 
@@ -92,7 +109,11 @@ public static class DependencyInjection
 
         app.UseAuthorization();
 
+        app.UseCurrentUser();
+
         app.MapControllers();
+
+        app.UseExceptionHandler(options => { });
 
         return app;
     }
@@ -113,12 +134,12 @@ public static class DependencyInjection
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>
            {
-               options.RequireHttpsMetadata = false;  
+               options.RequireHttpsMetadata = false;
                options.SaveToken = true;
                options.TokenValidationParameters = new TokenValidationParameters
                {
                    ValidateIssuer = true,
-                   ValidateAudience = true, 
+                   ValidateAudience = true,
                    ValidateLifetime = true,
                    ValidateIssuerSigningKey = true,
                    ValidIssuer = jwtOptions.Issuer,
@@ -132,18 +153,56 @@ public static class DependencyInjection
 
     private static IServiceCollection AddMapping(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(DependencyInjection).Assembly);
+        services.AddAutoMapper(cfg =>
+        {
+            cfg.CreateMap<LoginUserRequest, LoginUserQuery>();
+            cfg.CreateMap<RegisterUserRequest, RegisterUserCommand>();
+            cfg.CreateMap<UpdateUserRequest, UpdateUserCommand>();
+            cfg.CreateMap<GetUsersRequest, GetUsersQuery>();
+            cfg.CreateMap<CreateTransactionRequest, CreateTransactionCommand>();
+            cfg.CreateMap<User, GetUserByIdResponse>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.Value));
+            cfg.CreateMap<CreateCategoryRequest, CreateCategoryCommand>();
+        }, typeof(DependencyInjection).Assembly);
+
         return services;
     }
 
-
     private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+        services.AddScoped<DispatchDomainEventsInterceptor>();
+
+        services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+        {
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+            .AddInterceptors(
+                new DispatchDomainEventsInterceptor(serviceProvider.GetRequiredService<IMediator>()),
+                new AuditableEntityInterceptor(serviceProvider.GetRequiredService<ICurrentUser>()));
+        });
 
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
+        return services;
+    }
+
+    public static async Task InitializeDatabaseAsync(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+        await context.Database.MigrateAsync();
+        await DatabaseExtensions.SeedAsync(context);
+    }
+
+    private static IApplicationBuilder UseCurrentUser(this IApplicationBuilder app)
+    {
+        return app.UseMiddleware<CurrentUserMiddleware>();
+    }
+
+    private static IServiceCollection AddCurrentUser(this IServiceCollection services)
+    {
+        services.AddScoped<ICurrentUser, CurrentUser>();
+        services.AddScoped<CurrentUserMiddleware>();
         return services;
     }
 }

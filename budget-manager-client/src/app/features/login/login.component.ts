@@ -1,15 +1,17 @@
 import {
   FormBuilder,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 
 import { ButtonComponent } from '../../shared/components/button/button.component';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { InputComponent } from '../../shared/components/input/input.component';
 import { MatButtonModule } from '@angular/material/button';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { SnackbarService } from '../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-login',
@@ -18,16 +20,19 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule,
     ReactiveFormsModule,
     ButtonComponent,
+    RouterModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   standalone: true,
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
-  isRequired: boolean = true;
   loginForm: FormGroup;
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private snackbarService = inject(SnackbarService);
+
+ 
   constructor(private readonly fb: FormBuilder) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -36,8 +41,20 @@ export class LoginComponent {
   }
 
   onLogin() {
-    if (this.loginForm.value) {
-      console.log('Login attempt:', this.loginForm.getRawValue());
+    if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.getRawValue();
+  
+      this.authService.login({ email, password }).subscribe({
+        next: () => {
+          this.snackbarService.showSnackbar('Login successful!', 'success'); 
+          this.router.navigate(['/dashboard']);
+        },
+        error: (err) => {
+          this.snackbarService.showSnackbar(`Login failed: ${err.message}`, 'error');  
+        },
+      });
     }
   }
 }
+
+
