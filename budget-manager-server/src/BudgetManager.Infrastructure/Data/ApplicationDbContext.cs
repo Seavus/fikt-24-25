@@ -10,9 +10,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
     }
 
-    public DbSet<User> Users => Set<User>(); 
+    public DbSet<User> Users => Set<User>();
     public DbSet<Category> Categories => Set<Category>();
-
+    public DbSet<Transaction> Transactions => Set<Transaction>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);

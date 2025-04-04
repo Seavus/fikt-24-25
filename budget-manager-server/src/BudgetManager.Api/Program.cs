@@ -9,4 +9,9 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseInfrastructure();
 
+if (app.Environment.IsDevelopment())
+{
+    await app.InitializeDatabaseAsync();
+}
+
 await app.RunAsync();

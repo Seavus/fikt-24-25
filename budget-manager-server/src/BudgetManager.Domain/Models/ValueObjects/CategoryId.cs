@@ -1,5 +1,4 @@
-﻿using System;
-using BudgetManager.Domain.Exceptions;
+﻿using BudgetManager.Domain.Exceptions;
 
 namespace BudgetManager.Domain.Models.ValueObjects;
 

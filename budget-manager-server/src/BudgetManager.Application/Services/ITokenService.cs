@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BudgetManager.Application.Services;
+﻿namespace BudgetManager.Application.Services;
 
 public interface ITokenService
 {
