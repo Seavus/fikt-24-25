@@ -1,1 +1,12 @@
-<p>user-management works!</p>
+<div class="user-management-container">
+  <form [formGroup]="form" (ngSubmit)="onUpdate()">
+    <h2>Update Your Info</h2>
+
+    <div class="form-group">
+      <app-input label="First Name" formControlName="firstName" type="text" [required]="false"></app-input>
+      <app-input label="Last Name" type="text" formControlName="lastName"></app-input>
+    </div>
+    <app-button text="Update" [customButtonClass]="'dynamic-green'">
+    </app-button>
+  </form>
+</div>

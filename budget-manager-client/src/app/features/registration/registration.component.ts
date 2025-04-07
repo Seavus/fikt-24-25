@@ -43,6 +43,8 @@ export class RegistrationComponent {
 
     this.registerService.register(request).subscribe({
       next: (response: RegisterUserResponse) => {
+        localStorage.setItem('userId', response.id);
+
         this.snackBar.openFromComponent(SnackbarComponent, {
           data: {
             message: 'Registration successful!',
