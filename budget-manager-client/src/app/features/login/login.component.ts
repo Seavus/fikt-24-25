@@ -32,6 +32,7 @@ export class LoginComponent {
   private router = inject(Router);
   private snackbarService = inject(SnackbarService);
 
+ 
   constructor(private readonly fb: FormBuilder) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
