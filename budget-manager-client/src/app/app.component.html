@@ -1,12 +1,16 @@
-<mat-sidenav-container *ngIf="isLoggedIn">
-    <mat-sidenav [ngClass]="{'sidenav-expanded': isMenuOpened, 'sidenav-collapsed' : !isMenuOpened}"
-        [mode]="isMenuOpened ? 'over' : 'side'" opened>
-        <app-sidebar (toggleMenu)="toggleMenu()"></app-sidebar>
-    </mat-sidenav>
+<ng-container *ngIf="isLoggedIn; else guestLayout">
+  <mat-sidenav-container *ngIf="isLoggedIn">
+      <mat-sidenav [ngClass]="{'sidenav-expanded': isMenuOpened, 'sidenav-collapsed' : !isMenuOpened}"
+          [mode]="isMenuOpened ? 'over' : 'side'" opened>
+          <app-sidebar (toggleMenu)="toggleMenu()"></app-sidebar>
+      </mat-sidenav>
+  
+      <mat-sidenav-content>
+          <router-outlet></router-outlet>
+      </mat-sidenav-content>
+  </mat-sidenav-container>
+</ng-container>
 
-    <mat-sidenav-content>
-        <router-outlet></router-outlet>
-    </mat-sidenav-content>
-</mat-sidenav-container>
-
-<router-outlet *ngIf="!isLoggedIn"></router-outlet>
+<ng-template #guestLayout>
+  <router-outlet></router-outlet>
+</ng-template>
