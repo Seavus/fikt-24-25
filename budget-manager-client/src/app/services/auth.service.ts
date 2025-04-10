@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
+import { Observable, catchError, tap, throwError } from 'rxjs';
+
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap, catchError, throwError } from 'rxjs';
-import { Router } from '@angular/router';
 
 interface LoginRequest {
   email: string;
@@ -25,7 +25,7 @@ export const currentUserSignal = signal<LoginResponse['user'] | null>(null);
 export class AuthService {
   private apiUrl = '/api/account/token';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   get user$() {
     return currentUserSignal;
@@ -56,6 +56,10 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
+    return !!this.getToken();
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 }
