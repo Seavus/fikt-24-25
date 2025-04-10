@@ -6,13 +6,15 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () =>
       import('./features/home/home.component').then((c) => c.HomeComponent),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
   {
     path: 'transactions',
     loadComponent: () =>
-      import('./features/transactions/transactions.component').then((c) => c.TransactionsComponent),
-    canActivate: [authGuard]
+      import('./features/transactions/transactions.component').then(
+        (c) => c.TransactionsComponent
+      ),
+    canActivate: [authGuard],
   },
   {
     path: 'login',
@@ -22,7 +24,9 @@ export const routes: Routes = [
   {
     path: 'register',
     loadComponent: () =>
-      import('./features/registration/registration.component').then((c) => c.RegistrationComponent),
+      import('./features/registration/registration.component').then(
+        (c) => c.RegistrationComponent
+      ),
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
