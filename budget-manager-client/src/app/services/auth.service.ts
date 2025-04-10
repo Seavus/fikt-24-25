@@ -1,6 +1,7 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
+import { Observable, catchError, tap, throwError } from 'rxjs';
+
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap, catchError, throwError } from 'rxjs';
 
 interface LoginRequest {
   email: string;
@@ -9,7 +10,14 @@ interface LoginRequest {
 
 interface LoginResponse {
   accessToken: string;
+  user: {
+    id: number;
+    name: string;
+    email: string;
+  };
 }
+
+export const currentUserSignal = signal<LoginResponse['user'] | null>(null);
 
 @Injectable({
   providedIn: 'root',
@@ -17,13 +25,20 @@ interface LoginResponse {
 export class AuthService {
   private readonly apiUrl = 'api/account/token';
 
-  private readonly http = inject(HttpClient);
+  constructor(private readonly http: HttpClient) {}
+
+  get user$() {
+    return currentUserSignal;
+  }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.apiUrl, credentials).pipe(
       tap((response) => {
         if (response.accessToken) {
           localStorage.setItem('token', response.accessToken);
+          currentUserSignal.set(response.user);
+        } else {
+          console.error('No token found in the response');
         }
       }),
       catchError((error) => {
@@ -36,14 +51,15 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
+    currentUserSignal.set(null);
     localStorage.removeItem('userId');
   }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
+    return !!this.getToken();
   }
 
-  getUserId(): string | null {
-    return localStorage.getItem('userId');
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 }

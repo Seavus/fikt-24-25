@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
   {
     path: 'home',
     loadComponent: () =>
       import('./features/home/home.component').then((c) => c.HomeComponent),
+    canActivate: [authGuard],
   },
   {
     path: 'transactions',
@@ -12,6 +14,7 @@ export const routes: Routes = [
       import('./features/transactions/transactions.component').then(
         (c) => c.TransactionsComponent
       ),
+    canActivate: [authGuard],
   },
   {
     path: 'login',
@@ -31,7 +34,6 @@ export const routes: Routes = [
       import('./features/user-management/user-management.component').then(
         (c) => c.UserManagementComponent
       ),
-    data: { showSidenav: true },
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
