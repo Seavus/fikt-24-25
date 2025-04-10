@@ -1,6 +1,7 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
+import { Observable, catchError, tap, throwError } from 'rxjs';
+
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap, catchError, throwError } from 'rxjs';
 
 interface LoginRequest {
   email: string;
@@ -8,7 +9,7 @@ interface LoginRequest {
 }
 
 interface LoginResponse {
-  token: string;
+  accessToken: string;
   user: {
     id: number;
     name: string;
@@ -16,30 +17,42 @@ interface LoginResponse {
   };
 }
 
+export const currentUserSignal = signal<LoginResponse['user'] | null>(null);
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5230/api/account/token';
-  private http = inject(HttpClient);
-  private tokenKey = 'token';
-  
+  private apiUrl = '/api/account/token';
+
+  constructor(private http: HttpClient) {}
+
+  get user$() {
+    return currentUserSignal;
+  }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.apiUrl, credentials).pipe(
       tap((response) => {
-        if (response.token) {
-          localStorage.setItem(this.tokenKey, response.token);
+        if (response.accessToken) {
+          localStorage.setItem('token', response.accessToken);
+          currentUserSignal.set(response.user);
+        } else {
+          console.error('No token found in the response');
         }
       }),
       catchError((error) => {
-        return throwError(() => Error(error.error?.message || 'Login failed'));
+        console.error('Login failed:', error);
+        return throwError(
+          () => new Error(error.error?.message || 'Login failed')
+        );
       })
     );
   }
 
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem('token');
+    currentUserSignal.set(null);
   }
 
   isAuthenticated(): boolean {
@@ -47,8 +60,6 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    return localStorage.getItem('token');
   }
 }
-
-
