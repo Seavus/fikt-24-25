@@ -23,9 +23,9 @@ export const currentUserSignal = signal<LoginResponse['user'] | null>(null);
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = '/api/account/token';
+  private readonly apiUrl = 'api/account/token';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   get user$() {
     return currentUserSignal;
@@ -42,7 +42,6 @@ export class AuthService {
         }
       }),
       catchError((error) => {
-        console.error('Login failed:', error);
         return throwError(
           () => new Error(error.error?.message || 'Login failed')
         );
@@ -53,6 +52,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     currentUserSignal.set(null);
+    localStorage.removeItem('userId');
   }
 
   isAuthenticated(): boolean {

@@ -49,6 +49,8 @@ export class RegistrationComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: RegisterUserResponse) => {
+          localStorage.setItem('userId', response.id);
+
           this.snackBar.openFromComponent(SnackbarComponent, {
             data: {
               message: 'Registration successful!',
