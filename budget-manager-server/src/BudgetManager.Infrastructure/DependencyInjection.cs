@@ -22,6 +22,7 @@ using BudgetManager.Domain.Models;
 using BudgetManager.Infrastructure.Data.Interceptors;
 using MediatR;
 using BudgetManager.Application.Categories;
+using BudgetManager.Infrastructure.Extensions;
 
 namespace BudgetManager.Infrastructure;
 
@@ -33,7 +34,8 @@ public static class DependencyInjection
             .AddDatabase(configuration)
             .AddBudgetManagerAuth(configuration)
             .AddApiServices()
-            .AddMapping();
+            .AddMapping()
+            .AddSmtpMail(); ;
 
         return services;
     }
