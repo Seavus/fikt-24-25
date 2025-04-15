@@ -21,9 +21,5 @@ namespace BudgetManager.Infrastructure.Data.Configurations;
 
             builder.Property(e => e.ExpiredOn)
                 .IsRequired();
-
-            builder.HasOne<User>()
-                .WithMany()
-                .HasForeignKey(e => e.UserId);
         }
     }

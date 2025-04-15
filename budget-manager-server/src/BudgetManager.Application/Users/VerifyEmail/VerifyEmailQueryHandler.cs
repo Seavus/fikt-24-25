@@ -15,9 +15,10 @@ public class VerifyEmailQueryHandler : IRequestHandler<VerifyEmailQuery, VerifyE
 
     public async Task<VerifyEmailResponse> Handle(VerifyEmailQuery request, CancellationToken cancellationToken)
     {
+        var userId = UserId.Create(request.UserId);
         var user = await _context.Users
-            .Include(u => u.EmailVerificationTokens)
-            .FirstOrDefaultAsync(u => u.Id == UserId.Create(request.UserId), cancellationToken);
+            .Include("EmailVerificationTokens")
+            .FirstOrDefaultAsync(u => u.Id ==userId , cancellationToken);
 
         if (user == null)
             throw new NotFoundException("User not found.");

@@ -14,7 +14,7 @@ public sealed class UserCreatedEventHandler : INotificationHandler<UserCreatedEv
 
     public async Task Handle(UserCreatedEvent notification, CancellationToken cancellationToken)
     {
-        var verificationUrl = $"https://localhost:7267/api/account/{notification.UserId.Value}/verify-email/{notification.EmailToken}";
+        var verificationUrl = $"https://localhost:7188/api/account/{notification.UserId.Value}/verify-email/{notification.EmailToken}";
 
         await _fluentEmail
             .To(notification.Email)
