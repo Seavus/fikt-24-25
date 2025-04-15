@@ -127,6 +127,7 @@ public class AccountController : BaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AllowAnonymous]
     public async Task<IActionResult> VerifyEmail([FromRoute] Guid userId, [FromRoute] Guid token)
     {
         var query = new VerifyEmailQuery(userId, token);

@@ -1,5 +1,6 @@
 ﻿using BudgetManager.Application.Data;
 using BudgetManager.Application.Exceptions;
+using BudgetManager.Domain.Models.ValueObjects;
 
 namespace BudgetManager.Application.Users.VerifyEmail;
 
@@ -16,7 +17,7 @@ public class VerifyEmailQueryHandler : IRequestHandler<VerifyEmailQuery, VerifyE
     {
         var user = await _context.Users
             .Include(u => u.EmailVerificationTokens)
-            .FirstOrDefaultAsync(u => u.Id.Value == request.UserId, cancellationToken);
+            .FirstOrDefaultAsync(u => u.Id == UserId.Create(request.UserId), cancellationToken);
 
         if (user == null)
             throw new NotFoundException("User not found.");
