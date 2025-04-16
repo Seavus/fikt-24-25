@@ -2,7 +2,7 @@
 
 namespace BudgetManager.Domain.Models.ValueObjects;
 
-public class EmailVerificationTokenId
+public record EmailVerificationTokenId
 {
     public Guid Value { get; }
 

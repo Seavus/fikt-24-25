@@ -5,20 +5,26 @@ namespace BudgetManager.Domain.Models;
 
 public class EmailVerificationToken : Entity<EmailVerificationTokenId>
 {
-    public UserId UserId { get; private set; }
-    public Guid Token {  get; private set; }
-    public DateTime ExpiredOn { get; private set; }
+    public UserId UserId { get; private set; } = default!;
+    public Guid Token { get; private set; } = default!;
+    public DateTime ExpiredOn { get; private set; } = default!;
 
-    private EmailVerificationToken(EmailVerificationTokenId id, UserId userId, Guid token, DateTime expiredOn)
+    public static EmailVerificationToken Create(EmailVerificationTokenId emailVerificationTokenId, UserId userId, Guid token)
     {
-        Id = id; 
-        UserId = userId;
-        Token = token;
-        ExpiredOn = expiredOn;
-    }
+        ArgumentNullException.ThrowIfNull(emailVerificationTokenId);
+        ArgumentNullException.ThrowIfNull(userId);
+        ArgumentNullException.ThrowIfNull(token);
 
-    public static EmailVerificationToken Create(EmailVerificationTokenId id, UserId userId, Guid token, DateTime expiredOn)
-    {
-        return new EmailVerificationToken(id, userId, token, expiredOn);
+        var utcNow = DateTime.UtcNow;
+
+        var emailToken = new EmailVerificationToken
+        {
+            Id = emailVerificationTokenId,
+            UserId = userId,
+            Token = token,
+            ExpiredOn = utcNow.AddHours(3)
+        };
+
+        return emailToken;
     }
 }

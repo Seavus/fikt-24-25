@@ -2,7 +2,7 @@
 
 namespace BudgetManager.Domain.Models.ValueObjects;
 
-public class CategoryId
+public record CategoryId
 {
     public Guid Value { get; }
 

@@ -7,60 +7,56 @@ namespace BudgetManager.Domain.Models;
 
 public class User : Aggregate<UserId>
 {
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
-    public string Email { get; private set; }
-    public string Password { get; private set; }
+    public string FirstName { get; private set; } = default!;
+    public string LastName { get; private set; } = default!;
+    public string Email { get; private set; } = default!;
+    public string Password { get; private set; } = default!;
 
-    public bool EmailVerified { get; private set; }
+    public bool EmailVerified { get; private set; } = false;
+
     private readonly List<EmailVerificationToken> _emailVerificationTokens = new();
 
-    public IReadOnlyList<EmailVerificationToken> EmailVerificationTokens => _emailVerificationTokens.ToList().AsReadOnly();
-    private User(UserId id, string firstName, string lastName, string email, string password, bool emailVerified)
-    {
-        Id = id;
-        FirstName = firstName;
-        LastName = lastName;
-        Email = email;
-        Password = password;
-        EmailVerified = emailVerified;
-    }
+    private User() { }
 
-    public static User Create(UserId id, string firstName, string lastName, string email, string password, bool emailVerified)
-    {
-        if (string.IsNullOrWhiteSpace(firstName)) throw new ArgumentException("First name is required.");
-        if (string.IsNullOrWhiteSpace(lastName)) throw new ArgumentException("Last name is required.");
-        if (string.IsNullOrWhiteSpace(email)) throw new ArgumentException("Email is required.");
-        if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Password is required.");
+    public IReadOnlyCollection<EmailVerificationToken> EmailVerificationTokens => _emailVerificationTokens.AsReadOnly();
 
-        var user = new User(id, firstName, lastName, email, password, emailVerified);
-        var token = user.AddEmailVerificationToken();
-        user.AddDomainEvent(new UserCreatedEvent(user.Id, user.Email, token.Token));
+    public static User Create(UserId id, string firstName, string lastName, string email, string password, bool emailVerified = false)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(firstName);
+        ArgumentException.ThrowIfNullOrEmpty(lastName);
+        ArgumentException.ThrowIfNullOrEmpty(email);
+        ArgumentException.ThrowIfNullOrEmpty(password);
+
+        var user = new User()
+        {
+            Id = id,
+            FirstName = firstName,
+            LastName = lastName,
+            Email = email,
+            Password = password,
+            EmailVerified = emailVerified
+        };
+
+        var emailToken = user.AddEmailVerificationToken();
+        user.AddDomainEvent(new UserCreatedEvent(user.Id, user.Email, emailToken));
+
         return user;
     }
 
-    public void Update(string firstName, string lastName)
+    private Guid AddEmailVerificationToken()
     {
-        if (string.IsNullOrWhiteSpace(firstName)) throw new ArgumentException("First name is required.");
-        if (string.IsNullOrWhiteSpace(lastName)) throw new ArgumentException("Last name is required.");
+        var emailToken = EmailVerificationToken.Create(EmailVerificationTokenId.Create(Guid.NewGuid()), Id, Guid.NewGuid());
+        _emailVerificationTokens.Add(emailToken);
 
-        FirstName = firstName;
-        LastName = lastName;
-    }
-
-    public EmailVerificationToken AddEmailVerificationToken()
-    {
-        var tokenId = EmailVerificationTokenId.Create(Guid.NewGuid());
-        var token = EmailVerificationToken.Create(tokenId, Id, (Guid.NewGuid()), DateTime.UtcNow.AddHours(1));
-        _emailVerificationTokens.Add(token);
-        return token;
+        return emailToken.Token;
     }
 
     public bool VerifyEmail(Guid emailToken)
     {
-        var token = _emailVerificationTokens.FirstOrDefault(t => t.Token == emailToken);
+        var token = _emailVerificationTokens.FirstOrDefault(x => x.Token.Equals(emailToken))
+            ?? throw new DomainException("Email token does not exists");
 
-        if (token == null || token.ExpiredOn < DateTime.UtcNow)
+        if (token.ExpiredOn < DateTime.UtcNow)
         {
             throw new DomainException("Expired email verification token.");
         }
@@ -69,5 +65,14 @@ public class User : Aggregate<UserId>
         _emailVerificationTokens.Remove(token);
 
         return true;
+    }
+
+    public void Update(string firstName, string lastName)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(firstName);
+        ArgumentException.ThrowIfNullOrEmpty(lastName);
+
+        FirstName = firstName;
+        LastName = lastName;
     }
 }

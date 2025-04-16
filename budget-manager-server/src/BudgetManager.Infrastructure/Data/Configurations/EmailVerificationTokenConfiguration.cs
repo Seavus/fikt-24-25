@@ -4,22 +4,17 @@ using BudgetManager.Domain.Models;
 using BudgetManager.Domain.Models.ValueObjects;
 
 namespace BudgetManager.Infrastructure.Data.Configurations;
-    public class EmailVerificationTokenConfiguration : IEntityTypeConfiguration<EmailVerificationToken>
+public class EmailVerificationTokenConfiguration : IEntityTypeConfiguration<EmailVerificationToken>
+{
+    public void Configure(EntityTypeBuilder<EmailVerificationToken> builder)
     {
-        public void Configure(EntityTypeBuilder<EmailVerificationToken> builder)
-        {
-            builder.HasKey(e => e.Id);
+        builder.HasKey(x => x.Id);
 
-            builder.Property(e => e.Id)
-            .HasConversion(
-                id => id.Value,         
-                dbId => EmailVerificationTokenId.Create(dbId) 
-            );
+        builder.Property(x => x.Id)
+            .HasConversion(emailTokenId => emailTokenId.Value, dbId => EmailVerificationTokenId.Create(dbId));
 
-            builder.Property(e => e.Token)
-                .IsRequired();
+        builder.Property(x => x.Token).HasMaxLength(50).IsRequired();
 
-            builder.Property(e => e.ExpiredOn)
-                .IsRequired();
-        }
+        builder.Property(x => x.ExpiredOn).IsRequired();
     }
+}
