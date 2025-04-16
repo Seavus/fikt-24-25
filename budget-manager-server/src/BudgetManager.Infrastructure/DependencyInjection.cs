@@ -35,7 +35,7 @@ public static class DependencyInjection
             .AddBudgetManagerAuth(configuration)
             .AddApiServices()
             .AddMapping()
-            .AddSmtpMail(); ;
+            .AddSmtpMail(); 
 
         return services;
     }
@@ -208,22 +208,11 @@ public static class DependencyInjection
         return services;
     }
 
-    private static FluentEmailServicesBuilder AddFluentEmailDefault(this IServiceCollection services)
+    public static IServiceCollection AddSmtpMail(this IServiceCollection services)
     {
-        return services.AddFluentEmail("no-reply@budgetmanager.com");
-    }
-
-    private static IServiceCollection AddSmtpSender(this IServiceCollection services)
-    {
-        services.AddFluentEmailDefault()
+        services.AddFluentEmail("no-reply@budgetmanager.com")
                 .AddSmtpSender("localhost", 25);
 
         return services;
     }
-
-    public static IServiceCollection AddSmtpMail(this IServiceCollection services)
-    {
-        return services.AddSmtpSender();
-    }
-
 }
