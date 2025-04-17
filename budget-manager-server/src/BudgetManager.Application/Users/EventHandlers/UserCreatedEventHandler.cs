@@ -2,7 +2,7 @@
 using FluentEmail.Core;
 
 
-namespace BudgetManager.Application.Users.Events.UserCreated;
+namespace BudgetManager.Application.Users.EventHandlers;
 public sealed class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
 {
     private readonly IFluentEmail _fluentEmail;
