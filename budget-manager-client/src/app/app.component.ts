@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { SidebarComponent } from './core/sidebar/sidebar.component';
-import { PopupData } from './shared/components/dynamic-popup/popup-data.model';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
+import { SidebarComponent } from './core/sidebar/sidebar.component';
 import { currentUserSignal } from './services/auth.service';
 
 @Component({
@@ -14,6 +13,9 @@ import { currentUserSignal } from './services/auth.service';
 })
 export class AppComponent {
   title = 'budget-manager-client';
+  isMenuOpened = false;
+
+  constructor() {}
 
   isPopupOpen: boolean = false;
   popupTitle: string = 'Dynamic Popup Title';
