@@ -4,7 +4,7 @@ using BudgetManager.Domain.Models.ValueObjects;
 
 namespace BudgetManager.Application.Users.VerifyEmail;
 
-public class VerifyEmailQueryHandler : IRequestHandler<VerifyEmailQuery, VerifyEmailResponse>
+internal sealed class VerifyEmailQueryHandler : IRequestHandler<VerifyEmailQuery, VerifyEmailResponse>
 {
     private IApplicationDbContext _context;
 
@@ -16,6 +16,7 @@ public class VerifyEmailQueryHandler : IRequestHandler<VerifyEmailQuery, VerifyE
     public async Task<VerifyEmailResponse> Handle(VerifyEmailQuery request, CancellationToken cancellationToken)
     {
         var userId = UserId.Create(request.UserId);
+
         var user = await _context.Users
             .Include("EmailVerificationTokens")
             .FirstOrDefaultAsync(u => u.Id ==userId , cancellationToken);

@@ -1,9 +1,9 @@
 ﻿using BudgetManager.Domain.Events;
 using FluentEmail.Core;
 
-
 namespace BudgetManager.Application.Users.EventHandlers;
-public sealed class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
+
+internal sealed class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
 {
     private readonly IFluentEmail _fluentEmail;
 
