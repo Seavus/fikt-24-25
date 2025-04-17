@@ -1,6 +1,7 @@
 ﻿using BudgetManager.Application.Common.Responses;
 using BudgetManager.Application.Users.GetUserById;
 using BudgetManager.Application.Users.GetUsers;
+using BudgetManager.Application.Users.VerifyEmail;
 using Microsoft.AspNetCore.Authorization;
 
 namespace BudgetManager.Api.Controllers;
@@ -116,5 +117,23 @@ public class AccountController : BaseController
         var response = await Mediator.Send(query);
 
         return Ok(response);
+    }
+
+    ///<summary>
+    ///Verifies a users email using token.
+    /// </summary>
+    [HttpGet("{userId:guid}/verify-email/{token:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(VerifyEmailResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [AllowAnonymous]
+    public async Task<IActionResult> VerifyEmail([FromRoute] Guid userId, [FromRoute] Guid token)
+    {
+        var query = new VerifyEmailQuery(userId, token);
+
+        var result = await Mediator.Send(query);
+
+        return Ok(result);
     }
 }

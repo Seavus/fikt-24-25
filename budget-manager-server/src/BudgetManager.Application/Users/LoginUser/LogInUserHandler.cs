@@ -23,6 +23,11 @@ public class LogInUserHandler : IRequestHandler<LoginUserQuery, LoginUserRespons
         {
             throw new UnauthorizedAccessException("Invalid e-mail or password.");
         }
+
+        if (!user.EmailVerified)
+        {
+            throw new UnauthorizedAccessException("Email is not Verified.");
+        }
         var token = _tokenService.CreateToken(user.Id.Value, $"{user.FirstName}.{user.LastName}", user.Email);
 
         return new LoginUserResponse(token);

@@ -22,6 +22,7 @@ using BudgetManager.Domain.Models;
 using BudgetManager.Infrastructure.Data.Interceptors;
 using MediatR;
 using BudgetManager.Application.Categories;
+using BudgetManager.Infrastructure.Extensions;
 
 namespace BudgetManager.Infrastructure;
 
@@ -33,7 +34,8 @@ public static class DependencyInjection
             .AddDatabase(configuration)
             .AddBudgetManagerAuth(configuration)
             .AddApiServices()
-            .AddMapping();
+            .AddMapping()
+            .AddSmtpMail();
 
         return services;
     }
@@ -203,6 +205,14 @@ public static class DependencyInjection
     {
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<CurrentUserMiddleware>();
+        return services;
+    }
+
+    private static IServiceCollection AddSmtpMail(this IServiceCollection services)
+    {
+        services.AddFluentEmail("no-reply@budgetmanager.com")
+                .AddSmtpSender("localhost", 25);
+
         return services;
     }
 }
