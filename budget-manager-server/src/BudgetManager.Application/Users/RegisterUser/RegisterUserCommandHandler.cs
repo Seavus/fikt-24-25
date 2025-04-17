@@ -20,6 +20,7 @@ internal sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserC
             request.LastName,
             request.Email,
             request.Password,
+            request.Balance,
             false
         );
 
