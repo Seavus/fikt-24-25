@@ -1,5 +1,6 @@
 ﻿using BudgetManager.Application.Common.Responses;
 using BudgetManager.Application.Users.GetCategoriesByUser;
+using BudgetManager.Application.Users.GetCatogiresByUser;
 using BudgetManager.Application.Users.GetUserById;
 using BudgetManager.Application.Users.GetUsers;
 using BudgetManager.Application.Users.VerifyEmail;
@@ -141,17 +142,16 @@ public class AccountController : BaseController
     ///<summary>
     ///Retrieves a category by user.
     /// </summary>
-    [HttpGet("{userId:guid}/categories")]
+    [HttpGet("categories")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResponse<GetCategoriesByUserResponse>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetCategoriesByUser(
-        [FromRoute] Guid userId,
-        [FromQuery] int pageIndex = 1,
-        [FromQuery] int pageSize = 10)
+        [FromQuery] GetCategoriesRequest request)
+        
     {
-        var query = new GetCategoriesByUserQuery(userId, pageIndex, pageSize);
+        var query = new GetCategoriesByUserQuery(request.PageIndex, request.PageSize);
 
         var result = await Mediator.Send(query);
 

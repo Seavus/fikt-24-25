@@ -2,4 +2,4 @@
 
 namespace BudgetManager.Application.Users.GetCategoriesByUser;
 
-public record GetCategoriesByUserQuery(Guid UserId, int PageIndex, int PageSize) : IRequest<PaginatedResponse<GetCategoriesByUserResponse>>;
+public record GetCategoriesByUserQuery(int PageIndex, int PageSize) : IRequest<PaginatedResponse<GetCategoriesByUserResponse>>;
