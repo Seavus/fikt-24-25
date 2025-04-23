@@ -144,14 +144,11 @@ public class AccountController : BaseController
     /// </summary>
     [HttpGet("categories")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResponse<GetCategoriesByUserResponse>))]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetCategoriesByUser(
         [FromQuery] GetCategoriesRequest request)
         
     {
-        var query = new GetCategoriesByUserQuery(request.PageIndex, request.PageSize);
+        var query = Mapper.Map<GetCategoriesByUserQuery>(request);
 
         var result = await Mediator.Send(query);
 
