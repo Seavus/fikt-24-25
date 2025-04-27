@@ -22,18 +22,19 @@ internal sealed class GetCategoriesByUserQueryHandler : IRequestHandler<GetCateg
     {
         var userId = _currentUser.UserId;
 
-        var query = _context.Categories.AsQueryable();
-
-        int totalCount = await query
+        var query = _context.Categories
+            .AsNoTracking()
+            .AsEnumerable()
             .Where(c => c.UserId.Value == userId)
-            .CountAsync(cancellationToken);
+            .AsQueryable();
 
-        var categories = await query
-            .Where(c => c.UserId.Value == userId)
+        int totalCount = query.Count();
+
+        var categories = query
             .OrderBy(c => c.Name)
             .Skip((request.PageIndex - 1) * request.PageSize)
             .Take(request.PageSize)
-            .ToListAsync(cancellationToken);
+            .ToList();
 
         var items = _mapper.Map<List<GetCategoriesByUserResponse>>(categories);
 

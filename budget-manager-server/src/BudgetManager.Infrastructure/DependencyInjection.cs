@@ -24,6 +24,7 @@ using MediatR;
 using BudgetManager.Application.Categories;
 using BudgetManager.Application.Users.GetCategoriesByUser;
 using BudgetManager.Domain.Models.ValueObjects;
+using BudgetManager.Application.Users.GetCatogiresByUser;
 
 namespace BudgetManager.Infrastructure;
 
@@ -168,6 +169,7 @@ public static class DependencyInjection
             cfg.CreateMap<CreateCategoryRequest, CreateCategoryCommand>();
             cfg.CreateMap<CategoryId, Guid>().ConvertUsing(src => src.Value);
             cfg.CreateMap<Category, GetCategoriesByUserResponse>();
+            cfg.CreateMap<GetCategoriesRequest, GetCategoriesByUserQuery>();
         }, typeof(DependencyInjection).Assembly);
 
         return services;
