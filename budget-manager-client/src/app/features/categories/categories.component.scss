@@ -1,0 +1,11 @@
+.categories-container {
+  box-sizing: border-box;
+  width: 100%;
+
+  form {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
