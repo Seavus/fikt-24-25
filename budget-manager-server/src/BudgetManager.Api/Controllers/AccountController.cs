@@ -3,6 +3,7 @@ using BudgetManager.Application.Users.GetCategoriesByUser;
 using BudgetManager.Application.Users.GetCatogiresByUser;
 using BudgetManager.Application.Users.GetUserById;
 using BudgetManager.Application.Users.GetUsers;
+using BudgetManager.Application.Users.UpdateUserBalance;
 using BudgetManager.Application.Users.VerifyEmail;
 using Microsoft.AspNetCore.Authorization;
 
@@ -153,6 +154,23 @@ public class AccountController : BaseController
         var query = Mapper.Map<GetCategoriesByUserQuery>(request);
 
         var result = await Mediator.Send(query);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Updates the currently authenticated user's balance.
+    /// </summary>
+    [HttpPut("balance")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateUserBalanceResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> UpdateBalance([FromBody] UpdateUserBalanceRequest request)
+    {
+        var command = new UpdateUserBalanceCommand(request.Balance);
+
+        var result = await Mediator.Send(command);
 
         return Ok(result);
     }

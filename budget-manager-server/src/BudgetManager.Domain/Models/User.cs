@@ -78,4 +78,14 @@ public class User : Aggregate<UserId>
         FirstName = firstName;
         LastName = lastName;
     }
+    public bool UpdateBalance(decimal newBalance)
+    {
+        if (newBalance <= 0)
+        {
+            throw new DomainException("Balance cannot be negative.");
+        }
+
+        Balance = newBalance;
+        return true;
+    }
 }
