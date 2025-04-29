@@ -85,7 +85,7 @@ public class User : Aggregate<UserId>
             throw new DomainException("Balance cannot be negative.");
         }
 
-        Balance = newBalance;
+        Balance += newBalance;
         return true;
     }
 }

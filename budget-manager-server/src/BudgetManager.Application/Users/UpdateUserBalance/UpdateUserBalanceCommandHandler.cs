@@ -1,13 +1,12 @@
 ﻿using BudgetManager.Application.Data;
 using BudgetManager.Application.Exceptions;
 using BudgetManager.Application.Services;
-using BudgetManager.Domain.Exceptions;
 using BudgetManager.Domain.Models.ValueObjects;
 
 
 namespace BudgetManager.Application.Users.UpdateUserBalance;
 
-internal class UpdateUserBalanceCommandHandler : IRequestHandler<UpdateUserBalanceCommand, UpdateUserBalanceResponse>
+internal sealed class UpdateUserBalanceCommandHandler : IRequestHandler<UpdateUserBalanceCommand, UpdateUserBalanceResponse>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUser _currentUser;
