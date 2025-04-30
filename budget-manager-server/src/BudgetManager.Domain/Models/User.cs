@@ -11,6 +11,7 @@ public class User : Aggregate<UserId>
     public string LastName { get; private set; } = default!;
     public string Email { get; private set; } = default!;
     public string Password { get; private set; } = default!;
+    public decimal Balance { get; private set; }
 
     public bool EmailVerified { get; private set; } = false;
 
@@ -20,12 +21,13 @@ public class User : Aggregate<UserId>
 
     public IReadOnlyCollection<EmailVerificationToken> EmailVerificationTokens => _emailVerificationTokens.AsReadOnly();
 
-    public static User Create(UserId id, string firstName, string lastName, string email, string password, bool emailVerified = false)
+    public static User Create(UserId id, string firstName, string lastName, string email, string password, decimal balance, bool emailVerified = false)
     {
         ArgumentException.ThrowIfNullOrEmpty(firstName);
         ArgumentException.ThrowIfNullOrEmpty(lastName);
         ArgumentException.ThrowIfNullOrEmpty(email);
         ArgumentException.ThrowIfNullOrEmpty(password);
+        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(balance, 0);
 
         var user = new User()
         {
@@ -34,7 +36,8 @@ public class User : Aggregate<UserId>
             LastName = lastName,
             Email = email,
             Password = password,
-            EmailVerified = emailVerified
+            EmailVerified = emailVerified,
+            Balance = balance
         };
 
         var emailToken = user.AddEmailVerificationToken();
@@ -74,5 +77,20 @@ public class User : Aggregate<UserId>
 
         FirstName = firstName;
         LastName = lastName;
+    }
+    public void CreditBalance(decimal amount)
+    {
+        if (amount <= 0)
+            throw new DomainException("Credit amount must be greater than zero.");
+
+        Balance += amount;
+    }
+
+    public void DebitBalance(decimal amount)
+    {
+        if (amount <= 0)
+            throw new DomainException("Debit amount must be greater than zero.");
+
+        Balance -= amount;
     }
 }

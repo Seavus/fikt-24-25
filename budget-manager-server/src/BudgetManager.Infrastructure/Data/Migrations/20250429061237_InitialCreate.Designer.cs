@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BudgetManager.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250416075002_InitialCreate")]
+    [Migration("20250429061237_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -139,6 +139,9 @@ namespace BudgetManager.Infrastructure.Data.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
