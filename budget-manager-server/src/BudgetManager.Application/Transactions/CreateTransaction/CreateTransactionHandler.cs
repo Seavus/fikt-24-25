@@ -36,15 +36,11 @@ internal sealed class CreateTransactionHandler : IRequestHandler<CreateTransacti
         if (category == null)
             throw new NotFoundException("Category not found.");
 
-        var userId = UserId.Create(_currentUser.UserId
-        ?? throw new DomainException("User not authenticated."));
+        var userId = UserId.Create(_currentUser.UserId!.Value);
 
         var user = await _context.Users
-            .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
-
-        if (user == null)
-            throw new NotFoundException("User not found for the category.");
-
+            .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken) ?? throw new NotFoundException("User not found for the category.");
+        
         switch (request.TransactionType)
         {
             case TransactionType.Expense:
