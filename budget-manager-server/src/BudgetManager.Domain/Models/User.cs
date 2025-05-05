@@ -83,7 +83,10 @@ public class User : Aggregate<UserId>
         if (amount <= 0)
             throw new DomainException("Credit amount must be greater than zero.");
 
-        Balance += amount;
+        if (Balance < amount)
+            throw new DomainException("Insufficient balance.");
+
+        Balance -= amount;
     }
 
     public void DebitBalance(decimal amount)
@@ -91,6 +94,6 @@ public class User : Aggregate<UserId>
         if (amount <= 0)
             throw new DomainException("Debit amount must be greater than zero.");
 
-        Balance -= amount;
+        Balance += amount;
     }
 }

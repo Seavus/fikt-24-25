@@ -4,16 +4,19 @@ using BudgetManager.Domain.Models;
 using BudgetManager.Application.Exceptions;
 using BudgetManager.Domain.Enums;
 using BudgetManager.Domain.Exceptions;
+using BudgetManager.Application.Services;
 
 namespace BudgetManager.Application.Transactions.CreateTransaction;
 
 internal sealed class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand, CreateTransactionResponse>
 {
     private readonly IApplicationDbContext _context;
+    private readonly ICurrentUser _currentUser;
 
-    public CreateTransactionHandler(IApplicationDbContext context)
+    public CreateTransactionHandler(IApplicationDbContext context, ICurrentUser currentUser)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
+        _currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
     }
 
     public async Task<CreateTransactionResponse> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
@@ -33,23 +36,27 @@ internal sealed class CreateTransactionHandler : IRequestHandler<CreateTransacti
         if (category == null)
             throw new NotFoundException("Category not found.");
 
+        var userId = UserId.Create(_currentUser.UserId
+        ?? throw new DomainException("User not authenticated."));
+
         var user = await _context.Users
-            .FirstOrDefaultAsync(u => u.Id == category.UserId, cancellationToken);
+            .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
 
         if (user == null)
             throw new NotFoundException("User not found for the category.");
 
-        if (request.TransactionType == TransactionType.Expense)
+        switch (request.TransactionType)
         {
-            user.DebitBalance(request.Amount);
-        }
-        else if (request.TransactionType == TransactionType.Income)
-        {
-            user.CreditBalance(request.Amount);
-        }
-        else
-        {
-            throw new DomainException("Unsupported transaction type.");
+            case TransactionType.Expense:
+                user.CreditBalance(request.Amount); 
+                break;
+
+            case TransactionType.Income:
+                user.DebitBalance(request.Amount); 
+                break;
+
+            default:
+                throw new DomainException("Unsupported transaction type.");
         }
 
         _context.Transactions.Add(transaction);
