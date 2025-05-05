@@ -1,4 +1,6 @@
-﻿namespace BudgetManager.Application.Transactions.CreateTransaction;
+﻿using BudgetManager.Domain.Enums;
+
+namespace BudgetManager.Application.Transactions.CreateTransaction;
 
 public class CreateTransactionValidator : AbstractValidator<CreateTransactionCommand>
 {
@@ -6,7 +8,8 @@ public class CreateTransactionValidator : AbstractValidator<CreateTransactionCom
     {
         RuleFor(x => x.CategoryId)
             .NotEmpty()
-            .WithMessage("Category ID is required.");
+            .WithMessage("Category ID is required.")
+            .When(x => x.TransactionType == TransactionType.Expense);
 
         RuleFor(x => x.TransactionType)
             .IsInEnum()

@@ -78,14 +78,22 @@ public class User : Aggregate<UserId>
         FirstName = firstName;
         LastName = lastName;
     }
-    public bool UpdateBalance(decimal newBalance)
+    public void CreditBalance(decimal amount)
     {
-        if (newBalance <= 0)
-        {
-            throw new DomainException("Balance cannot be negative.");
-        }
+        if (amount <= 0)
+            throw new DomainException("Credit amount must be greater than zero.");
 
-        Balance += newBalance;
-        return true;
+        if (Balance < amount)
+            throw new DomainException("Insufficient balance.");
+
+        Balance -= amount;
+    }
+
+    public void DebitBalance(decimal amount)
+    {
+        if (amount <= 0)
+            throw new DomainException("Debit amount must be greater than zero.");
+
+        Balance += amount;
     }
 }
