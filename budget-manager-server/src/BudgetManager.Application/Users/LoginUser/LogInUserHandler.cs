@@ -30,6 +30,6 @@ public class LogInUserHandler : IRequestHandler<LoginUserQuery, LoginUserRespons
         }
         var token = _tokenService.CreateToken(user.Id.Value, $"{user.FirstName}.{user.LastName}", user.Email);
 
-        return new LoginUserResponse(token);
+        return new LoginUserResponse(token, user.Id.Value, $"{user.FirstName} {user.LastName}", user.Email);
     }
 }
