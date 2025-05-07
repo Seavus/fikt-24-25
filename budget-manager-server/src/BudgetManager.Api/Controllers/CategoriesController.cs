@@ -1,4 +1,4 @@
-﻿using BudgetManager.Application.Categories;
+﻿using BudgetManager.Application.Categories.CreateCategory;
 using Microsoft.AspNetCore.Authorization;
 
 namespace BudgetManager.Api.Controllers;
