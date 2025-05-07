@@ -1,4 +1,6 @@
 ﻿using BudgetManager.Application.Common.Responses;
+using BudgetManager.Application.Users.GetCategoriesByUser;
+using BudgetManager.Application.Users.GetCatogiresByUser;
 using BudgetManager.Application.Users.GetUserById;
 using BudgetManager.Application.Users.GetUsers;
 using BudgetManager.Application.Users.VerifyEmail;
@@ -131,6 +133,24 @@ public class AccountController : BaseController
     public async Task<IActionResult> VerifyEmail([FromRoute] Guid userId, [FromRoute] Guid token)
     {
         var query = new VerifyEmailQuery(userId, token);
+
+        var result = await Mediator.Send(query);
+
+        return Ok(result);
+    }
+
+    ///<summary>
+    ///Retrieves a category by user.
+    /// </summary>
+    [HttpGet("categories")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResponse<GetCategoriesByUserResponse>))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetCategoriesByUser(
+        [FromQuery] GetCategoriesRequest request)
+        
+    {
+        var query = Mapper.Map<GetCategoriesByUserQuery>(request);
 
         var result = await Mediator.Send(query);
 
