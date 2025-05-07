@@ -1,6 +1,5 @@
 ﻿using BudgetManager.Application.Data;
 using BudgetManager.Application.Services;
-using BudgetManager.Domain.Enums;
 using BudgetManager.Domain.Models.ValueObjects;
 
 namespace BudgetManager.Application.Transactions.CreateTransaction;
@@ -15,7 +14,7 @@ public class CreateTransactionValidator : AbstractValidator<CreateTransactionCom
             .MustAsync(async (id, cancellation) =>
                 await context.Categories.AnyAsync(c => c.Id == CategoryId.Create(id) &&
                 c.UserId == UserId.Create(currentUser.UserId!.Value), cancellation))
-            .WithMessage("Categori does not exist.");
+            .WithMessage("Category does not exist.");
 
         RuleFor(x => x.TransactionType)
             .IsInEnum()
