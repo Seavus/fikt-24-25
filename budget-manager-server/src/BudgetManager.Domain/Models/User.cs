@@ -66,7 +66,6 @@ public class User : Aggregate<UserId>
 
         return true;
     }
-
     public void Update(string firstName, string lastName)
     {
         ArgumentException.ThrowIfNullOrEmpty(firstName);

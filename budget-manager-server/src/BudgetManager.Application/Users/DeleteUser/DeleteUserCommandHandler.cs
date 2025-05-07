@@ -21,7 +21,7 @@ internal sealed class DeleteUserCommandHandler : IRequestHandler<DeleteUserComma
             throw new NotFoundException("User not found");
         }
 
-        _context.Users.Remove(user);
+        user.SetDeleted();
         await _context.SaveChangesAsync(cancellationToken);
         
         return new DeleteUserResponse(true);

@@ -27,5 +27,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(x => x.EmailVerificationTokens)
             .WithOne()
             .HasForeignKey(x => x.UserId);
+
+        builder.HasQueryFilter(x => !x.IsDeleted);
     }
 }

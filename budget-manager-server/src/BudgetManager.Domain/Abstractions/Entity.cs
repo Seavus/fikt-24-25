@@ -7,4 +7,6 @@ public abstract class Entity<T> : IEntity<T>
     public string CreatedBy { get; set; } = "System";
     public DateTime? UpdatedOn { get; set; }
     public string? UpdatedBy { get; set;}
+    public bool IsDeleted { get; private set; }
+    public void SetDeleted() => IsDeleted = true;
 }
