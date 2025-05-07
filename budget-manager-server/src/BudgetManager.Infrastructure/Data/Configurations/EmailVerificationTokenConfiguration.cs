@@ -17,7 +17,7 @@ public class EmailVerificationTokenConfiguration : IEntityTypeConfiguration<Emai
 
         builder.Property(x => x.ExpiredOn).IsRequired();
 
-        builder.HasQueryFilter(x => !x.IsDeleted);
+        builder.Ignore(x=> x.IsDeleted);
 
     }
 }

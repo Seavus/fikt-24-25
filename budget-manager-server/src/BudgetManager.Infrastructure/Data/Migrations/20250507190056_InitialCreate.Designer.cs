@@ -12,11 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BudgetManager.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:budget-manager-server/src/BudgetManager.Infrastructure/Data/Migrations/20250507113445_InitialCreate.Designer.cs
-    [Migration("20250507113445_InitialCreate")]
-========
-    [Migration("20250429061237_InitialCreate")]
->>>>>>>> origin/main:budget-manager-server/src/BudgetManager.Infrastructure/Data/Migrations/20250429061237_InitialCreate.Designer.cs
+    [Migration("20250507190056_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -79,9 +75,6 @@ namespace BudgetManager.Infrastructure.Data.Migrations
 
                     b.Property<DateTime>("ExpiredOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<Guid>("Token")
                         .HasMaxLength(50)

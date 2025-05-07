@@ -73,9 +73,6 @@ namespace BudgetManager.Infrastructure.Data.Migrations
                     b.Property<DateTime>("ExpiredOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("Token")
                         .HasMaxLength(50)
                         .HasColumnType("uniqueidentifier");
