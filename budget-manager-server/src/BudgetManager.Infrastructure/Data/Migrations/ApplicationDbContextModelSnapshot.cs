@@ -34,6 +34,9 @@ namespace BudgetManager.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -53,6 +56,41 @@ namespace BudgetManager.Infrastructure.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("BudgetManager.Domain.Models.EmailVerificationToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiredOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Token")
+                        .HasMaxLength(50)
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("EmailVerificationToken");
                 });
 
             modelBuilder.Entity("BudgetManager.Domain.Models.Transaction", b =>
@@ -75,14 +113,17 @@ namespace BudgetManager.Infrastructure.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TransactionType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("int");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -102,6 +143,9 @@ namespace BudgetManager.Infrastructure.Data.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -114,10 +158,16 @@ namespace BudgetManager.Infrastructure.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<bool>("EmailVerified")
+                        .HasColumnType("bit");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -126,8 +176,8 @@ namespace BudgetManager.Infrastructure.Data.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -152,6 +202,15 @@ namespace BudgetManager.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("BudgetManager.Domain.Models.EmailVerificationToken", b =>
+                {
+                    b.HasOne("BudgetManager.Domain.Models.User", null)
+                        .WithMany("EmailVerificationTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BudgetManager.Domain.Models.Transaction", b =>
                 {
                     b.HasOne("BudgetManager.Domain.Models.Category", null)
@@ -159,6 +218,11 @@ namespace BudgetManager.Infrastructure.Data.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BudgetManager.Domain.Models.User", b =>
+                {
+                    b.Navigation("EmailVerificationTokens");
                 });
 #pragma warning restore 612, 618
         }

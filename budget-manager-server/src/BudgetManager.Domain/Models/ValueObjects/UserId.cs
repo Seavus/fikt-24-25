@@ -1,7 +1,7 @@
 ﻿using BudgetManager.Domain.Exceptions;
 namespace BudgetManager.Domain.Models.ValueObjects;
 
-public class UserId
+public record UserId
 {
     public Guid Value { get; }
 

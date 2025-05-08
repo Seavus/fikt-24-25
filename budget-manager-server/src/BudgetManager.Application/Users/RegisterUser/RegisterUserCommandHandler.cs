@@ -19,7 +19,9 @@ internal sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserC
             request.FirstName,
             request.LastName,
             request.Email,
-            request.Password
+            request.Password,
+            request.Balance,
+            false
         );
 
         await _context.Users.AddAsync(user);

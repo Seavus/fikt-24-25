@@ -14,8 +14,6 @@ public class Category : Aggregate<CategoryId>
         Id = id;
         Name = name;
         UserId = userId;
-        CreatedOn = DateTime.UtcNow;
-        CreatedBy = "System";
     }
 
     public static Category Create(CategoryId id, string name, UserId userId)
@@ -30,7 +28,6 @@ public class Category : Aggregate<CategoryId>
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name is required.");
 
         Name = name;
-        UpdatedOn = DateTime.UtcNow;
-        UpdatedBy = "System";
     }
+
 }
