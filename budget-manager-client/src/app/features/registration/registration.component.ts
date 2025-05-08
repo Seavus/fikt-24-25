@@ -12,6 +12,7 @@ import {
 import { SnackbarComponent } from '../../shared/components/snackbar/snackbar.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { currentUserSignal } from '../../services/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -49,7 +50,7 @@ export class RegistrationComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: RegisterUserResponse) => {
-          localStorage.setItem('userId', response.id);
+          currentUserSignal.set(response.id);
 
           this.snackBar.openFromComponent(SnackbarComponent, {
             data: {

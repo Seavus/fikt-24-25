@@ -10,14 +10,12 @@ interface LoginRequest {
 
 interface LoginResponse {
   accessToken: string;
-  user: {
-    id: number;
-    name: string;
-    email: string;
-  };
+  id: string;
+  name: string;
+  email: string;
 }
 
-export const currentUserSignal = signal<LoginResponse['user'] | null>(null);
+export const currentUserSignal = signal<LoginResponse['id'] | null>(null);
 
 @Injectable({
   providedIn: 'root',
@@ -36,14 +34,14 @@ export class AuthService {
       tap((response) => {
         if (response.accessToken) {
           localStorage.setItem('token', response.accessToken);
-          currentUserSignal.set(response.user);
+          currentUserSignal.set(response.id);
         } else {
           console.error('No token found in the response');
         }
       }),
       catchError((error) => {
         return throwError(
-          () => new Error(error.error?.message || 'Login failed')
+          () => new Error(error.error?.message ?? 'Login failed')
         );
       })
     );
@@ -52,7 +50,6 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     currentUserSignal.set(null);
-    localStorage.removeItem('userId');
   }
 
   isAuthenticated(): boolean {

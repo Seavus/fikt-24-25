@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { AuthService, currentUserSignal } from '../../services/auth.service';
 import { SnackbarService } from '../../core/services/snackbar.service';
 import { UserService } from '../../core/services/user.service';
 import { CommonModule } from '@angular/common';
@@ -27,10 +27,11 @@ export class UserManagementComponent implements OnInit {
       firstName: [''],
       lastName: [''],
     });
-}
+  }
   ngOnInit(): void {
-    const userId = this.authService.getUserId();
+    const userId = currentUserSignal();
     if (!userId) return;
+
     this.userService
       .getUserById(userId)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -41,10 +42,11 @@ export class UserManagementComponent implements OnInit {
         });
       });
   }
+
   onUpdate(): void {
     if (this.form.invalid) return;
 
-    const userId = this.authService.getUserId();
+    const userId = currentUserSignal();
     if (!userId) return;
 
     const { firstName, lastName } = this.form.value;
