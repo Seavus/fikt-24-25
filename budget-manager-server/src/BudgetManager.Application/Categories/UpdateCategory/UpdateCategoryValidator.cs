@@ -5,7 +5,7 @@ public class UpdateCategoryValidator : AbstractValidator<UpdateCategoryRequest>
     public UpdateCategoryValidator()
     {
 
-        RuleFor(x => x.Id)
+        RuleFor(x => x.CategoryId)
             .NotEmpty().WithMessage("Id is required.");
 
         RuleFor(x => x.Name)

@@ -33,17 +33,17 @@ public class CategoriesController : BaseController
     ///<summary>
     ///Updates an existing category.
     /// </summary>
-    [HttpPut("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [HttpPut("category")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateCategoryResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> UpdateCategory([FromRoute] Guid id, [FromBody] UpdateCategoryRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryRequest request)
     {
         var command = Mapper.Map<UpdateCategoryCommand>(request);
 
-        await Mediator.Send(command, cancellationToken);
+        var response = await Mediator.Send(command);
 
-        return NoContent();
+        return Ok(response);
     }
 }

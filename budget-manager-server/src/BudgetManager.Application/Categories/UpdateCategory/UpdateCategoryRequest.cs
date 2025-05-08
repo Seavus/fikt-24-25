@@ -1,7 +1,3 @@
 ﻿namespace BudgetManager.Application.Categories.UpdateCategory;
 
-public class UpdateCategoryRequest
-{
-    public Guid Id { get; set; }
-    public string Name { get; set; } = default!;
-}
+public record UpdateCategoryRequest (Guid CategoryId, string Name);
