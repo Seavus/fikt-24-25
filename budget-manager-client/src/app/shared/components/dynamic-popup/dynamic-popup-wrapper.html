@@ -1,8 +1,15 @@
-<h2 mat-dialog-title>Delete transaction</h2>
 <mat-dialog-content>
-  Would you like to delete this transaction?
+  <p *ngIf="data.message">{{ data.message }}</p>
+
+  <mat-form-field *ngIf="data.showInput" style="width: 100%;">
+    <mat-label>{{ data.inputLabel || 'Enter value' }}</mat-label>
+    <input matInput [(ngModel)]="inputValue" />
+  </mat-form-field>
 </mat-dialog-content>
+
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>No</button>
-  <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <button mat-button [mat-dialog-close]="inputValue" cdkFocusInitial>
+    Confirm
+  </button>
 </mat-dialog-actions>

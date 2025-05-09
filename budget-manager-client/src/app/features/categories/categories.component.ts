@@ -2,7 +2,6 @@ import { Component, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { InputComponent } from '../../shared/components/input/input.component';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -12,15 +11,18 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { PopupData } from '../../shared/components/dynamic-popup/popup-data.model';
+import { DynamicPopupWrapper } from '../../shared/components/dynamic-popup/dynamic-popup.component';
 
 interface Category {
+  id: string;
   name: string;
 }
 
 @Component({
   selector: 'app-categories',
   imports: [
-    InputComponent,
     ButtonComponent,
     FormsModule,
     CommonModule,
@@ -41,7 +43,8 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
   constructor(
     private readonly http: HttpClient,
     private readonly authService: AuthService,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly dialog: MatDialog
   ) {}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -62,18 +65,25 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  createCategory() {
-    if (!this.categoryName.trim()) {
-      this.snackBar.openFromComponent(SnackbarComponent, {
-        data: {
-          message: 'Category name is required!',
-          type: 'error',
-        },
-        duration: 3000,
-      });
-      return;
-    }
+  addCategory(): void {
+    const data = new PopupData({
+      title: 'Add New Category',
+      inputLabel: 'Category Name',
+      showInput: true,
+    });
 
+    const dialogRef = this.dialog.open(DynamicPopupWrapper, {
+      width: '300px',
+      data,
+    });
+
+    dialogRef.afterClosed().subscribe((result: string | undefined) => {
+      if (result?.trim()) {
+        this.createCategory(result.trim());
+      }
+    });
+  }
+  createCategory(name: string): void {
     const token = this.authService.getToken();
 
     if (!token) {
@@ -87,9 +97,7 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
       return;
     }
 
-    const body = {
-      name: this.categoryName,
-    };
+    const body = { name };
 
     this.http
       .post<{ categoryId: string }>('/api/categories', body)

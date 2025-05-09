@@ -1,7 +1,7 @@
 <div class="categories-container">
   <h2>Categories</h2>
   <div class="button-container">
-    <app-button mat-raised-button customButtonClass="dynamic-green" class="add-button">
+    <app-button mat-raised-button (click)="addCategory()" customButtonClass="dynamic-green" class="add-button">
       Add new category
     </app-button>
   </div>
@@ -36,19 +36,3 @@
       showFirstLastButtons>></mat-paginator>
   </div>
 </div>
-
-<div class="vertical-divider"></div>
-
-<!-- Add Category Section
-<div class="add-category-container">
-  <h3>Add Category</h3>
-  <form (ngSubmit)="createCategory()" #categoryForm="ngForm">
-
-    <app-input label="Category Name" placeholder="Enter category name" [(ngModel)]="categoryName"
-      name="categoryName"></app-input>
-
-    <app-button text="Create Category" customButtonClass="dynamic-green"></app-button>
-  </form>
-
-</div>
-</div> -->
