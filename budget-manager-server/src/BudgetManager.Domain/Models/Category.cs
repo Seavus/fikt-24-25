@@ -29,4 +29,5 @@ public class Category : Aggregate<CategoryId>
 
         Name = name;
     }
+
 }

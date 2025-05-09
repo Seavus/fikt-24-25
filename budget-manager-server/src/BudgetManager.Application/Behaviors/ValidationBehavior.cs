@@ -12,14 +12,17 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellation)
     {
-        if (!_validators.Any()) 
+        if (!_validators.Any())
             return await next();
 
         var context = new ValidationContext<TRequest>(request);
 
-        var errors = _validators
-            .Select(v => v.Validate(context))
-            .SelectMany(result => result.Errors)
+        var tasks = _validators
+            .Select(v => v.ValidateAsync(context, cancellation));
+
+        var validationResults = await Task.WhenAll(tasks);
+
+        var errors = validationResults.SelectMany(result => result.Errors)
             .Where(f => f != null)
             .ToList();
 

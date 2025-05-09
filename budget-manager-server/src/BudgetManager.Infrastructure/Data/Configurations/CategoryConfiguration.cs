@@ -19,5 +19,7 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
             .HasConversion(categoryId => categoryId.Value, dbId => CategoryId.Create(dbId));
 
         builder.Property(x => x.Name).HasMaxLength(50).IsRequired();
+
+        builder.HasQueryFilter(x => !x.IsDeleted);
     }
 }
