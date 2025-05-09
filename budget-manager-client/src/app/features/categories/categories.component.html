@@ -1,15 +1,54 @@
 <div class="categories-container">
-  <h2>Create a New Category</h2>
+  <h2>Categories</h2>
+  <div class="button-container">
+    <app-button mat-raised-button customButtonClass="dynamic-green" class="add-button">
+      Add new category
+    </app-button>
+  </div>
 
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let category"> {{category.name}} </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+        <td mat-cell *matCellDef="let category">
+          <app-button mat-icon-button customButtonClass="dynamic-blue">
+            <mat-icon>edit</mat-icon>
+          </app-button>
+          <app-button mat-icon-button customButtonClass="dynamic-red">
+            <mat-icon>delete</mat-icon>
+          </app-button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+    <mat-paginator [length]="totalItems" [pageSize]="5" [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons>></mat-paginator>
+  </div>
+</div>
+
+<div class="vertical-divider"></div>
+
+<!-- Add Category Section
+<div class="add-category-container">
+  <h3>Add Category</h3>
   <form (ngSubmit)="createCategory()" #categoryForm="ngForm">
 
     <app-input label="Category Name" placeholder="Enter category name" [(ngModel)]="categoryName"
       name="categoryName"></app-input>
 
-    <app-button text="Create Category" customButtonClass="dynamic-green" (onClick)="createCategory()"></app-button>
+    <app-button text="Create Category" customButtonClass="dynamic-green"></app-button>
   </form>
 
-  <div *ngIf="categoryName && categoryName.trim().length > 0" class="preview">
-    <p>Category Name: <strong>{{ categoryName }}</strong></p>
-  </div>
 </div>
+</div> -->

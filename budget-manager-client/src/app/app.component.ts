@@ -20,7 +20,7 @@ export class AppComponent {
   popupData: PopupData = new PopupData('Hello! This is a dynamic popup.');
   isMenuOpened = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   get isLoggedIn(): boolean {
     return this.authService.isAuthenticated();
