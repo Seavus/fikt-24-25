@@ -33,7 +33,7 @@ public class CategoriesController : BaseController
     ///<summary>
     ///Updates an existing category.
     /// </summary>
-    [HttpPut("category")]
+    [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateCategoryResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -21,7 +21,6 @@ using BudgetManager.Application.Users.GetUserById;
 using BudgetManager.Domain.Models;
 using BudgetManager.Infrastructure.Data.Interceptors;
 using MediatR;
-using BudgetManager.Application.Categories;
 using BudgetManager.Application.Users.GetCategoriesByUser;
 using BudgetManager.Domain.Models.ValueObjects;
 using BudgetManager.Application.Users.GetCatogiresByUser;
