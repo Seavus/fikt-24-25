@@ -75,6 +75,7 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
     const dialogRef = this.dialog.open(DynamicPopupWrapper, {
       width: '300px',
       data,
+      panelClass: 'custom-dialog',
     });
 
     dialogRef.afterClosed().subscribe((result: string | undefined) => {
@@ -83,6 +84,7 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
       }
     });
   }
+
   createCategory(name: string): void {
     const token = this.authService.getToken();
 
@@ -112,6 +114,7 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
             duration: 3000,
           });
           this.categoryName = '';
+          this.getCategories();
         },
         error: (error) => {
           console.error(error);
@@ -148,6 +151,49 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
         },
         error: (err) => {
           console.error('Error fetching categories:', err);
+        },
+      });
+  }
+  editCategory(category: Category): void {
+    const data = new PopupData({
+      title: 'Edit Category',
+      inputLabel: 'Category Name',
+      showInput: true,
+    });
+
+    const dialogRef = this.dialog.open(DynamicPopupWrapper, {
+      width: '300px',
+      data,
+    });
+
+    dialogRef.componentInstance.inputValue = category.name;
+
+    dialogRef.afterClosed().subscribe((result: string | undefined) => {
+      if (result?.trim() && result.trim() !== category.name) {
+        this.updateCategory(category.id, result.trim());
+      }
+    });
+  }
+
+  updateCategory(categoryId: string, name: string): void {
+    const body = { categoryId, name };
+
+    this.http
+      .put('/api/categories', body)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            data: { message: 'Category updated.', type: 'success' },
+            duration: 3000,
+          });
+          this.getCategories();
+        },
+        error: () => {
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            data: { message: 'Failed to update category.', type: 'error' },
+            duration: 3000,
+          });
         },
       });
   }

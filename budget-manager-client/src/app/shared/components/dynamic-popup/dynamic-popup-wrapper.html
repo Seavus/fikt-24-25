@@ -3,7 +3,8 @@
 
   <mat-form-field *ngIf="data.showInput" style="width: 100%;">
     <mat-label>{{ data.inputLabel || 'Enter value' }}</mat-label>
-    <input matInput [(ngModel)]="inputValue" />
+    <input *ngIf="data.showInput" [(ngModel)]="inputValue" placeholder="{{ data.inputLabel }}" class="form-control"
+      matInput />
   </mat-form-field>
 </mat-dialog-content>
 

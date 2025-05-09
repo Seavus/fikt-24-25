@@ -1,7 +1,7 @@
 <div class="categories-container">
   <h2>Categories</h2>
   <div class="button-container">
-    <app-button mat-raised-button (click)="addCategory()" customButtonClass="dynamic-green" class="add-button">
+    <app-button mat-raised-button (click)="addCategory()" customButtonClass="dynamic-green">
       Add new category
     </app-button>
   </div>
@@ -19,7 +19,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
         <td mat-cell *matCellDef="let category">
-          <app-button mat-icon-button customButtonClass="dynamic-blue">
+          <app-button mat-icon-button customButtonClass="dynamic-blue" (click)="editCategory(category)">
             <mat-icon>edit</mat-icon>
           </app-button>
           <app-button mat-icon-button customButtonClass="dynamic-red">
