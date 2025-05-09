@@ -28,5 +28,12 @@ export const routes: Routes = [
         (c) => c.RegistrationComponent
       ),
   },
+  {
+    path: 'user-management',
+    loadComponent: () =>
+      import('./features/user-management/user-management.component').then(
+        (c) => c.UserManagementComponent
+      ),
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
