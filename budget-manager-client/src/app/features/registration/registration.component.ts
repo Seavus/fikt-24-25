@@ -57,7 +57,7 @@ export class RegistrationComponent {
             duration: 3000,
           });
           console.log('User registered successfully', response);
-          this.router.navigate(['/home']);
+          this.router.navigate(['']);
         },
         error: (error: HttpErrorResponse) => {
           this.snackBar.openFromComponent(SnackbarComponent, {

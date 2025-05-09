@@ -1,10 +1,5 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
-import {
-  Chart,
-  ChartConfiguration,
-  registerables,
-  ChartDataset,
-} from 'chart.js';
+import { Chart, ChartConfiguration, registerables } from 'chart.js';
 
 Chart.register(...registerables);
 
@@ -16,8 +11,11 @@ Chart.register(...registerables);
 })
 export class DoughnutChartComponent implements AfterViewInit {
   @Input() chartId: string = 'doughnutChart';
-  @Input() labels: string[] = [];
-  @Input() datasets: ChartDataset<'doughnut'>[] = [];
+  @Input() data!: {
+    labels: string[];
+    datasets: any[];
+  };
+
   private chart!: Chart;
 
   ngAfterViewInit(): void {
@@ -25,7 +23,7 @@ export class DoughnutChartComponent implements AfterViewInit {
   }
 
   createChart() {
-    if (!this.labels.length || !this.datasets.length) {
+    if (!this.data?.labels?.length || !this.data?.datasets?.length) {
       console.error(
         'DoughnutChartComponent: labels and datasets are required!'
       );
@@ -34,10 +32,7 @@ export class DoughnutChartComponent implements AfterViewInit {
 
     const config: ChartConfiguration<'doughnut'> = {
       type: 'doughnut',
-      data: {
-        labels: this.labels,
-        datasets: this.datasets,
-      },
+      data: this.data,
       options: {
         responsive: true,
       },
