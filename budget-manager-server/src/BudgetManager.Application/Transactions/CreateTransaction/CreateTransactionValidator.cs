@@ -22,7 +22,7 @@ public class CreateTransactionValidator : AbstractValidator<CreateTransactionCom
 
         RuleFor(x => x.TransactionDate)
             .LessThanOrEqualTo(DateTime.UtcNow)
-            .WithMessage("Transaction date cannot be in the future.");
+            .WithMessage("Transaction date cannot be in the past.");
 
         RuleFor(x => x.Amount)
             .GreaterThan(0)
