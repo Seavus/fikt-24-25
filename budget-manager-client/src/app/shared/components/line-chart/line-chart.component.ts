@@ -1,52 +1,43 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Chart, ChartData, ChartOptions, ChartConfiguration } from 'chart.js';
+import { AfterViewInit, Component, Input } from '@angular/core';
+import { Chart, ChartConfiguration } from 'chart.js';
 
 @Component({
   selector: 'app-line-chart',
   standalone: true,
   templateUrl: './line-chart.component.html',
-  styleUrls: ['./line-chart.component.scss']
+  styleUrls: ['./line-chart.component.scss'],
 })
-export class LineChartComponent implements OnInit {
-  @Input() labels: string[] = [];
-  @Input() data: (number | null)[] = [];
-  @Input() label: string = 'Dataset';
-  @Input() borderColor: string = 'rgb(75, 192, 192)';
+export class LineChartComponent implements AfterViewInit {
+  @Input() chartId: string = 'lineChart';
+  @Input() data!: {
+    labels: string[];
+    datasets: any[];
+  };
 
-  chart!: Chart<'line', (number | null)[], string>;
+  private chart!: Chart;
 
-  constructor() {}
-
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.createChart();
   }
 
   createChart(): void {
-    const chartData: ChartData<'line'> = {
-      labels: this.labels,
-      datasets: [{
-        label: this.label,
-        data: this.data,
-        fill: false,
-        borderColor: this.borderColor,
-        tension: 0.1
-      }]
-    };
+    if (!this.data?.labels?.length || !this.data?.datasets?.length) {
+      console.error('LineChartComponent: labels and datasets are required!');
+      return;
+    }
 
-    const chartOptions: ChartOptions<'line'> = {
-      responsive: true,
-      scales: {
-        x: { type: 'category' },
-        y: { type: 'linear', beginAtZero: true }
-      }
-    };
-
-    const chartConfig: ChartConfiguration<'line'> = {
+    const config: ChartConfiguration<'line'> = {
       type: 'line',
-      data: chartData,
-      options: chartOptions
+      data: this.data,
+      options: {
+        responsive: true,
+        scales: {
+          x: { type: 'category' },
+          y: { beginAtZero: true },
+        },
+      },
     };
 
-    new Chart('canvas', chartConfig);
+    this.chart = new Chart(this.chartId, config);
   }
 }

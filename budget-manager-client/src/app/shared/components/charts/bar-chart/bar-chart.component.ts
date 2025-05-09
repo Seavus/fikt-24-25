@@ -1,5 +1,5 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
-import { Chart, ChartConfiguration, registerables, ChartDataset } from 'chart.js';
+import { Chart, ChartConfiguration, registerables } from 'chart.js';
 
 Chart.register(...registerables);
 
@@ -10,27 +10,26 @@ Chart.register(...registerables);
 })
 export class BarChartComponent implements AfterViewInit {
   @Input() chartId: string = 'barChart';
-  @Input() labels: string[] = [];
-  @Input() datasets: ChartDataset<'bar'>[] = [];
+  @Input() data!: {
+    labels: string[];
+    datasets: any[];
+  };
 
-  private chart!: Chart; 
+  private chart!: Chart;
 
   ngAfterViewInit(): void {
     this.createChart();
   }
-  
+
   createChart() {
-    if (!this.labels.length || !this.datasets.length) {
+    if (!this.data?.labels?.length || !this.data?.datasets?.length) {
       console.error('BarChartComponent: labels and datasets are required!');
       return;
     }
 
     const config: ChartConfiguration<'bar'> = {
       type: 'bar',
-      data: {
-        labels: this.labels,
-        datasets: this.datasets,
-      },
+      data: this.data,
       options: {
         responsive: true,
         scales: {
