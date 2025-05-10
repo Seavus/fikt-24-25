@@ -3,7 +3,7 @@ using BudgetManager.Application.Common.Responses;
 using BudgetManager.Application.Data;
 using BudgetManager.Application.Services;
 
-namespace BudgetManager.Application.Users.GetCategoriesByUser;
+namespace BudgetManager.Application.Categories.GetCatogiresByUser;
 
 internal sealed class GetCategoriesByUserQueryHandler : IRequestHandler<GetCategoriesByUserQuery, PaginatedResponse<GetCategoriesByUserResponse>>
 {
