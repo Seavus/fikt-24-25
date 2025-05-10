@@ -29,6 +29,6 @@ public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, Dele
         
         await _context.SaveChangesAsync(cancellationToken);
 
-        return new DeleteCategoryResponse(category.Id.Value, category.Name);
+        return new DeleteCategoryResponse(true);
     }
 }
