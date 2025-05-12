@@ -1,6 +1,5 @@
-﻿using BudgetManager.Application.Common.Responses;
-using BudgetManager.Application.Users.GetCategoriesByUser;
-using BudgetManager.Application.Users.GetCatogiresByUser;
+﻿using BudgetManager.Application.Categories.GetCatogiresByUser;
+using BudgetManager.Application.Common.Responses;
 using BudgetManager.Application.Users.GetUserById;
 using BudgetManager.Application.Users.GetUsers;
 using BudgetManager.Application.Users.VerifyEmail;

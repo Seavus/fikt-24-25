@@ -1,4 +1,5 @@
 ﻿using BudgetManager.Application.Categories.CreateCategory;
+using BudgetManager.Application.Categories.DeleteCategory;
 using BudgetManager.Application.Categories.UpdateCategory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
@@ -44,6 +45,23 @@ public class CategoriesController : BaseController
 
         var response = await Mediator.Send(command);
 
+        return Ok(response);
+    }
+
+    ///<summary>
+    ///Deletes an existing category.
+    /// </summary>
+    [HttpDelete("id:guid")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeleteCategoryResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> DeleteCategory(Guid id)
+    {
+        var command = new DeleteCategoryCommand(id);
+
+        var response = await Mediator.Send(command);
+        
         return Ok(response);
     }
 }
