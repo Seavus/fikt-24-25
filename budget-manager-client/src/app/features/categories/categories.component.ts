@@ -65,6 +65,7 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
     this.destroy$.next();
     this.destroy$.complete();
   }
+  // Create a new category
   addCategory(): void {
     const data = new PopupData({
       title: 'Add New Category',
@@ -128,7 +129,7 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
         },
       });
   }
-
+  // Get categories
   getCategories(PageIndex: number = 1, PageSize: number = 5): void {
     const token = this.authService.getToken();
     if (!token) return;
@@ -154,6 +155,7 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
         },
       });
   }
+  // Update/edit a category
   editCategory(category: Category): void {
     const data = new PopupData({
       title: 'Edit Category',
@@ -192,6 +194,41 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
         error: () => {
           this.snackBar.openFromComponent(SnackbarComponent, {
             data: { message: 'Failed to update category.', type: 'error' },
+            duration: 3000,
+          });
+        },
+      });
+  }
+
+  // Delete an existing category
+  deleteCategory(category: Category): void {
+    const token = this.authService.getToken();
+    if (!token) return;
+
+    const url = `/api/categories/id:guid?id=${category.id}`;
+
+    this.http
+      .delete<{ isSuccess: boolean }>(url)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if (response.isSuccess) {
+            this.snackBar.openFromComponent(SnackbarComponent, {
+              data: { message: 'Category deleted.', type: 'success' },
+              duration: 3000,
+            });
+            this.getCategories();
+          } else {
+            this.snackBar.openFromComponent(SnackbarComponent, {
+              data: { message: 'Failed to delete category.', type: 'error' },
+              duration: 3000,
+            });
+          }
+        },
+        error: (error) => {
+          console.error('Delete failed:', error);
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            data: { message: 'Error deleting category.', type: 'error' },
             duration: 3000,
           });
         },
