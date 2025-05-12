@@ -71,6 +71,7 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
       title: 'Add New Category',
       inputLabel: 'Category Name',
       showInput: true,
+      buttonText: 'Add',
     });
 
     const dialogRef = this.dialog.open(DynamicPopupWrapper, {
@@ -161,6 +162,7 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
       title: 'Edit Category',
       inputLabel: 'Category Name',
       showInput: true,
+      buttonText: 'Update',
     });
 
     const dialogRef = this.dialog.open(DynamicPopupWrapper, {
@@ -202,6 +204,27 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
 
   // Delete an existing category
   deleteCategory(category: Category): void {
+    const data = new PopupData({
+      title: 'Confirm Deletion',
+      message: `Are you sure you want to delete the category: "${category.name}"?`,
+      showInput: false,
+      buttonText: 'Yes',
+    });
+
+    const dialogRef = this.dialog.open(DynamicPopupWrapper, {
+      width: '300px',
+      data,
+      panelClass: 'custom-dialog',
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.executeDelete(category);
+      }
+    });
+  }
+
+  executeDelete(category: Category): void {
     const token = this.authService.getToken();
     if (!token) return;
 

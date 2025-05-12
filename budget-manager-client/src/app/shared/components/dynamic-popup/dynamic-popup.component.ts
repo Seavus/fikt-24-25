@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MatDialogActions,
-  MatDialogClose,
   MatDialogRef,
   MatDialog,
   MatDialogContent,
@@ -49,7 +48,6 @@ export class DynamicPopupComponent {
   imports: [
     MatButtonModule,
     MatDialogActions,
-    MatDialogClose,
     MatDialogContent,
     MatFormFieldModule,
     MatInputModule,
@@ -65,4 +63,16 @@ export class DynamicPopupWrapper {
     public dialogRef: MatDialogRef<DynamicPopupWrapper>,
     @Inject(MAT_DIALOG_DATA) public data: PopupData
   ) {}
+
+  onConfirm(): void {
+    if (this.data.showInput) {
+      this.dialogRef.close(this.inputValue);
+    } else {
+      this.dialogRef.close(true);
+    }
+  }
+
+  onCancel(): void {
+    this.dialogRef.close(false);
+  }
 }

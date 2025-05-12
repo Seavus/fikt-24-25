@@ -3,6 +3,8 @@ export class PopupData {
   message?: string;
   inputLabel?: string;
   showInput?: boolean;
+  buttonText?: string;
+  cancelButtonText?: string;
 
   constructor(init?: Partial<PopupData>) {
     Object.assign(this, init);

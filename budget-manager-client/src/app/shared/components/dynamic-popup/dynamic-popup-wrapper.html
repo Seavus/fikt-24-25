@@ -1,16 +1,18 @@
-<mat-dialog-content>
-  <p *ngIf="data.message">{{ data.message }}</p>
+<h3 mat-dialog-title style="text-align: center; width: 100%;">{{ data.title }}</h3>
+<mat-dialog-content *ngIf="data.message">{{ data.message }}</mat-dialog-content>
 
-  <mat-form-field *ngIf="data.showInput" style="width: 100%;">
-    <mat-label>{{ data.inputLabel || 'Enter value' }}</mat-label>
-    <input *ngIf="data.showInput" [(ngModel)]="inputValue" placeholder="{{ data.inputLabel }}" class="form-control"
-      matInput />
+<mat-dialog-content *ngIf="data.showInput">
+  <mat-form-field appearance="fill" style="text-align: center; width: 100%;">
+    <mat-label>{{ data.inputLabel }}</mat-label>
+    <input matInput [(ngModel)]="inputValue" />
   </mat-form-field>
 </mat-dialog-content>
 
-<mat-dialog-actions>
-  <button mat-button (click)="dialogRef.close()">Cancel</button>
-  <button mat-button [mat-dialog-close]="inputValue" cdkFocusInitial>
-    Confirm
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">
+    {{ data.cancelButtonText || 'Cancel' }}
+  </button>
+  <button mat-button color="primary" (click)="onConfirm()">
+    {{ data.buttonText || 'Confirm' }}
   </button>
 </mat-dialog-actions>
