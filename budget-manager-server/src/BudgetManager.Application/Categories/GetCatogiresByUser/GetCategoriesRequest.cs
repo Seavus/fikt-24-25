@@ -1,4 +1,4 @@
-﻿namespace BudgetManager.Application.Users.GetCatogiresByUser;
+﻿namespace BudgetManager.Application.Categories.GetCatogiresByUser;
 
 public class GetCategoriesRequest
 {
