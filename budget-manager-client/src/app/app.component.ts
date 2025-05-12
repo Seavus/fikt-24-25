@@ -4,6 +4,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './core/sidebar/sidebar.component';
 import { currentUserSignal } from './services/auth.service';
+import { PopupData } from './shared/components/dynamic-popup/popup-data.model';
 
 @Component({
   selector: 'app-root',
@@ -13,19 +14,17 @@ import { currentUserSignal } from './services/auth.service';
 })
 export class AppComponent {
   title = 'budget-manager-client';
-  isMenuOpened = false;
-
-  constructor() {}
 
   isPopupOpen: boolean = false;
   popupTitle: string = 'Dynamic Popup Title';
   popupData: PopupData = new PopupData('Hello! This is a dynamic popup.');
   isMenuOpened = false;
+
+  constructor() {}
+
   get isLoggedIn(): boolean {
     return currentUserSignal() !== null;
   }
-
-  constructor() {}
 
   togglePopup() {
     this.isPopupOpen = !this.isPopupOpen;
