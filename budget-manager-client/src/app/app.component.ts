@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.userId = currentUserSignal();
   }
+
   get isLoggedIn(): boolean {
     return currentUserSignal() !== null;
   }
