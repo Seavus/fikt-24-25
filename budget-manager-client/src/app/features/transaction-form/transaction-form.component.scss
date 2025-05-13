@@ -1,0 +1,18 @@
+.w-full {
+  width: 100%;
+}
+.space-y-4 > * + * {
+  margin-top: 1rem;
+}
+.flex {
+  display: flex;
+}
+.justify-end {
+  justify-content: flex-end;
+}
+.gap-2 {
+  gap: 0.5rem;
+}
+.mt-4 {
+  margin-top: 1rem;
+}

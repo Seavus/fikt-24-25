@@ -1,0 +1,23 @@
+<mat-form-field appearance="fill" class="w-full">
+  <mat-label>Категорија</mat-label>
+  <input matInput formControlName="category" placeholder="Внеси категорија" />
+</mat-form-field>
+
+<mat-form-field appearance="fill" class="w-full">
+  <mat-label>Тип</mat-label>
+  <mat-select formControlName="type">
+    <mat-option value="income">Приход</mat-option>
+    <mat-option value="expense">Трошок</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="fill" class="w-full">
+  <mat-label>Износ</mat-label>
+  <input matInput type="number" formControlName="amount" placeholder="0.00" />
+</mat-form-field>
+
+<mat-form-field appearance="fill" class="w-full">
+  <mat-label>Опис</mat-label>
+  <textarea matInput formControlName="description" placeholder="Опционално: детали за трансакцијата"></textarea>
+</mat-form-field>
+
