@@ -34,7 +34,6 @@ export class LoginComponent {
   private readonly snackbarService = inject(SnackbarService);
   private readonly destroyRef = inject(DestroyRef);
 
- 
   constructor(private readonly fb: FormBuilder) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -52,7 +51,7 @@ export class LoginComponent {
         .subscribe({
           next: () => {
             this.snackbarService.showSnackbar('Login successful!', 'success');
-            this.router.navigate(['/home']);
+            this.router.navigate(['']);
           },
           error: (err) => {
             this.snackbarService.showSnackbar(

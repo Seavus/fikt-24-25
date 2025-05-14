@@ -1,11 +1,22 @@
 .dashboard-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 20px;
-  }
+  width: 100%;
+  height: fit-content;
+  padding: 10px;
+
   .chart-container {
-    width: 30%;
-    min-width: 300px;
-    height: 400px;
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    app-bar-chart {
+      height: 40vh;
+    }
+    app-doughnut-chart {
+      height: 45vh;
+    }
+    app-line-chart {
+      width: 40%;
+    }
   }
+}
