@@ -29,7 +29,7 @@ internal sealed class DeleteTransactionHandler : IRequestHandler<DeleteTransacti
         var userId = UserId.Create(_currentUser.UserId!.Value);
 
         var user = await _context.Users
-            .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
+            .FirstAsync(u => u.Id == userId, cancellationToken);
 
         switch (transaction.TransactionType)
         {

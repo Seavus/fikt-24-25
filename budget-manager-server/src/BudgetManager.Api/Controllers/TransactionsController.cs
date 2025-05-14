@@ -37,6 +37,7 @@ public class TransactionsController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeleteTransactionResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteTransaction([FromRoute] Guid transactionId)
     {
         var command = new DeleteTransactionCommand(transactionId);
