@@ -4,7 +4,7 @@ public record GetTransactionsByUserResponse(
     Guid Id,
     CategoryModel Category,
     string TransactionType,
-    DateTime TransactionDate,
+    string TransactionDate,
     decimal Amount,
     string? Description
 );

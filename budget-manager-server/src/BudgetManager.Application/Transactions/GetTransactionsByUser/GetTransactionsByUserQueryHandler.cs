@@ -2,6 +2,7 @@
 using BudgetManager.Application.Data;
 using BudgetManager.Application.Services;
 using BudgetManager.Domain.Models.ValueObjects;
+using System.Linq;
 
 namespace BudgetManager.Application.Transactions.GetTransactionsByUser;
 
@@ -39,7 +40,7 @@ internal sealed class GetTransactionsByUserQueryHandler
                 x.Transaction.Id.Value,
                 new CategoryModel(x.Category.Id.Value, x.Category.Name),
                 x.Transaction.TransactionType.ToString(),
-                x.Transaction.TransactionDate,
+                x.Transaction.TransactionDate.ToString("dd.MM.yyyy"),
                 x.Transaction.Amount,
                 x.Transaction.Description
             ))
