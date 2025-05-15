@@ -40,7 +40,7 @@ internal sealed class GetTransactionsByUserQueryHandler
                 x.Transaction.Id.Value,
                 new CategoryModel(x.Category.Id.Value, x.Category.Name),
                 x.Transaction.TransactionType.ToString(),
-                x.Transaction.TransactionDate.ToString("dd.MM.yyyy"),
+                x.Transaction.TransactionDate.ToString("dd:MM:yyyy"),
                 x.Transaction.Amount,
                 x.Transaction.Description
             ))
