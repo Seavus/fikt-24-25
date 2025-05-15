@@ -1,0 +1,13 @@
+.user-management-container {
+  box-sizing: border-box;
+  width: 100%;
+
+  form {
+    .form-group {
+      width: fit-content;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+}
