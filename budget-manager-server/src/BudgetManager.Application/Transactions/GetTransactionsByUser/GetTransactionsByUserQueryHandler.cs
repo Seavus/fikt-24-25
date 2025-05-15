@@ -1,6 +1,7 @@
 ﻿using BudgetManager.Application.Common.Responses;
 using BudgetManager.Application.Data;
 using BudgetManager.Application.Services;
+using BudgetManager.Domain.Models.ValueObjects;
 
 namespace BudgetManager.Application.Transactions.GetTransactionsByUser;
 
@@ -17,21 +18,22 @@ internal sealed class GetTransactionsByUserQueryHandler
     }
 
     public async Task<PaginatedResponse<GetTransactionsByUserResponse>> Handle(
-        GetTransactionsByUserQuery request,
-        CancellationToken cancellationToken)
+       GetTransactionsByUserQuery request,
+       CancellationToken cancellationToken)
     {
         var userId = _currentUser.UserId.Value;
 
-        var query = await _context.Transactions
-    .AsNoTracking()
-    .Join(_context.Categories.AsNoTracking(),
-        t => t.CategoryId,
-        c => c.Id,
-        (t, c) => new { Transaction = t, Category = c })
-    .ToListAsync(cancellationToken);  
+        var query = _context.Transactions
+            .AsNoTracking()
+            .Join(_context.Categories.AsNoTracking(),
+                t => t.CategoryId,
+                c => c.Id,
+                (t, c) => new { Transaction = t, Category = c })
+            .Where(x => x.Category.UserId == UserId.Create(userId));
 
-        var filtered = query
-            .Where(x => x.Category.UserId.Value == userId)
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var items = await query
             .OrderByDescending(x => x.Transaction.TransactionDate)
             .Select(x => new GetTransactionsByUserResponse(
                 x.Transaction.Id.Value,
@@ -40,15 +42,12 @@ internal sealed class GetTransactionsByUserQueryHandler
                 x.Transaction.TransactionDate,
                 x.Transaction.Amount,
                 x.Transaction.Description
-            ));
-
-        var totalCount = filtered.Count();
-
-        var items = filtered
+            ))
             .Skip((request.PageIndex - 1) * request.PageSize)
             .Take(request.PageSize)
-            .ToList();
+            .ToListAsync(cancellationToken);
 
-        return new PaginatedResponse<GetTransactionsByUserResponse>(items, request.PageIndex, request.PageSize, totalCount);
+        return new PaginatedResponse<GetTransactionsByUserResponse>(
+            items, request.PageIndex, request.PageSize, totalCount);
     }
 }
