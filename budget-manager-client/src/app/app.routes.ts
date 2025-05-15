@@ -28,5 +28,12 @@ export const routes: Routes = [
         (c) => c.RegistrationComponent
       ),
   },
+  {
+    path: 'categories',
+    loadComponent: () =>
+      import('./features/categories/categories.component').then(
+        (c) => c.CategoriesComponent
+      ),
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
