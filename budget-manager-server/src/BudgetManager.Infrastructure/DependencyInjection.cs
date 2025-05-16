@@ -26,6 +26,7 @@ using BudgetManager.Application.Categories.CreateCategory;
 using BudgetManager.Application.Categories.UpdateCategory;
 using BudgetManager.Application.Categories.GetCatogiresByUser;
 using BudgetManager.Application.Categories.DeleteCategory;
+using BudgetManager.Application.Transactions.GetTransactionById;
 
 namespace BudgetManager.Infrastructure;
 
@@ -174,6 +175,9 @@ public static class DependencyInjection
             cfg.CreateMap<GetCategoriesRequest, GetCategoriesByUserQuery>();
             cfg.CreateMap<UpdateCategoryRequest, UpdateCategoryCommand>();
             cfg.CreateMap<DeleteCategoryRequest, DeleteCategoryCommand>();
+            cfg.CreateMap<Transaction, GetTransactionByIdResponse>();
+            cfg.CreateMap<TransactionId, Guid>().ConvertUsing(src => src.Value);
+            cfg.CreateMap<Transaction, GetTransactionByIdResponse>();
         }, typeof(DependencyInjection).Assembly);
 
         return services;

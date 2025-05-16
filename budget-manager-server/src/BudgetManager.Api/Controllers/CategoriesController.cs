@@ -28,7 +28,7 @@ public class CategoriesController : BaseController
 
         var response = await Mediator.Send(command, cancellationToken);
 
-        return Created($"api/categories/{response.CategoryId}", response);
+        return Created($"api/categories/{response.Id}", response);
     }
 
     ///<summary>
