@@ -27,7 +27,7 @@ public class TransactionsController : BaseController
         var command = Mapper.Map<CreateTransactionCommand>(request);
 
         var response = await Mediator.Send(command);
-        return Created($"api/transactions/{response.TransactionId}", response);
+        return Created($"api/transactions/{response.Id}", response);
     }
 
     /// <summary>
