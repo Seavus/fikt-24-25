@@ -177,7 +177,6 @@ public static class DependencyInjection
             cfg.CreateMap<DeleteCategoryRequest, DeleteCategoryCommand>();
             cfg.CreateMap<Transaction, GetTransactionByIdResponse>();
             cfg.CreateMap<TransactionId, Guid>().ConvertUsing(src => src.Value);
-            cfg.CreateMap<Transaction, GetTransactionByIdResponse>();
         }, typeof(DependencyInjection).Assembly);
 
         return services;
