@@ -1,3 +1,3 @@
-﻿namespace BudgetManager.Application.Users.GetCategoriesByUser;
+﻿namespace BudgetManager.Application.Categories.GetCatogiresByUser;
 
 public record GetCategoriesByUserRequest(int PageIndex, int PageSize);

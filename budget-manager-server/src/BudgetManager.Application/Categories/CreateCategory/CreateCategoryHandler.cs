@@ -3,9 +3,9 @@ using BudgetManager.Domain.Models.ValueObjects;
 using BudgetManager.Domain.Models;
 using BudgetManager.Application.Services;
 
-namespace BudgetManager.Application.Categories;
+namespace BudgetManager.Application.Categories.CreateCategory;
 
-internal class CreateCategoryHandler :IRequestHandler<CreateCategoryCommand, CreateCategoryResponse>
+internal class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, CreateCategoryResponse>
 {
     private IApplicationDbContext _context;
     private ICurrentUser _currentUser;
