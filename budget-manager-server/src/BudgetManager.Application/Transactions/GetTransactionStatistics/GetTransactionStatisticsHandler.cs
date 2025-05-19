@@ -1,11 +1,9 @@
 ﻿using BudgetManager.Application.Data;
 using BudgetManager.Application.Services;
-using BudgetManager.Application.Users.DeleteUser;
-using BudgetManager.Domain.Models;
 using BudgetManager.Domain.Models.ValueObjects;
 
 namespace BudgetManager.Application.Transactions.GetTransactionStatistics;
-public class GetTransactionStatisticsHandler : IRequestHandler<GetTransactionStatisticsQuery, GetTransactionStatisticsResponse>
+internal sealed class GetTransactionStatisticsHandler : IRequestHandler<GetTransactionStatisticsQuery, GetTransactionStatisticsResponse>
 {
     private IApplicationDbContext _context;
     private ICurrentUser _currentUser;

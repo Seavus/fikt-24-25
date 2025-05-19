@@ -56,7 +56,6 @@ public class TransactionsController : BaseController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetStatistics([FromQuery] int month, [FromQuery] int year)
     {
-
         var response = await Mediator.Send(new GetTransactionStatisticsQuery(month, year));
 
         return Ok(response);
