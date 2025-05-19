@@ -49,7 +49,7 @@ public class TransactionsController : BaseController
     /// <summary>
     /// Get transaction by id.
     /// </summary>
-    [HttpGet("api/transactions/{id}")]
+    [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetTransactionByIdResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
