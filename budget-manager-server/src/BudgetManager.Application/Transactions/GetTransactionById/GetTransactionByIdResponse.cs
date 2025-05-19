@@ -1,11 +1,12 @@
-﻿namespace BudgetManager.Application.Transactions.GetTransactionById;
+﻿using BudgetManager.Application.Transactions.GetTransactionsByUser;
 
-public record GetTransactionByIdResponse
-{
-    public Guid Id { get; init; }
-    public decimal Amount { get; init; }
-    public string Description { get; init; } = string.Empty;
-    public DateTime Date { get; init; }
-    public string CategoryName { get; init; } = string.Empty;
-    public string TransactionType { get; init; } = string.Empty;
-}
+namespace BudgetManager.Application.Transactions.GetTransactionById;
+
+public record GetTransactionByIdResponse(
+    Guid Id,
+    CategoryModel Category,
+    string TransactionType,
+    string Date,
+    decimal Amount,
+    string? Description
+);

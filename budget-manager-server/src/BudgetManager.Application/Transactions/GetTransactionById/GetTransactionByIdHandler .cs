@@ -1,5 +1,6 @@
 ﻿using BudgetManager.Application.Data;
 using BudgetManager.Application.Exceptions;
+using BudgetManager.Application.Transactions.GetTransactionsByUser;
 using BudgetManager.Domain.Models.ValueObjects;
 
 namespace BudgetManager.Application.Transactions.GetTransactionById;
@@ -7,12 +8,12 @@ namespace BudgetManager.Application.Transactions.GetTransactionById;
 internal sealed class GetTransactionByIdHandler : IRequestHandler<GetTransactionByIdQuery, GetTransactionByIdResponse>
 {
     private readonly IApplicationDbContext _context;
-    private readonly IMapper _mapper;
+    
 
-    public GetTransactionByIdHandler(IApplicationDbContext context, IMapper mapper)
+    public GetTransactionByIdHandler(IApplicationDbContext context)
     {
-        _context = context;
-        _mapper = mapper;
+        _context = context ?? throw new ArgumentNullException(nameof(context)); 
+        
     }
 
     public async Task<GetTransactionByIdResponse> Handle(GetTransactionByIdQuery request, CancellationToken cancellationToken)
@@ -21,11 +22,27 @@ internal sealed class GetTransactionByIdHandler : IRequestHandler<GetTransaction
 
         var transaction = await _context.Transactions
             .AsNoTracking()
-            .FirstOrDefaultAsync(t => t.Id == transactionId, cancellationToken);
+            .Join(_context.Categories.AsNoTracking(),
+                t => t.CategoryId,
+                c => c.Id,
+                (t, c) => new { Transaction = t, Category = c })
+            .FirstOrDefaultAsync(x => x.Transaction.Id == transactionId, cancellationToken);
 
         if (transaction == null)
             throw new NotFoundException("Transaction not found.");
 
-        return _mapper.Map<GetTransactionByIdResponse>(transaction);
+        var t = transaction.Transaction;
+        var c = transaction.Category;
+
+        var response = new GetTransactionByIdResponse(
+            t.Id.Value,
+            new CategoryModel(c.Id.Value, c.Name),
+            t.TransactionType.ToString(),
+            t.TransactionDate.ToString("yyyy-MM-dd HH:mm:ss"),
+            t.Amount,
+            t.Description
+        );
+
+        return response;
     }
 }
