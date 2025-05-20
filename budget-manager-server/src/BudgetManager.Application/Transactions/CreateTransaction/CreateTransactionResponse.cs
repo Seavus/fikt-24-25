@@ -1,3 +1,3 @@
 ﻿namespace BudgetManager.Application.Transactions.CreateTransaction;
 
-public record CreateTransactionResponse(Guid TransactionId);
+public record CreateTransactionResponse(Guid Id);
