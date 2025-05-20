@@ -38,6 +38,15 @@
       >
       </app-input>
 
+      <app-input
+        label="Balance"
+        placeholder="Enter your initial balance"
+        type="number"
+        [required]="true"
+        formControlName="balance"
+      >
+      </app-input>
+
       <app-button text="Register" [customButtonClass]="'dynamic-green'">
       </app-button>
       <p>Already have an account?<a [routerLink]="['/login']">Login</a></p>
