@@ -1,18 +1,19 @@
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ButtonComponent } from '../../shared/components/button/button.component';
 import { Component, DestroyRef } from '@angular/core';
-import { InputComponent } from '../../shared/components/input/input.component';
-import { Router, RouterModule } from '@angular/router';
-import { RegisterService } from '../../core/services/register.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   RegisterUserRequest,
   RegisterUserResponse,
 } from '../../core/interfaces/register-user.model';
-import { SnackbarComponent } from '../../shared/components/snackbar/snackbar.component';
+import { Router, RouterModule } from '@angular/router';
+
+import { ButtonComponent } from '../../shared/components/button/button.component';
+import { HttpErrorResponse } from '@angular/common/http';
+import { InputComponent } from '../../shared/components/input/input.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RegisterService } from '../../core/services/register.service';
+import { SnackbarComponent } from '../../shared/components/snackbar/snackbar.component';
 import { currentUserSignal } from '../../services/auth.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-registration',
@@ -35,6 +36,7 @@ export class RegistrationComponent {
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
+      balance: ['', [Validators.required, Validators.min(1)]],
     });
   }
 
