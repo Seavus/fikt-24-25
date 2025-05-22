@@ -2,7 +2,6 @@
 using BudgetManager.Application.Data;
 using BudgetManager.Application.Services;
 using BudgetManager.Domain.Models.ValueObjects;
-using System.Linq;
 
 namespace BudgetManager.Application.Transactions.GetTransactionsByUser;
 
@@ -22,7 +21,7 @@ internal sealed class GetTransactionsByUserQueryHandler
        GetTransactionsByUserQuery request,
        CancellationToken cancellationToken)
     {
-        var userId = _currentUser.UserId.Value;
+        var userId = _currentUser.UserId!.Value;
 
         var query = _context.Transactions
             .AsNoTracking()

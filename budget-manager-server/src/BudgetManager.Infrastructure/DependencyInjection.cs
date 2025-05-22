@@ -175,7 +175,8 @@ public static class DependencyInjection
             cfg.CreateMap<GetCategoriesRequest, GetCategoriesByUserQuery>();
             cfg.CreateMap<UpdateCategoryRequest, UpdateCategoryCommand>();
             cfg.CreateMap<DeleteCategoryRequest, DeleteCategoryCommand>();
-        }, typeof(DependencyInjection).Assembly);
+            cfg.CreateMap<TransactionId, Guid>().ConvertUsing(src => src.Value);
+            }, typeof(DependencyInjection).Assembly);
 
         return services;
     }
