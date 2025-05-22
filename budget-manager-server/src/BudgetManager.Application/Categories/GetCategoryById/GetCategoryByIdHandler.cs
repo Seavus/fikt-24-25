@@ -27,6 +27,26 @@ internal class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, Ge
         {
             throw new NotFoundException("Category Not Found.");
         }
-        return _mapper.Map<GetCategoryByIdResponse>(category);
+        
+        var user = await _context.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Id == category.UserId, cancellationToken);
+
+        if (user == null)
+        {
+            throw new NotFoundException("User For Category Not Found.");
+        }
+
+        var response = new GetCategoryByIdResponse
+        {
+            Id = category.Id.Value,
+            Name = category.Name,
+            User = new UserModel(
+                user.Id.Value,
+                user.FirstName,
+                user.LastName,
+                user.Email)
+        };
+        return response;
     }
 }
