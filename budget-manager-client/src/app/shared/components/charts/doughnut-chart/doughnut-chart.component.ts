@@ -1,5 +1,5 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
-import { Chart, ChartConfiguration, registerables } from 'chart.js';
+import { Chart, ChartConfiguration, ChartData, registerables } from 'chart.js';
 
 Chart.register(...registerables);
 
@@ -11,12 +11,9 @@ Chart.register(...registerables);
 })
 export class DoughnutChartComponent implements AfterViewInit {
   @Input() chartId: string = 'doughnutChart';
-  @Input() data!: {
-    labels: string[];
-    datasets: any[];
-  };
+  @Input() data!: ChartData<'doughnut', number[], string>;
 
-  private chart!: Chart;
+  private chart!: Chart<'doughnut'>;
 
   ngAfterViewInit(): void {
     this.createChart();
