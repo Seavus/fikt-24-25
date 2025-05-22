@@ -14,11 +14,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupData } from '../../shared/components/dynamic-popup/popup-data.model';
 import { DynamicPopupWrapper } from '../../shared/components/dynamic-popup/dynamic-popup.component';
-
-interface Category {
-  id: string;
-  name: string;
-}
+import {
+  CategoryService,
+  Category,
+} from '../../core/services/categories.service';
 
 @Component({
   selector: 'app-categories',
@@ -40,11 +39,12 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
   dataSource = new MatTableDataSource<Category>();
 
   private readonly destroy$ = new Subject<void>();
+
   constructor(
-    private readonly http: HttpClient,
     private readonly authService: AuthService,
     private readonly snackBar: MatSnackBar,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly categoryService: CategoryService
   ) {}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -65,6 +65,7 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
   // Create a new category
   addCategory(): void {
     const data = new PopupData({
@@ -103,8 +104,8 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
 
     const body = { name };
 
-    this.http
-      .post<{ categoryId: string }>('/api/categories', body)
+    this.categoryService
+      .createCategory(name)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
@@ -118,8 +119,7 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
           this.categoryName = '';
           this.getCategories();
         },
-        error: (error) => {
-          console.error(error);
+        error: () => {
           this.snackBar.openFromComponent(SnackbarComponent, {
             data: {
               message: 'Failed to create category. Please try again later.',
@@ -130,21 +130,14 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
         },
       });
   }
+
   // Get categories
   getCategories(PageIndex: number = 1, PageSize: number = 5): void {
     const token = this.authService.getToken();
     if (!token) return;
 
-    const params = {
-      PageIndex,
-      PageSize,
-    };
-
-    this.http
-      .get<{
-        items: Category[];
-        totalCount: number;
-      }>('/api/account/categories', { params })
+    this.categoryService
+      .getCategories(PageIndex, PageSize)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
@@ -156,6 +149,7 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
         },
       });
   }
+
   // Update/edit a category
   editCategory(category: Category): void {
     const data = new PopupData({
@@ -180,10 +174,8 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
   }
 
   updateCategory(categoryId: string, name: string): void {
-    const body = { categoryId, name };
-
-    this.http
-      .put('/api/categories', body)
+    this.categoryService
+      .updateCategory(categoryId, name)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -228,10 +220,8 @@ export class CategoriesComponent implements OnDestroy, AfterViewInit {
     const token = this.authService.getToken();
     if (!token) return;
 
-    const url = `/api/categories/id:guid?id=${category.id}`;
-
-    this.http
-      .delete<{ isSuccess: boolean }>(url)
+    this.categoryService
+      .deleteCategory(category.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
