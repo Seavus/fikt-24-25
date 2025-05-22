@@ -1,22 +1,38 @@
+@import "../../../styles/base/variables.scss";
 .dashboard-container {
-  width: 100%;
-  height: fit-content;
-  padding: 10px;
+  box-sizing: border-box;
+  padding: 20px;
+  max-width: 100%;
+  max-height: 100vh;
+
+  h2 {
+    margin-bottom: 20px;
+  }
 
   .chart-container {
-    height: inherit;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto;
+    gap: 20px;
 
-    app-bar-chart {
-      height: 40vh;
+    .chart-card {
+      width: 100%;
+      background: $white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 5px;
+      flex: 1 1 30%;
+      min-width: 280px;
+      display: flex;
+      flex-direction: column;
     }
-    app-doughnut-chart {
-      height: 45vh;
-    }
-    app-line-chart {
-      width: 40%;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .dashboard-container {
+    .chart-container {
+      grid-template-columns: 1fr;
     }
   }
 }
