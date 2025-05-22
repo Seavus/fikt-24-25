@@ -2,6 +2,7 @@
 using BudgetManager.Application.Transactions.CreateTransaction;
 using BudgetManager.Application.Transactions.DeleteTransaction;
 using BudgetManager.Application.Transactions.GetTransactionById;
+using BudgetManager.Application.Transactions.GetTransactionStatistics;
 using Microsoft.AspNetCore.Authorization;
 
 namespace BudgetManager.Api.Controllers;
@@ -59,5 +60,20 @@ public class TransactionsController : BaseController
         var query = new GetTransactionByIdQuery(id);
         var result = await Mediator.Send(query);
         return Ok(result);
+    }
+    
+    /// <summary>
+    /// Shows transaction statistics.
+    /// </summary>
+    [HttpGet("statistics")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateTransactionResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetStatistics([FromQuery] int month, [FromQuery] int year)
+    {
+        var response = await Mediator.Send(new GetTransactionStatisticsQuery(month, year));
+
+        return Ok(response);
     }
 }
