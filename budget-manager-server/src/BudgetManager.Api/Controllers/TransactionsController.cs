@@ -1,6 +1,7 @@
 ﻿using BudgetManager.Application.Categories.DeleteCategory;
 using BudgetManager.Application.Transactions.CreateTransaction;
 using BudgetManager.Application.Transactions.DeleteTransaction;
+using BudgetManager.Application.Transactions.GetTransactionById;
 using BudgetManager.Application.Transactions.GetTransactionStatistics;
 using Microsoft.AspNetCore.Authorization;
 
@@ -34,18 +35,33 @@ public class TransactionsController : BaseController
     /// <summary>
     /// Delete transaction.
     /// </summary>
-    [HttpDelete("{transactionId:guid}")]
+    [HttpDelete("{Id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeleteTransactionResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> DeleteTransaction([FromRoute] Guid transactionId)
+    public async Task<IActionResult> DeleteTransaction([FromRoute] Guid Id)
     {
-        var command = new DeleteTransactionCommand(transactionId);
+        var command = new DeleteTransactionCommand(Id);
         var result = await Mediator.Send(command);
         return Ok(result);
     }
 
+    /// <summary>
+    /// Get transaction by id.
+    /// </summary>
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetTransactionByIdResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetTransactionById(Guid id)
+    {
+        var query = new GetTransactionByIdQuery(id);
+        var result = await Mediator.Send(query);
+        return Ok(result);
+    }
+    
     /// <summary>
     /// Shows transaction statistics.
     /// </summary>
