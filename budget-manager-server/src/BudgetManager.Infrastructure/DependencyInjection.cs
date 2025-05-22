@@ -26,6 +26,7 @@ using BudgetManager.Application.Categories.CreateCategory;
 using BudgetManager.Application.Categories.UpdateCategory;
 using BudgetManager.Application.Categories.GetCatogiresByUser;
 using BudgetManager.Application.Categories.DeleteCategory;
+using BudgetManager.Application.Categories.GetCategoryById;
 
 namespace BudgetManager.Infrastructure;
 
