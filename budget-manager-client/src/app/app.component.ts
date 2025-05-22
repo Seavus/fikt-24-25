@@ -1,11 +1,9 @@
-import { Component, inject } from '@angular/core';
-
-import { AuthService } from './services/auth.service';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { PopupData } from './shared/components/dynamic-popup/popup-data.model';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './core/sidebar/sidebar.component';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -14,12 +12,11 @@ import { SidebarComponent } from './core/sidebar/sidebar.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  private readonly authService = inject(AuthService);
   title = 'budget-manager-client';
-  isMenuOpened = false;
   isPopupOpen: boolean = false;
-  popupTitle: string = 'Dynamic Popup Title';
-  popupData: PopupData = new PopupData('Hello! This is a dynamic popup.');
+  isMenuOpened = false;
+
+  constructor(private readonly authService: AuthService) {}
 
   get isLoggedIn(): boolean {
     return this.authService.isAuthenticated();
