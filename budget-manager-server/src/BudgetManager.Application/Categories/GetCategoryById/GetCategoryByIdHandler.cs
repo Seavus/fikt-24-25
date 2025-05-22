@@ -7,46 +7,40 @@ namespace BudgetManager.Application.Categories.GetCategoryById;
 internal class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, GetCategoryByIdResponse>
 {
     private IApplicationDbContext _context;
-    private IMapper _mapper;
 
-    public GetCategoryByIdHandler(IApplicationDbContext context, IMapper mapper)
+    public GetCategoryByIdHandler(IApplicationDbContext context)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(_mapper));
     }
 
     public async Task<GetCategoryByIdResponse> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
         var categoryId = CategoryId.Create(request.Id);
+        
+        var query = await (from c in _context.Categories.AsNoTracking()
+                           join u in _context.Users.AsNoTracking()
+                           on c.UserId equals u.Id
+                           where c.Id == categoryId
+                           select new
+                           {
+                               Category = c,
+                               User = u
+                           }).FirstOrDefaultAsync(cancellationToken);
 
-        var category = await _context.Categories
-            .AsNoTracking()
-            .FirstOrDefaultAsync(c => c.Id == categoryId, cancellationToken);
-
-        if (category == null)
+        if (query== null)
         {
             throw new NotFoundException("Category Not Found.");
         }
-        
-        var user = await _context.Users
-            .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Id == category.UserId, cancellationToken);
 
-        if (user == null)
+        return new GetCategoryByIdResponse
         {
-            throw new NotFoundException("User For Category Not Found.");
-        }
-
-        var response = new GetCategoryByIdResponse
-        {
-            Id = category.Id.Value,
-            Name = category.Name,
+            Id = query.Category.Id.Value,
+            Name = query.Category.Name,
             User = new UserModel(
-                user.Id.Value,
-                user.FirstName,
-                user.LastName,
-                user.Email)
+                query.User.Id.Value,
+                query.User.FirstName,
+                query.User.LastName,
+                query.User.Email)
         };
-        return response;
     }
 }
