@@ -10,4 +10,4 @@ public record GetCategoryByIdResponse
     public required UserModel User { get; init; }
 }
 
-public record UserModel(Guid id, string FirstName, string LastName, string Email);
+public record UserModel(Guid Id, string FirstName, string LastName, string Email);
