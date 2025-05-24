@@ -1,15 +1,24 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { barChartData, lineChartData, doughnutChartData } from './chart-data';
+import { BarChartComponent } from '../../shared/components/charts/bar-chart/bar-chart.component';
+import { DoughnutChartComponent } from '../../shared/components/charts/doughnut-chart/doughnut-chart.component';
+import { LineChartComponent } from '../../shared/components/line-chart/line-chart.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule,],
+  imports: [
+    CommonModule,
+    BarChartComponent,
+    DoughnutChartComponent,
+    LineChartComponent,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-  @Input() barChartData = [];
-  @Input() lineChartData = [];
-  @Input() doughnutChartData = [];
+  barChartData = barChartData;
+  lineChartData = lineChartData;
+  doughnutChartData = doughnutChartData;
 }

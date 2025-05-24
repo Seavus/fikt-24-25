@@ -1,10 +1,5 @@
-import { Component, Input, AfterViewInit } from '@angular/core';
-import {
-  Chart,
-  ChartConfiguration,
-  registerables,
-  ChartDataset,
-} from 'chart.js';
+import { Component, Input, AfterViewInit, OnDestroy } from '@angular/core';
+import { Chart, ChartConfiguration, ChartData, registerables } from 'chart.js';
 
 Chart.register(...registerables);
 
@@ -14,18 +9,30 @@ Chart.register(...registerables);
   templateUrl: './doughnut-chart.component.html',
   styleUrl: './doughnut-chart.component.scss',
 })
-export class DoughnutChartComponent implements AfterViewInit {
+export class DoughnutChartComponent implements AfterViewInit, OnDestroy {
   @Input() chartId: string = 'doughnutChart';
-  @Input() labels: string[] = [];
-  @Input() datasets: ChartDataset<'doughnut'>[] = [];
-  private chart!: Chart;
+  @Input() data!: ChartData<'doughnut', number[], string>;
+
+  private chart!: Chart<'doughnut'> | undefined;
 
   ngAfterViewInit(): void {
     this.createChart();
   }
 
+  ngOnDestroy(): void {
+    this.destroyChart();
+  }
+
+  private destroyChart(): void {
+    if (this.chart) {
+      this.chart.destroy();
+      this.chart = undefined;
+    }
+  }
   createChart() {
-    if (!this.labels.length || !this.datasets.length) {
+    this.destroyChart();
+
+    if (!this.data?.labels?.length || !this.data?.datasets?.length) {
       console.error(
         'DoughnutChartComponent: labels and datasets are required!'
       );
@@ -34,10 +41,7 @@ export class DoughnutChartComponent implements AfterViewInit {
 
     const config: ChartConfiguration<'doughnut'> = {
       type: 'doughnut',
-      data: {
-        labels: this.labels,
-        datasets: this.datasets,
-      },
+      data: this.data,
       options: {
         responsive: true,
       },

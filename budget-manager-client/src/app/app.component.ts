@@ -17,10 +17,12 @@ export class AppComponent {
   private readonly authService = inject(AuthService);
   title = 'budget-manager-client';
   isMenuOpened = false;
+
+  constructor() {}
+
   isPopupOpen: boolean = false;
   popupTitle: string = 'Dynamic Popup Title';
   popupData: PopupData = new PopupData('Hello! This is a dynamic popup.');
-
   get isLoggedIn(): boolean {
     return this.authService.isAuthenticated();
   }

@@ -51,7 +51,7 @@ export class LoginComponent {
         .subscribe({
           next: () => {
             this.snackbarService.showSnackbar('Login successful!', 'success');
-            this.router.navigate(['/home']);
+            this.router.navigate(['']);
           },
           error: (err) => {
             this.snackbarService.showSnackbar(
