@@ -25,6 +25,12 @@
         <p>Dashboard</p>
       </a>
     </li>
+    <li routerLinkActive="active" routerLink="/categories" [routerLinkActiveOptions]="{ exact: true }">
+      <a class="sidebar-link">
+        <mat-icon>category</mat-icon>
+        <p>Categories</p>
+      </a>
+    </li>
     <li routerLinkActive="active" routerLink="/transactions" [routerLinkActiveOptions]="{ exact: true }">
       <a class="sidebar-link">
         <mat-icon>receipt_long</mat-icon>
