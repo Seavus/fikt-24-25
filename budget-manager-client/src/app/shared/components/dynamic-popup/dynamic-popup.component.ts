@@ -1,13 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MatDialogActions,
-  MatDialogClose,
   MatDialogRef,
   MatDialog,
-  MatDialogContent
-
+  MatDialogContent,
+  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
+import { PopupData } from './popup-data.model';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dynamic-popup',
@@ -17,13 +21,23 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicPopupComponent {
-  readonly dialog = inject(MatDialog);
+  constructor(private readonly dialog: MatDialog) {}
 
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  openDialog(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): void {
+    const data = new PopupData({
+      title: 'Enter Your Info',
+      inputLabel: 'Type here',
+      showInput: true,
+    });
+
     this.dialog.open(DynamicPopupWrapper, {
-      width: '250px',
+      width: '300px',
       enterAnimationDuration,
       exitAnimationDuration,
+      data,
     });
   }
 }
@@ -31,11 +45,34 @@ export class DynamicPopupComponent {
 @Component({
   selector: 'dynamic-popup-wrapper',
   templateUrl: 'dynamic-popup-wrapper.html',
-  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogContent],
+  imports: [
+    MatButtonModule,
+    MatDialogActions,
+    MatDialogContent,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    CommonModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicPopupWrapper {
-  readonly dialogRef = inject(MatDialogRef<DynamicPopupWrapper>);
+  inputValue: string = '';
+
+  constructor(
+    public dialogRef: MatDialogRef<DynamicPopupWrapper>,
+    @Inject(MAT_DIALOG_DATA) public data: PopupData
+  ) {}
+
+  onConfirm(): void {
+    if (this.data.showInput) {
+      this.dialogRef.close(this.inputValue);
+    } else {
+      this.dialogRef.close(true);
+    }
+  }
+
+  onCancel(): void {
+    this.dialogRef.close(false);
+  }
 }
-
-
