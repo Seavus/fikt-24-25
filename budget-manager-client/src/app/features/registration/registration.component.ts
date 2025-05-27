@@ -12,7 +12,6 @@ import { InputComponent } from '../../shared/components/input/input.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RegisterService } from '../../core/services/register.service';
 import { SnackbarComponent } from '../../shared/components/snackbar/snackbar.component';
-import { currentUserSignal } from '../../services/auth.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -52,7 +51,7 @@ export class RegistrationComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: RegisterUserResponse) => {
-          currentUserSignal.set(response.id);
+          localStorage.setItem('userId', response.id);
 
           this.snackBar.openFromComponent(SnackbarComponent, {
             data: {

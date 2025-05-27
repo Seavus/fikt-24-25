@@ -1,7 +1,7 @@
-import { Injectable, signal } from '@angular/core';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 interface LoginRequest {
   email: string;
@@ -15,8 +15,6 @@ interface LoginResponse {
   email: string;
 }
 
-export const currentUserSignal = signal<LoginResponse['id'] | null>(null);
-
 @Injectable({
   providedIn: 'root',
 })
@@ -25,16 +23,12 @@ export class AuthService {
 
   constructor(private readonly http: HttpClient) {}
 
-  get user$() {
-    return currentUserSignal;
-  }
-
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.apiUrl, credentials).pipe(
       tap((response) => {
         if (response.accessToken) {
           localStorage.setItem('token', response.accessToken);
-          currentUserSignal.set(response.id);
+          localStorage.setItem('userId', response.id);
         } else {
           console.error('No token found in the response');
         }
@@ -49,7 +43,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
-    currentUserSignal.set(null);
+    localStorage.removeItem('userId');
   }
 
   isAuthenticated(): boolean {

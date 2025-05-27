@@ -2,9 +2,22 @@
   <h2>Update Your Info</h2>
   <div class="user-management-form">
     <form [formGroup]="form" (ngSubmit)="onUpdate()">
-      <app-input label="First Name" formControlName="firstName" type="text" [required]="false"></app-input>
-      <app-input label="Last Name" type="text" formControlName="lastName"></app-input>
-      <app-button text="Update" [customButtonClass]="'dynamic-green'">
+      <app-input
+        label="First Name"
+        formControlName="firstName"
+        type="text"
+        [required]="false"
+      ></app-input>
+      <app-input
+        label="Last Name"
+        type="text"
+        formControlName="lastName"
+      ></app-input>
+      <app-button
+        text="Update"
+        [customButtonClass]="'dynamic-green'"
+        (onClick)="onUpdate()"
+      >
       </app-button>
     </form>
   </div>
