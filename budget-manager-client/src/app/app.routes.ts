@@ -31,6 +31,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'categories',
+    loadComponent: () =>
+      import('./features/categories/categories.component').then(
+        (c) => c.CategoriesComponent
+      ),
+  },
+  {
     path: 'user-management',
     loadComponent: () =>
       import('./features/user-management/user-management.component').then(

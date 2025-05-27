@@ -1,2 +1,2 @@
 ﻿namespace BudgetManager.Application.Users.GetUsers;
-public record GetUsersRequest(int PageIndex, int PageSize);
+public record GetUsersRequest(int PageIndex = 1, int PageSize = 10);
