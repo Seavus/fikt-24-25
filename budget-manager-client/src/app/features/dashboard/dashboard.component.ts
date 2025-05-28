@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit {
   constructor(private readonly statsService: StatisticsService) {}
 
   ngOnInit() {
-    this.statsService.getStatistics(2, 2025).subscribe((data) => {
+    this.statsService.getStatistics(5, 2025).subscribe((data) => {
       console.log('API response:', data);
 
       if (data?.transactionsByCategory?.length) {
@@ -49,26 +49,28 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  prepareDoughnutData(categoryArray: { category: string; count: number }[]) {
+  prepareDoughnutData(
+    categoryArray: { categoryName: string; count: number }[]
+  ) {
     this.doughnutChartData = {
-      labels: categoryArray.map((c) => c.category),
+      labels: categoryArray.map((c) => c.categoryName),
       datasets: [
         {
           label: 'Categories',
           data: categoryArray.map((c) => c.count),
           backgroundColor: [
-            '#ff6384',
-            '#36a2eb',
-            '#ffce56',
-            '#8e44ad',
-            '#2ecc71',
+            'rgb(122, 186, 120)',
+            'rgb(246, 233, 178)',
+            'rgb(65, 122, 209)',
+            'rgb(10, 104, 71)',
+            'rgb(243, 202, 82)',
           ],
         },
       ],
     };
   }
 
-  prepareLineChartData(dayArray: { date: string; count: number }[]) {
+  prepareLineChartData(dayArray: { date: string; amount: number }[]) {
     const sorted = [...dayArray].sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
@@ -77,9 +79,9 @@ export class DashboardComponent implements OnInit {
       labels: sorted.map((d) => d.date) || [],
       datasets: [
         {
-          label: 'Daily Transactions',
-          data: sorted.map((d) => d.count) || [],
-          borderColor: 'rgb(75, 192, 192)',
+          label: 'Daily Amount',
+          data: sorted.map((d) => d.amount),
+          borderColor: 'rgb(10, 104, 71)',
           fill: false,
           tension: 0.1,
         },

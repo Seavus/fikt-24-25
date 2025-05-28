@@ -44,7 +44,6 @@ export class LoginComponent {
   onLogin() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.getRawValue();
-
       this.authService
         .login({ email, password })
         .pipe(takeUntilDestroyed(this.destroyRef))

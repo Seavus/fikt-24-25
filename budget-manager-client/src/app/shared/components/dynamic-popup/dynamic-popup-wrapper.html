@@ -1,8 +1,18 @@
-<h2 mat-dialog-title>Delete transaction</h2>
-<mat-dialog-content>
-  Would you like to delete this transaction?
+<h3 mat-dialog-title style="text-align: center; width: 100%;">{{ data.title }}</h3>
+<mat-dialog-content *ngIf="data.message">{{ data.message }}</mat-dialog-content>
+
+<mat-dialog-content *ngIf="data.showInput">
+  <mat-form-field appearance="fill" style="text-align: center; width: 100%;">
+    <mat-label>{{ data.inputLabel }}</mat-label>
+    <input matInput [(ngModel)]="inputValue" />
+  </mat-form-field>
 </mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>No</button>
-  <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">
+    {{ data.cancelButtonText || 'Cancel' }}
+  </button>
+  <button mat-button color="primary" (click)="onConfirm()">
+    {{ data.buttonText || 'Confirm' }}
+  </button>
 </mat-dialog-actions>

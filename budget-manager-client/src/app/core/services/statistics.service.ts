@@ -4,14 +4,14 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class StatisticsService {
-  private readonly apiUrl = 'api/transactions/statistics';
+  private readonly apiUrl = '/api/transactions/statistics';
 
   constructor(private readonly http: HttpClient) {}
 
   getStatistics(month?: number, year?: number): Observable<any> {
     let params = new HttpParams();
-    if (month) params = params.set('month', month);
-    if (year) params = params.set('year', year);
+    if (month !== undefined) params = params.set('month', month.toString());
+    if (year !== undefined) params = params.set('year', year.toString());
 
     return this.http.get(this.apiUrl, { params });
   }
