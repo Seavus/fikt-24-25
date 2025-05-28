@@ -5,6 +5,7 @@ import { DoughnutChartComponent } from '../../shared/components/charts/doughnut-
 import { LineChartComponent } from '../../shared/components/charts/line-chart/line-chart.component';
 import { StatisticsService } from '../../core/services/statistics.service';
 import { ChartData } from 'chart.js';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,11 +15,31 @@ import { ChartData } from 'chart.js';
     BarChartComponent,
     DoughnutChartComponent,
     LineChartComponent,
+    MatSelectModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
+  months = [
+    { name: 'January', value: 1 },
+    { name: 'February', value: 2 },
+    { name: 'March', value: 3 },
+    { name: 'April', value: 4 },
+    { name: 'May', value: 5 },
+    { name: 'June', value: 6 },
+    { name: 'July', value: 7 },
+    { name: 'August', value: 8 },
+    { name: 'September', value: 9 },
+    { name: 'October', value: 10 },
+    { name: 'November', value: 11 },
+    { name: 'December', value: 12 },
+  ];
+  years: number[] = [];
+
+  selectedMonth = new Date().getMonth() + 1;
+  selectedYear = new Date().getFullYear();
+
   doughnutChartData: ChartData<'doughnut', number[], string> = {
     labels: [],
     datasets: [],
@@ -36,17 +57,35 @@ export class DashboardComponent implements OnInit {
   constructor(private readonly statsService: StatisticsService) {}
 
   ngOnInit() {
-    this.statsService.getStatistics(5, 2025).subscribe((data) => {
-      console.log('API response:', data);
+    this.generateYearOptions();
+    this.fetchChartData();
+  }
 
-      if (data?.transactionsByCategory?.length) {
-        this.prepareDoughnutData(data.transactionsByCategory);
-      }
+  generateYearOptions() {
+    const currentYear = new Date().getFullYear();
+    for (let i = currentYear - 5; i <= currentYear + 5; i++) {
+      this.years.push(i);
+    }
+  }
 
-      if (data?.transactionsByDay?.length) {
-        this.prepareLineChartData(data.transactionsByDay);
-      }
-    });
+  onDateChange() {
+    this.fetchChartData();
+  }
+
+  fetchChartData() {
+    this.doughnutChartData = { labels: [], datasets: [] };
+    this.lineChartData = { labels: [], datasets: [] };
+
+    this.statsService
+      .getStatistics(this.selectedMonth, this.selectedYear)
+      .subscribe((data) => {
+        if (data?.transactionsByCategory?.length) {
+          this.prepareDoughnutData(data.transactionsByCategory);
+        }
+        if (data?.transactionsByDay?.length) {
+          this.prepareLineChartData(data.transactionsByDay);
+        }
+      });
   }
 
   prepareDoughnutData(

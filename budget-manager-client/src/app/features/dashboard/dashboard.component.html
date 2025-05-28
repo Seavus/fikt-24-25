@@ -1,5 +1,24 @@
 <div class="dashboard-container">
   <h2>Dashboard</h2>
+  <div class="filter-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Month</mat-label>
+      <mat-select [(value)]="selectedMonth" (selectionChange)="onDateChange()">
+        <mat-option *ngFor="let month of months" [value]="month.value">
+          {{ month.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Year</mat-label>
+      <mat-select [(value)]="selectedYear" (selectionChange)="onDateChange()">
+        <mat-option *ngFor="let year of years" [value]="year">
+          {{ year }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
   <div class="chart-container">
     <div class="chart-card" *ngIf="doughnutChartData?.labels?.length && doughnutChartData?.datasets?.length">
       <app-doughnut-chart [chartId]="'doughnutChart'" [data]="doughnutChartData"></app-doughnut-chart>
