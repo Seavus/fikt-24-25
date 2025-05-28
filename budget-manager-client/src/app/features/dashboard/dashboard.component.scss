@@ -5,6 +5,12 @@
   max-width: 100%;
   max-height: 100vh;
 
+  .filter-container {
+    display: flex;
+    width: 40%;
+    justify-content: space-between;
+  }
+
   h2 {
     margin-bottom: 20px;
   }
