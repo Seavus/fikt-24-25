@@ -27,5 +27,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(x => x.EmailVerificationTokens)
             .WithOne()
             .HasForeignKey(x => x.UserId);
+
+        builder.HasQueryFilter(x => !x.IsDeleted);
+
+        builder.Property(u => u.Balance)
+            .IsRequired()  
+            .HasColumnType("decimal(18,2)");
     }
 }

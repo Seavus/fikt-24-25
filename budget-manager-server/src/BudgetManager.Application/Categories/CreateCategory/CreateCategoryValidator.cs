@@ -1,4 +1,4 @@
-﻿namespace BudgetManager.Application.Categories;
+﻿namespace BudgetManager.Application.Categories.CreateCategory;
 
 public class CreateCategoryValidator : AbstractValidator<CreateCategoryCommand>
 {

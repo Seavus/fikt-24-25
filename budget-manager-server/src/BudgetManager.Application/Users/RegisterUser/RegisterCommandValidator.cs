@@ -26,5 +26,9 @@ public class RegisterCommandValidator : AbstractValidator<RegisterUserCommand>
             .WithMessage("Password is required.")
             .MinimumLength(4)
             .WithMessage("Password must be at least 4 characters long.");
+
+        RuleFor(x => x.Balance)
+            .GreaterThanOrEqualTo(0)
+            .WithMessage("Balance must be greater than or equal to 0.");
     }
 }

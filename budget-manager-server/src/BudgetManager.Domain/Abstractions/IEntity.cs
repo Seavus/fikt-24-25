@@ -6,6 +6,7 @@ public interface IEntity
     string CreatedBy { get; set; }
     DateTime? UpdatedOn { get; set; }
     string? UpdatedBy { get; set; }
+    bool IsDeleted { get; }
 }
 
 public interface IEntity<T> : IEntity

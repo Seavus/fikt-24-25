@@ -27,5 +27,7 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
         builder.Property(x => x.Amount).IsRequired().HasPrecision(18, 2);
 
         builder.Property(x => x.Description).HasMaxLength(200);
+
+        builder.HasQueryFilter(x => !x.IsDeleted);
     }
 }

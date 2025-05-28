@@ -1,8 +1,11 @@
-﻿using BudgetManager.Application.Common.Responses;
+﻿using BudgetManager.Application.Categories.GetCatogiresByUser;
+using BudgetManager.Application.Common.Responses;
+using BudgetManager.Application.Transactions.GetTransactionsByUser;
 using BudgetManager.Application.Users.GetUserById;
 using BudgetManager.Application.Users.GetUsers;
 using BudgetManager.Application.Users.VerifyEmail;
 using Microsoft.AspNetCore.Authorization;
+
 
 namespace BudgetManager.Api.Controllers;
 
@@ -134,6 +137,38 @@ public class AccountController : BaseController
 
         var result = await Mediator.Send(query);
 
+        return Ok(result);
+    }
+
+    ///<summary>
+    ///Retrieves a category by user.
+    /// </summary>
+    [HttpGet("categories")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResponse<GetCategoriesByUserResponse>))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetCategoriesByUser(
+        [FromQuery] GetCategoriesRequest request)
+        
+    {
+        var query = Mapper.Map<GetCategoriesByUserQuery>(request);
+
+        var result = await Mediator.Send(query);
+
+        return Ok(result);
+    }
+
+    ///<summary>
+    ///Retrieves a transactions by user.
+    /// </summary>
+    [HttpGet("transactions")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResponse<GetTransactionsByUserResponse>))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetTransactionsByUser([FromQuery] GetTransactionsByUserRequest request)
+    {
+        var query = new GetTransactionsByUserQuery(request.PageIndex, request.PageSize);
+        var result = await Mediator.Send(query);
         return Ok(result);
     }
 }
