@@ -13,6 +13,8 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { SnackbarService } from '../../core/services/snackbar.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { UserService } from '../../core/services/user.service';
+import { UserStateService } from '../../core/services/user-state.service';
 
 @Component({
   selector: 'app-login',
@@ -33,6 +35,8 @@ export class LoginComponent {
   private readonly router = inject(Router);
   private readonly snackbarService = inject(SnackbarService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly userService = inject(UserService);
+  private readonly userStateService = inject(UserStateService);
 
   constructor(private readonly fb: FormBuilder) {
     this.loginForm = this.fb.group({
@@ -48,9 +52,25 @@ export class LoginComponent {
         .login({ email, password })
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
-          next: () => {
-            this.snackbarService.showSnackbar('Login successful!', 'success');
-            this.router.navigate(['']);
+          next: (response) => {
+            const userId = response.id;
+            this.userService.getUserById(userId).subscribe({
+              next: (userData) => {
+                this.userStateService.setBalance(userData.balance);
+                this.snackbarService.showSnackbar(
+                  'Login successful!',
+                  'success'
+                );
+                this.router.navigate(['']);
+              },
+              error: (error) => {
+                this.snackbarService.showSnackbar(
+                  'Failed to load user data',
+                  'error'
+                );
+                console.error(error);
+              },
+            });
           },
           error: (err) => {
             this.snackbarService.showSnackbar(

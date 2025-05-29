@@ -35,7 +35,7 @@ export class RegistrationComponent {
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      balance: ['', [Validators.required, Validators.min(1)]],
+      balance: [1, [Validators.required, Validators.min(1)]],
     });
   }
 
