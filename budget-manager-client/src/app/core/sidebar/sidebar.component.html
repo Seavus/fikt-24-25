@@ -19,10 +19,16 @@
   </div>
   <!-- Navigation Links -->
   <ul class="sidebar-nav">
-    <li routerLinkActive="active" routerLink="/home" [routerLinkActiveOptions]="{ exact: true }">
+    <li routerLinkActive="active" routerLink="/dashboard" [routerLinkActiveOptions]="{ exact: true }">
       <a class="sidebar-link">
         <mat-icon>home</mat-icon>
         <p>Dashboard</p>
+      </a>
+    </li>
+    <li routerLinkActive="active" routerLink="/categories" [routerLinkActiveOptions]="{ exact: true }">
+      <a class="sidebar-link">
+        <mat-icon>category</mat-icon>
+        <p>Categories</p>
       </a>
     </li>
     <li routerLinkActive="active" routerLink="/transactions" [routerLinkActiveOptions]="{ exact: true }">
@@ -31,10 +37,10 @@
         <p>Transactions</p>
       </a>
     </li>
-    <li routerLinkActive="active" routerLink="/reports" [routerLinkActiveOptions]="{ exact: true }">
+    <li routerLinkActive="active" routerLink="/user-management" [routerLinkActiveOptions]="{ exact: true }">
       <a class="sidebar-link">
-        <mat-icon>insert_chart</mat-icon>
-        <p>Reports</p>
+        <mat-icon>manage_accounts</mat-icon>
+        <p>User Management</p>
       </a>
     </li>
   </ul>

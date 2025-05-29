@@ -1,18 +1,18 @@
-.w-full {
+.transaction-container {
+  box-sizing: border-box;
   width: 100%;
+  padding: 20px;
+
+  .table-container {
+    .mat-table {
+      width: 100%;
+    }
+
+    mat-paginator {
+      margin-top: 20px;
+    }
+  }
+  .category-select {
+  width: 150px;
 }
-.space-y-4 > * + * {
-  margin-top: 1rem;
-}
-.flex {
-  display: flex;
-}
-.justify-end {
-  justify-content: flex-end;
-}
-.gap-2 {
-  gap: 0.5rem;
-}
-.mt-4 {
-  margin-top: 1rem;
 }

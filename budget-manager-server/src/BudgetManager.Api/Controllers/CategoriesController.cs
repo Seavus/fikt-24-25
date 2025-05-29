@@ -1,5 +1,6 @@
 ﻿using BudgetManager.Application.Categories.CreateCategory;
 using BudgetManager.Application.Categories.DeleteCategory;
+using BudgetManager.Application.Categories.GetCategoryById;
 using BudgetManager.Application.Categories.UpdateCategory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
@@ -28,7 +29,7 @@ public class CategoriesController : BaseController
 
         var response = await Mediator.Send(command, cancellationToken);
 
-        return Created($"api/categories/{response.CategoryId}", response);
+        return Created($"api/categories/{response.Id}", response);
     }
 
     ///<summary>
@@ -61,6 +62,23 @@ public class CategoriesController : BaseController
         var command = new DeleteCategoryCommand(id);
 
         var response = await Mediator.Send(command);
+        
+        return Ok(response);
+    }
+
+    ///<summary>
+    ///Retrieves a category by ID.
+    /// </summary>
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetCategoryByIdResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetCategoryById([FromRoute] Guid id)
+    {
+        var query = new GetCategoryByIdQuery(id);
+
+        var response = await Mediator.Send(query);
         
         return Ok(response);
     }

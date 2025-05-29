@@ -3,9 +3,11 @@ import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
   {
-    path: 'home',
+    path: 'dashboard',
     loadComponent: () =>
-      import('./features/home/home.component').then((c) => c.HomeComponent),
+      import('./features/dashboard/dashboard.component').then(
+        (c) => c.DashboardComponent
+      ),
     canActivate: [authGuard],
   },
   {
@@ -28,5 +30,19 @@ export const routes: Routes = [
         (c) => c.RegistrationComponent
       ),
   },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  {
+    path: 'categories',
+    loadComponent: () =>
+      import('./features/categories/categories.component').then(
+        (c) => c.CategoriesComponent
+      ),
+  },
+  {
+    path: 'user-management',
+    loadComponent: () =>
+      import('./features/user-management/user-management.component').then(
+        (c) => c.UserManagementComponent
+      ),
+  },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 ];

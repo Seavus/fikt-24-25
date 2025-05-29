@@ -1,16 +1,17 @@
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ButtonComponent } from '../../shared/components/button/button.component';
 import { Component, DestroyRef } from '@angular/core';
-import { InputComponent } from '../../shared/components/input/input.component';
-import { Router, RouterModule } from '@angular/router';
-import { RegisterService } from '../../core/services/register.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   RegisterUserRequest,
   RegisterUserResponse,
 } from '../../core/interfaces/register-user.model';
-import { SnackbarComponent } from '../../shared/components/snackbar/snackbar.component';
+import { Router, RouterModule } from '@angular/router';
+
+import { ButtonComponent } from '../../shared/components/button/button.component';
+import { HttpErrorResponse } from '@angular/common/http';
+import { InputComponent } from '../../shared/components/input/input.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RegisterService } from '../../core/services/register.service';
+import { SnackbarComponent } from '../../shared/components/snackbar/snackbar.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -34,6 +35,7 @@ export class RegistrationComponent {
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
+      balance: ['', [Validators.required, Validators.min(1)]],
     });
   }
 
@@ -49,6 +51,8 @@ export class RegistrationComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: RegisterUserResponse) => {
+          localStorage.setItem('userId', response.id);
+
           this.snackBar.openFromComponent(SnackbarComponent, {
             data: {
               message: 'Registration successful!',
@@ -57,7 +61,7 @@ export class RegistrationComponent {
             duration: 3000,
           });
           console.log('User registered successfully', response);
-          this.router.navigate(['/home']);
+          this.router.navigate(['']);
         },
         error: (error: HttpErrorResponse) => {
           this.snackBar.openFromComponent(SnackbarComponent, {

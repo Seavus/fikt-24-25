@@ -1,0 +1,40 @@
+@import "../../../styles/base/variables.scss";
+.user-management-container {
+  max-width: 350px;
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  background-color: $white;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  font-family: Verdana, sans-serif;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: $border-color;
+  }
+}
+
+.user-management-form {
+  display: flex;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  app-input {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    align-self: center;
+  }
+
+  app-button {
+    align-self: flex-end;
+    margin-top: 1rem;
+  }
+}

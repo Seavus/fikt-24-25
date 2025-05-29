@@ -1,7 +1,7 @@
-import { Injectable, signal } from '@angular/core';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 interface LoginRequest {
   email: string;
@@ -10,41 +10,32 @@ interface LoginRequest {
 
 interface LoginResponse {
   accessToken: string;
-  user: {
-    id: number;
-    name: string;
-    email: string;
-  };
+  id: string;
+  name: string;
+  email: string;
 }
-
-export const currentUserSignal = signal<LoginResponse['user'] | null>(null);
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = '/api/account/token';
+  private readonly apiUrl = 'api/account/token';
 
-  constructor(private http: HttpClient) {}
-
-  get user$() {
-    return currentUserSignal;
-  }
+  constructor(private readonly http: HttpClient) {}
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.apiUrl, credentials).pipe(
       tap((response) => {
         if (response.accessToken) {
           localStorage.setItem('token', response.accessToken);
-          currentUserSignal.set(response.user);
+          localStorage.setItem('userId', response.id);
         } else {
           console.error('No token found in the response');
         }
       }),
       catchError((error) => {
-        console.error('Login failed:', error);
         return throwError(
-          () => new Error(error.error?.message || 'Login failed')
+          () => new Error(error.error?.message ?? 'Login failed')
         );
       })
     );
@@ -52,7 +43,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
-    currentUserSignal.set(null);
+    localStorage.removeItem('userId');
   }
 
   isAuthenticated(): boolean {
