@@ -21,4 +21,8 @@ export class UserService {
   updateUser(data: UpdateUserRequest): Observable<UpdateUserResponse> {
     return this.http.put<UpdateUserResponse>(this.apiUrl, data);
   }
+
+  getStoredBalance(): number {
+    return Number(localStorage.getItem('balance'));
+  }
 }

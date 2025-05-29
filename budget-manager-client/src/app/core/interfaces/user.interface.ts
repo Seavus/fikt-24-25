@@ -10,6 +10,7 @@ export interface UserDetailsResponse {
   firstName: string;
   lastName: string;
   email: string;
+  balance: number;
   createdOn: string;
   createdBy: string;
   updatedOn: string;
