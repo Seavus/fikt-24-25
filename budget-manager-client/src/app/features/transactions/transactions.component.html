@@ -1,2 +1,6 @@
-<app-wrapper-table [displayedColumns]="displayedColumns"></app-wrapper-table>
+<app-wrapper-table
+ [displayedColumns]="displayedColumns"
+ [dataSource]="dataSource"
+  (edit)="onEdit($event)"
+  (delete)="onDelete($event)"></app-wrapper-table>
 
