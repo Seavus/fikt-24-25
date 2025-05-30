@@ -183,12 +183,9 @@ public static class DependencyInjection
             cfg.CreateMap<TransactionId, Guid>().ConvertUsing(src => src.Value);
             cfg.CreateMap<Category, CategoryModel>();
             cfg.CreateMap<Transaction, GetTransactionByIdResponse>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.Value))
                 .ForMember(dest => dest.Category, opt => opt.MapFrom<TransactionCategoryResolver>())
                 .ForMember(dest => dest.TransactionType, opt => opt.MapFrom(src => src.TransactionType.ToString()))
-                .ForMember(dest => dest.TransactionDate, opt => opt.MapFrom(src => src.TransactionDate.ToString("yyyy-MM-dd HH:mm:ss")))
-                .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.Amount))
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
+                .ForMember(dest => dest.TransactionDate, opt => opt.MapFrom(src => src.TransactionDate.ToString("yyyy-MM-dd HH:mm:ss")));
         }, typeof(DependencyInjection).Assembly);
 
         return services;
