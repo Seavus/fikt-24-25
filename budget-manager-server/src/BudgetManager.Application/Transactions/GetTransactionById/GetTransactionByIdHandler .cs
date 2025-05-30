@@ -8,12 +8,12 @@ namespace BudgetManager.Application.Transactions.GetTransactionById;
 internal sealed class GetTransactionByIdHandler : IRequestHandler<GetTransactionByIdQuery, GetTransactionByIdResponse>
 {
     private readonly IApplicationDbContext _context;
-    
+    private readonly IMapper _mapper;
 
-    public GetTransactionByIdHandler(IApplicationDbContext context)
+    public GetTransactionByIdHandler(IApplicationDbContext context, IMapper mapper)
     {
-        _context = context ?? throw new ArgumentNullException(nameof(context)); 
-        
+        _context = context ?? throw new ArgumentNullException(nameof(context));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
     public async Task<GetTransactionByIdResponse> Handle(GetTransactionByIdQuery request, CancellationToken cancellationToken)
@@ -31,17 +31,9 @@ internal sealed class GetTransactionByIdHandler : IRequestHandler<GetTransaction
         if (transaction == null)
             throw new NotFoundException("Transaction not found.");
 
-        var t = transaction.Transaction;
-        var c = transaction.Category;
-
-        var response = new GetTransactionByIdResponse(
-            t.Id.Value,
-            new CategoryModel(c.Id.Value, c.Name),
-            t.TransactionType.ToString(),
-            t.TransactionDate.ToString("yyyy-MM-dd HH:mm:ss"),
-            t.Amount,
-            t.Description
-        );
+        var response = _mapper.Map<GetTransactionByIdResponse>(
+            transaction.Transaction,
+            opt => opt.Items["category"] = transaction.Category);
 
         return response;
     }
