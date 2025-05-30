@@ -27,6 +27,9 @@ using BudgetManager.Application.Categories.UpdateCategory;
 using BudgetManager.Application.Categories.GetCatogiresByUser;
 using BudgetManager.Application.Categories.DeleteCategory;
 using BudgetManager.Application.Categories.GetCategoryById;
+using BudgetManager.Application.Transactions.GetTransactionsByUser;
+using BudgetManager.Application.Transactions.Mappings;
+using BudgetManager.Application.Transactions.GetTransactionById;
 
 namespace BudgetManager.Infrastructure;
 
@@ -159,8 +162,10 @@ public static class DependencyInjection
 
     private static IServiceCollection AddMapping(this IServiceCollection services)
     {
+        services.AddTransient<TransactionCategoryResolver>();
         services.AddAutoMapper(cfg =>
         {
+
             cfg.CreateMap<LoginUserRequest, LoginUserQuery>();
             cfg.CreateMap<RegisterUserRequest, RegisterUserCommand>();
             cfg.CreateMap<UpdateUserRequest, UpdateUserCommand>();
@@ -176,7 +181,15 @@ public static class DependencyInjection
             cfg.CreateMap<UpdateCategoryRequest, UpdateCategoryCommand>();
             cfg.CreateMap<DeleteCategoryRequest, DeleteCategoryCommand>();
             cfg.CreateMap<TransactionId, Guid>().ConvertUsing(src => src.Value);
-            }, typeof(DependencyInjection).Assembly);
+            cfg.CreateMap<Category, CategoryModel>();
+            cfg.CreateMap<Transaction, GetTransactionByIdResponse>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.Value))
+                .ForMember(dest => dest.Category, opt => opt.MapFrom<TransactionCategoryResolver>())
+                .ForMember(dest => dest.TransactionType, opt => opt.MapFrom(src => src.TransactionType.ToString()))
+                .ForMember(dest => dest.TransactionDate, opt => opt.MapFrom(src => src.TransactionDate.ToString("yyyy-MM-dd HH:mm:ss")))
+                .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.Amount))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
+        }, typeof(DependencyInjection).Assembly);
 
         return services;
     }
