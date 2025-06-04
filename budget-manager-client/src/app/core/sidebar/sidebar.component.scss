@@ -19,7 +19,7 @@
     width: 100%;
 
     img {
-      width: 20%;
+      width: 55%;
       height: auto;
     }
   }
@@ -42,6 +42,10 @@
       justify-content: space-between;
       align-items: center;
     }
+  }
+
+  .welcome {
+    text-align: center;
   }
 
   .sidebar-nav {
@@ -162,10 +166,12 @@
       }
     }
     &.menu-opened {
-      .sidebar-nav li a {
-        gap: 10px;
-        p {
-          display: inline;
+      .sidebar {
+        .sidebar-nav li a {
+          gap: 10px;
+          p {
+            display: inline;
+          }
         }
       }
     }

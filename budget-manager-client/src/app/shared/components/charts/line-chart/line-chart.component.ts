@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
-import { Chart, ChartConfiguration } from 'chart.js';
+import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
+import { Chart, ChartConfiguration, ChartData } from 'chart.js';
 
 @Component({
   selector: 'app-line-chart',
@@ -7,17 +7,25 @@ import { Chart, ChartConfiguration } from 'chart.js';
   templateUrl: './line-chart.component.html',
   styleUrls: ['./line-chart.component.scss'],
 })
-export class LineChartComponent implements AfterViewInit {
+export class LineChartComponent implements AfterViewInit, OnDestroy {
   @Input() chartId: string = 'lineChart';
-  @Input() data!: {
-    labels: string[];
-    datasets: any[];
-  };
+  @Input() data!: ChartData<'line', number[], string>;
 
-  private chart!: Chart;
+  private chart!: Chart<'line'> | undefined;
 
   ngAfterViewInit(): void {
     this.createChart();
+  }
+
+  ngOnDestroy(): void {
+    this.destroyChart();
+  }
+
+  private destroyChart(): void {
+    if (this.chart) {
+      this.chart.destroy();
+      this.chart = undefined;
+    }
   }
 
   createChart(): void {
