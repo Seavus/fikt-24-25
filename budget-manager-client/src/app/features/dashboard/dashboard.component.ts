@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { BarChartComponent } from '../../shared/components/charts/bar-chart/bar-chart.component';
+import { ChartData } from 'chart.js';
+import { CommonModule } from '@angular/common';
 import { DoughnutChartComponent } from '../../shared/components/charts/doughnut-chart/doughnut-chart.component';
 import { LineChartComponent } from '../../shared/components/charts/line-chart/line-chart.component';
-import { StatisticsService } from '../../core/services/statistics.service';
-import { ChartData } from 'chart.js';
 import { MatSelectModule } from '@angular/material/select';
+import { StatisticsService } from '../../core/services/statistics.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -75,6 +76,7 @@ export class DashboardComponent implements OnInit {
   fetchChartData() {
     this.doughnutChartData = { labels: [], datasets: [] };
     this.lineChartData = { labels: [], datasets: [] };
+    this.barChartData = { labels: [], datasets: [] };
 
     this.statsService
       .getStatistics(this.selectedMonth, this.selectedYear)
@@ -84,6 +86,7 @@ export class DashboardComponent implements OnInit {
         }
         if (data?.transactionsByDay?.length) {
           this.prepareLineChartData(data.transactionsByDay);
+          this.prepareBarChartData(data.transactionsByDay);
         }
       });
   }
@@ -123,6 +126,18 @@ export class DashboardComponent implements OnInit {
           borderColor: 'rgb(10, 104, 71)',
           fill: false,
           tension: 0.1,
+        },
+      ],
+    };
+  }
+
+  prepareBarChartData(dayArray: { date: string; amount: number }[]) {
+    this.barChartData = {
+      labels: dayArray.map((d) => d.date),
+      datasets: [
+        {
+          label: 'Amount',
+          data: dayArray.map((d) => d.amount),
         },
       ],
     };
