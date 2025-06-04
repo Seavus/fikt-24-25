@@ -1,22 +1,17 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Category } from './categories.service';
+import {
+  Transaction,
+  TransactionPayload,
+} from '../interfaces/transaction.model';
 
-export interface Transaction {
-  id?: string;
-  categoryName: string;
-  typeTransaction: string;
-  amount: number;
-  description: string;
-}
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransactionService {
-  private readonly baseUrl = '/api/account/transactions';
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getTransactions(
     pageIndex: number = 1,
@@ -32,15 +27,16 @@ export class TransactionService {
     );
   }
 
-   createTransaction(transaction: Transaction): Observable<{ transactionId: string }> {
-    return this.http.post<{ transactionId: string }>('/api/transactions', transaction);
-  }
-
-  updateTransaction(id: string, transaction: Transaction): Observable<void> {
-    return this.http.put<void>(`$'/api/transactions'/${id}`, transaction);
+  createTransaction(
+    transaction: TransactionPayload
+  ): Observable<{ transactionId: string }> {
+    return this.http.post<{ transactionId: string }>(
+      '/api/transactions',
+      transaction
+    );
   }
 
   deleteTransaction(id: string): Observable<{ isSuccess: boolean }> {
-    return this.http.delete<{ isSuccess: boolean }>(`$/api/transactions/id:guid?id=$/${id}`);
+    return this.http.delete<{ isSuccess: boolean }>(`/api/transactions/${id}`);
   }
-  }
+}

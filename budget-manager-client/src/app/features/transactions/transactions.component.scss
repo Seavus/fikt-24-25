@@ -1,0 +1,15 @@
+.transactions-container {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 20px;
+
+  .table-container {
+    .mat-table {
+      width: 100%;
+    }
+
+    mat-paginator {
+      margin-top: 20px;
+    }
+  }
+}
