@@ -34,7 +34,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class SidebarComponent implements OnInit {
   balance$!: Observable<number>;
-  user!: User;
+  user?: User;
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService,
